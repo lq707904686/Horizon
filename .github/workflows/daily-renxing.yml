@@ -32,6 +32,16 @@ jobs:
       - name: 使用人性台账雷达配置
         run: cp data/config.renxing.json data/config.json
 
+      - name: 抓取热榜（百度热搜/头条热榜）
+        run: python tools/fetch_hotlists.py --out-dir data/hotlists
+
+      - name: 本地 serving 热榜 RSS
+        run: |
+          nohup python3 -m http.server 8123 --directory data/hotlists >/tmp/hotlists-server.log 2>&1 &
+          sleep 2
+          curl -s -o /dev/null -w "baidu.xml: %{http_code}\n" http://127.0.0.1:8123/baidu.xml
+          curl -s -o /dev/null -w "toutiao.xml: %{http_code}\n" http://127.0.0.1:8123/toutiao.xml
+
       - name: 运行爆款雷达
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
