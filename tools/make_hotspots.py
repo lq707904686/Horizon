@@ -8,17 +8,30 @@ hotspots.json 是「人性台账」生产流程 v3.4.6 阶段 3.5 (gen_viral_con
 import argparse
 import datetime
 import glob
+import html
 import json
 import os
 import re
 import sys
 
 HOTSPOTS_RX = re.compile(r"```hotspots\s*\n(.*?)```", re.S)
+# Horizon 的 summarizer 落盘前会对 AI 输出做 markdown 转义：
+#   _MARKDOWN_SPECIAL: \ ` * _ { } [ ] ( ) < > # ! | → 前加反斜杠
+#   _MARKDOWN_BLOCK_START: 行首的 "- " → "\- "
+# 所以简报里的 hotspots 代码块实际是 \`\`\`hotspots … \- … \`\`\`。
+# 抽取前必须先还原，否则正则永远匹配不到（2026-10-16 实测：run #4
+# 明明选中 1 条、简报里有 6 个话题，topics 依然是 []）。
+_MD_ESCAPE_RX = re.compile(r"\\([\\`*_{}$$$$()<>#!|\-])")
+
+
+def _unescape(text: str) -> str:
+    text = html.unescape(text)
+    return _MD_ESCAPE_RX.sub(r"\1", text)
 
 
 def extract_topics(md_path):
     with open(md_path, encoding="utf-8") as f:
-        text = f.read()
+        text = _unescape(f.read())
     topics = []
     for block in HOTSPOTS_RX.findall(text):
         for line in block.splitlines():
