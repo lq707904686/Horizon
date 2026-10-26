@@ -32,7 +32,7 @@ jobs:
       - name: 使用人性台账雷达配置
         run: cp data/config.renxing.json data/config.json
 
-      - name: 抓取热榜（百度热搜/头条热榜）
+      - name: 抓取热榜（百度/头条/今日热榜5节点）
         run: python tools/fetch_hotlists.py --out-dir data/hotlists
 
       - name: 本地 serving 热榜 RSS
@@ -41,6 +41,7 @@ jobs:
           sleep 2
           curl -s -o /dev/null -w "baidu.xml: %{http_code}\n" http://127.0.0.1:8123/baidu.xml
           curl -s -o /dev/null -w "toutiao.xml: %{http_code}\n" http://127.0.0.1:8123/toutiao.xml
+          for f in weixin weibo douyin bilibili zhihu; do curl -s -o /dev/null -w "$f.xml: %{http_code}\n" http://127.0.0.1:8123/$f.xml; done
 
       - name: 运行爆款雷达
         env:
