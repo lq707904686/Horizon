@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""抓取中文热榜（百度热搜、头条热榜），生成本地 RSS 2.0 文件。
+"""抓取中文热榜（百度热搜、头条热榜、今日热榜 5 节点），生成本地 RSS 2.0 文件。
 
 Horizon 通过 RSS 抓取器消费这些文件（workflow 里用本机 http.server
 serving，源地址配成 http://127.0.0.1:8123/*.xml），零改 Horizon 内核。
@@ -136,6 +136,55 @@ def fetch_toutiao():
     return items
 
 
+# 今日热榜（tophub.today）节点：服务端直出 HTML，curl 可抓，免登录。
+# 节点 ID 来自首页节点卡片（<a href="/n/{id}"> 后紧跟的 zb-kc-Cb 即节点名）。
+TOPHUB_NODES = [
+    # (节点ID, 平台域名过滤, RSS文件名, 频道名)
+    ("WnBe01o371", "weixin", "weixin.xml", "微信24h热文榜"),
+    ("KqndgxeLl9", "weibo", "weibo.xml", "微博热搜榜"),
+    ("DpQvNABoNE", "douyin", "douyin.xml", "抖音总榜"),
+    ("74KvxwokxM", "bilibili", "bilibili.xml", "哔哩哔哩全站日榜"),
+    ("mproPpoq6O", "zhihu", "zhihu.xml", "知乎热榜"),
+]
+
+
+def fetch_tophub_node(node_id, domain_filter):
+    """抓一个今日热榜节点页，返回 [(标题, 链接)]，按标题去重保序。"""
+    html = _get(f"https://tophub.today/n/{node_id}")
+    links = re.findall(
+        r'href="(https?://[^"]+)"[^>]*>([^<]{4,80})</a>', html
+    )
+    seen, items = set(), []
+    for url, title in links:
+        title = title.strip()
+        if domain_filter not in url or len(title) < 4 or title in seen:
+            continue
+        seen.add(title)
+        items.append((title, url))
+    return items
+
+
+def fetch_tophub():
+    """今日热榜 5 个节点 → {rss文件名: (频道名, items)}。"""
+    out = {}
+    for node_id, domain, fname, feed_name in TOPHUB_NODES:
+        try:
+            raw = fetch_tophub_node(node_id, domain)
+            items = [
+                {
+                    "title": title,
+                    "link": url,
+                    "desc": f"{feed_name}：{title}",
+                    "guid": f"tophub-{node_id}-{title}",
+                }
+                for title, url in raw
+            ]
+            out[fname] = (feed_name, items)
+        except Exception as e:  # noqa: BLE001
+            print(f"[warn] 今日热榜 {feed_name} 抓取失败: {e}", file=sys.stderr)
+    return out
+
+
 def write_rss(items, feed_title, path):
     now = format_datetime(datetime.datetime.now(datetime.timezone.utc))
     parts = [
@@ -175,6 +224,11 @@ def main():
     toutiao = fetch_toutiao()
     print(f"头条热榜: {len(toutiao)} 条")
     write_rss(toutiao, "头条热榜", os.path.join(args.out_dir, "toutiao.xml"))
+
+    tophub = fetch_tophub()
+    for fname, (feed_name, items) in tophub.items():
+        print(f"今日热榜 {feed_name}: {len(items)} 条")
+        write_rss(items, feed_name, os.path.join(args.out_dir, fname))
 
 
 if __name__ == "__main__":
