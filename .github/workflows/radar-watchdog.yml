@@ -1,0 +1,58 @@
+name: 雷达补跑检查
+
+# 背景 (2026-11-04):
+#   雷达主 workflow (daily-renxing.yml) 定在 23:00 UTC (北京时间 07:00),
+#   但 GitHub 调度经常延迟 2-5 小时, 10-27 还整次跳过。
+#   本 workflow 每天 13:00 (北京时间) 检查一次: 12 小时内没有成功的雷达运行
+#   就自动触发一次补跑, 避免当天无内容。
+# 为什么定在 13:00 而不是早上:
+#   延迟的定时任务实测最晚在 11:53 (北京时间) 启动, 13:00 检查时它若存在
+#   一定已被看到, 不会重复触发; 只有真正被跳过的日子才补跑。
+#   注意: GitHub 延迟中的定时任务在 Actions 列表里不可见 (连 queued 都没有),
+#   所以"正在运行"的判断只能覆盖已创建的运行, 13:00 这个时间点是防重复的关键。
+# 不会循环触发: 本 workflow 每天只跑一次, 补跑成功后第二天检查会看到新运行而跳过。
+
+on:
+  schedule:
+    # 05:00 UTC = 北京时间 13:00
+    - cron: '0 5 * * *'
+  workflow_dispatch:  # 手动测试用
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read   # 查雷达 workflow 的运行记录
+      actions: write  # 触发补跑
+    steps:
+      - name: 检查并补跑
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          RUN_JSON=$(gh run list --workflow daily-renxing.yml --limit 1 \
+            --json status,conclusion,createdAt,event)
+          echo "最新运行记录: $RUN_JSON"
+          COUNT=$(echo "$RUN_JSON" | jq 'length')
+          if [ "$COUNT" -eq 0 ]; then
+            echo "雷达从未运行过, 触发补跑"
+            gh workflow run daily-renxing.yml
+            exit 0
+          fi
+          STATUS=$(echo "$RUN_JSON" | jq -r '.[0].status')
+          CONCLUSION=$(echo "$RUN_JSON" | jq -r '.[0].conclusion')
+          CREATED=$(echo "$RUN_JSON" | jq -r '.[0].createdAt')
+          if [ "$STATUS" != "completed" ]; then
+            echo "雷达正在运行或排队中 (status=$STATUS), 不补跑"
+            exit 0
+          fi
+          NOW=$(date -u +%s)
+          TS=$(date -u -d "$CREATED" +%s)
+          AGE_HOURS=$(( (NOW - TS) / 3600 ))
+          echo "最新一次雷达运行: $CREATED (约 ${AGE_HOURS} 小时前), 结论: $CONCLUSION"
+          if [ "$CONCLUSION" = "success" ] && [ "$AGE_HOURS" -lt 12 ]; then
+            echo "12 小时内已有成功运行, 不补跑"
+            exit 0
+          fi
+          echo "12 小时内无成功运行, 触发补跑"
+          gh workflow run daily-renxing.yml

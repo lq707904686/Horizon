@@ -43,6 +43,9 @@ jobs:
           curl -s -o /dev/null -w "toutiao.xml: %{http_code}\n" http://127.0.0.1:8123/toutiao.xml
           for f in weixin weibo douyin bilibili zhihu; do curl -s -o /dev/null -w "$f.xml: %{http_code}\n" http://127.0.0.1:8123/$f.xml; done
 
+      - name: 加载历史反馈加权（v1.8 反馈闭环）
+        run: python tools/load_feedback.py --window 14 --log data/feedback_log.jsonl --prompt profiles/renxing/analysis.md
+
       - name: 运行爆款雷达
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
