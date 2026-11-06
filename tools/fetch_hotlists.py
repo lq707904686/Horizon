@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""抓取中文热榜（百度热搜、头条热榜、今日热榜 5 节点），生成本地 RSS 2.0 文件。
+"""抓取中文热榜（百度热搜、头条热榜、今日热榜 5 节点、NewsNow 试点 3 平台），生成本地 RSS 2.0 文件。
 
 Horizon 通过 RSS 抓取器消费这些文件（workflow 里用本机 http.server
 serving，源地址配成 http://127.0.0.1:8123/*.xml），零改 Horizon 内核。
@@ -185,6 +185,65 @@ def fetch_tophub():
     return out
 
 
+# NewsNow 试点平台（2026-11-06 起跑一周看效果）。
+# 公共 API：https://newsnow.busiyi.world/api/s?id=<平台>&latest=true，免登录。
+# 选这 3 个的理由：澎湃（严肃社会议题）/牛客（求职裁员）/华尔街见闻（财经），
+# 都是现有源没覆盖的域。36氪/虎嗅已在 NewsNow 下线；小红书 id 调不通（500）；
+# 少数派已有自家 RSS（sspai.com/feed），热榜是重复信号，不进试点。
+NEWSNOW_PLATFORMS = [
+    # (平台ID, RSS文件名, 频道名)
+    ("thepaper", "thepaper.xml", "澎湃热榜"),
+    ("nowcoder", "nowcoder.xml", "牛客热榜"),
+    ("wallstreetcn-news", "wallstreetcn.xml", "华尔街见闻"),
+]
+
+
+def fetch_newsnow(platform_id):
+    """抓一个 NewsNow 平台热榜，返回 [(标题, 链接)]。
+
+    status 为 "success"（实时）或 "cache"（缓存，快照一般在 1 小时内，
+    对一天跑一次的雷达够用）都接受；缓存超过 24 小时视为过期数据，拒绝。
+    """
+    data = json.loads(
+        _get(f"https://newsnow.busiyi.world/api/s?id={platform_id}&latest=true")
+    )
+    status = data.get("status")
+    if status not in ("success", "cache"):
+        raise RuntimeError(f"newsnow 返回异常状态: {status}")
+    updated = data.get("updatedTime") or 0
+    age_hours = (time.time() * 1000 - updated) / 3600000
+    if age_hours > 24:
+        raise RuntimeError(f"newsnow 缓存过期: {age_hours:.1f} 小时前")
+    items = []
+    for x in data.get("items", []):
+        title = (x.get("title") or "").strip()
+        url = (x.get("url") or "").strip()
+        if title:
+            items.append((title, url))
+    return items
+
+
+def fetch_newsnow_all():
+    """NewsNow 试点平台 → {rss文件名: (频道名, items)}。"""
+    out = {}
+    for platform_id, fname, feed_name in NEWSNOW_PLATFORMS:
+        try:
+            raw = fetch_newsnow(platform_id)
+            items = [
+                {
+                    "title": title,
+                    "link": url,
+                    "desc": f"{feed_name}：{title}",
+                    "guid": f"newsnow-{platform_id}-{title}",
+                }
+                for title, url in raw
+            ]
+            out[fname] = (feed_name, items)
+        except Exception as e:  # noqa: BLE001
+            print(f"[warn] NewsNow {feed_name} 抓取失败: {e}", file=sys.stderr)
+    return out
+
+
 def write_rss(items, feed_title, path):
     now = format_datetime(datetime.datetime.now(datetime.timezone.utc))
     parts = [
@@ -228,6 +287,11 @@ def main():
     tophub = fetch_tophub()
     for fname, (feed_name, items) in tophub.items():
         print(f"今日热榜 {feed_name}: {len(items)} 条")
+        write_rss(items, feed_name, os.path.join(args.out_dir, fname))
+
+    newsnow = fetch_newsnow_all()
+    for fname, (feed_name, items) in newsnow.items():
+        print(f"NewsNow {feed_name}: {len(items)} 条")
         write_rss(items, feed_name, os.path.join(args.out_dir, fname))
 
 
