@@ -152,42 +152,42 @@
         "enabled": true,
         "name": "贴吧搜索·裁员",
         "profile": "renxing",
-        "url": "https://rsshub.app/baidu/tieba/search/%E8%A3%81%E5%91%98?only_thread=1"
+        "url": "https://www.sinrowa.com/baidu/tieba/search/%E8%A3%81%E5%91%98?only_thread=1"
       },
       {
         "category": "热榜",
         "enabled": true,
         "name": "贴吧搜索·欠薪",
         "profile": "renxing",
-        "url": "https://rsshub.app/baidu/tieba/search/%E6%AC%A0%E8%96%AA?only_thread=1"
+        "url": "https://www.sinrowa.com/baidu/tieba/search/%E6%AC%A0%E8%96%AA?only_thread=1"
       },
       {
         "category": "热榜",
         "enabled": true,
         "name": "贴吧搜索·维权",
         "profile": "renxing",
-        "url": "https://rsshub.app/baidu/tieba/search/%E7%BB%B4%E6%9D%83?only_thread=1"
+        "url": "https://www.sinrowa.com/baidu/tieba/search/%E7%BB%B4%E6%9D%83?only_thread=1"
       },
       {
         "category": "热榜",
         "enabled": true,
         "name": "贴吧搜索·被骗",
         "profile": "renxing",
-        "url": "https://rsshub.app/baidu/tieba/search/%E8%A2%AB%E9%AA%97?only_thread=1"
+        "url": "https://www.sinrowa.com/baidu/tieba/search/%E8%A2%AB%E9%AA%97?only_thread=1"
       },
       {
         "category": "热榜",
         "enabled": true,
         "name": "财联社电报",
         "profile": "renxing",
-        "url": "https://rsshub.app/cls/telegraph"
+        "url": "https://www.sinrowa.com/cls/telegraph"
       },
       {
         "category": "热榜",
         "enabled": true,
         "name": "36氪24小时热榜",
         "profile": "renxing",
-        "url": "https://rsshub.app/36kr/hot-list"
+        "url": "https://www.sinrowa.com/36kr/hot-list"
       }
     ],
     "telegram": {
