@@ -1,6 +1,6 @@
 {
   "meta": {
-    "rubric": "profiles/renxing/analysis.md video_score v1.0（2026-11-11 双分制）",
+    "rubric": "profiles/renxing/analysis.md video_score v1.1（2026-11-11 传播潜力维 R1 + 时效分 R3）",
     "rounds": [
       "034",
       "036",
@@ -8,8 +8,8 @@
       "038",
       "039"
     ],
-    "scale": "video_score 0-10，与公众号 score 同量纲可比；分项：钩子张力/4 + 身份代入感/2 + 情绪冲突/2 + 可视化/1 + 完播友好度/1，可给 0.5",
-    "video_line": "拍片只看 video_score >= 7；7.0-7.4 入选但排后，>= 7.5 优先；公众号进 hotspots 的线（score >= 7）不变",
+    "scale": "video_score 0-12；分项：钩子张力/4 + 身份代入感/2 + 情绪冲突/2 + 可视化/1 + 完播友好度/1 + 传播潜力/2（转发意愿/1 + 收藏意愿/1），再减时效分（锚超 72h -0.5，超 7 天 -1，下限 0），可给 0.5",
+    "video_line": "拍片只看 video_score >= 7；7.0-7.4 入选但排后，>= 7.5 优先；传播潜力 0 分的题即使总分 >= 7 也降级排后；公众号进 hotspots 的线（score >= 7）不变",
     "caps_note": "三条封顶（标题级6分/未证实7分/纯观点6分）只约束公众号 score，不约束 video_score",
     "history_note": "过往条目无法回填：五维分项 dimension_scores 与封顶触发 cap_triggered 从未记录（034/036/037/038/039 五轮台账只有总分 score），本文件历史条目两字段一律为 null，不得凭印象编造",
     "score_source": "公众号 score 取自各轮 _ID台账.json（报告 §3.1 全表）；video_score 按本文件 rubric 逐篇重算",
@@ -17,7 +17,8 @@
     "report_expectation_check": {
       "2201": "报告预期视频分 ~4-5 不再入选；实算 5.5，略高于粗估（钩子数字反差与金句落点各拿满档相关分），仍远低于 7 分线，结论不变",
       "2103": "报告预期视频分 ~7.5 破格入选；实算 9.0，高于粗估（钩子“0份证据”反直觉+夫妻对簿公堂+藏在插口后的摄像头三项拉满），方向一致；实测 1507 次、完播最高 25.73% 支持高分而非 7.5"
-    }
+    },
+    "rescore_note": "2026-11-11 R1+R3 重算：加传播潜力维（0-2），总分 0-10 改为 0-12，拍片线仍 >= 7；再减时效分（锚超 72h -0.5，超 7 天 -1）；重算只凭文章本身（标题+成文摘要+源素材），未用播放数据；9 篇锚点日期未核实（不扣分、不编造）；本批无传播潜力 0 分且总分 >= 7 的篇，降级规则未触发"
   },
   "entries": [
     {
@@ -26,13 +27,15 @@
       "title": "2 个聘期，把教师逼成业务员",
       "column": "看职场",
       "score": 8.0,
-      "video_score": 8.5,
+      "video_score": 10.0,
       "video_subscores": {
         "钩子张力": 3.5,
         "身份代入感": 2,
         "情绪冲突": 1.5,
         "可视化": 0.5,
-        "完播友好度": 1
+        "完播友好度": 1,
+        "传播潜力": 1.5,
+        "时效分": 0
       },
       "video_reason": "开场即副教授离世+2个聘期考核，真人+极端后果；但死因未证实，成片须按“疑因”口径，不坐实。",
       "old_pick": true,
@@ -43,7 +46,16 @@
         "rec": "REC-10",
         "plays": 20054,
         "completion": 22.53
-      }
+      },
+      "spread_subscores": {
+        "转发意愿": 1,
+        "收藏意愿": 0.5
+      },
+      "spread_reason": "转发 1：副教授离世+2个聘期考核，跨圈警示；收藏 0.5：'2个聘期'是记忆点数字，无方法/清单。",
+      "time_anchor": "2026-11-04",
+      "time_decay": 0,
+      "time_reason": "延安大学确认日；距 034 轮（11-05）1 天，不扣",
+      "spread_downgraded": false
     },
     {
       "id": "1702",
@@ -51,19 +63,30 @@
       "title": "15 元以下外卖少了一半",
       "column": "做生意",
       "score": 7.0,
-      "video_score": 8.5,
+      "video_score": 9.0,
       "video_subscores": {
         "钩子张力": 3,
         "身份代入感": 2,
         "情绪冲突": 1.5,
         "可视化": 1,
-        "完播友好度": 1
+        "完播友好度": 1,
+        "传播潜力": 1.5,
+        "时效分": -1
       },
       "video_reason": "“15元以下少一半”+“9.9元到手不到4元”数字反差直接，点外卖人人代入；后半程是成本拆解，需防讲成算账课。",
       "old_pick": true,
       "video_pick": true,
       "dimension_scores": null,
-      "cap_triggered": null
+      "cap_triggered": null,
+      "spread_subscores": {
+        "转发意愿": 1,
+        "收藏意愿": 0.5
+      },
+      "spread_reason": "转发 1：人人点外卖，'9.9元到手不到4元'见者就转；收藏 0.5：9.9→4元是记忆点数字，无方法。",
+      "time_anchor": "2026-10-22",
+      "time_decay": -1,
+      "time_reason": "外卖产业大会日；距 034 轮 14 天，扣 1",
+      "spread_downgraded": false
     },
     {
       "id": "1703",
@@ -77,13 +100,24 @@
         "身份代入感": 0.5,
         "情绪冲突": 0.5,
         "可视化": 0.5,
-        "完播友好度": 0.5
+        "完播友好度": 0.5,
+        "传播潜力": 0,
+        "时效分": 0
       },
       "video_reason": "数字反差有（2964→9240辆），但无真人、无受害、无代入人群，产业观察不适合短视频。",
       "old_pick": true,
       "video_pick": false,
       "dimension_scores": null,
-      "cap_triggered": null
+      "cap_triggered": null,
+      "spread_subscores": {
+        "转发意愿": 0,
+        "收藏意愿": 0
+      },
+      "spread_reason": "转发 0：印尼卡车销量，行业旁观题，无人转给家人；收藏 0：2964→9240只是行业数字，对普通观众无保存价值。",
+      "time_anchor": "未核实",
+      "time_decay": 0,
+      "time_reason": "成文与源素材均无可查的新闻锚日期（四年趋势分析，无单日新闻事件），不扣",
+      "spread_downgraded": false
     },
     {
       "id": "1704",
@@ -91,13 +125,15 @@
       "title": "校招 10 万被嫌低",
       "column": "看职场",
       "score": 7.0,
-      "video_score": 7.0,
+      "video_score": 7.5,
       "video_subscores": {
         "钩子张力": 3,
         "身份代入感": 2,
         "情绪冲突": 1,
         "可视化": 0.5,
-        "完播友好度": 0.5
+        "完播友好度": 0.5,
+        "传播潜力": 0.5,
+        "时效分": 0
       },
       "video_reason": "“校招10万被嫌低”现场对峙钩子好、应届生代入强；但正文是七项薪资结构拆解，视频易讲成算账课。",
       "old_pick": true,
@@ -108,7 +144,16 @@
         "rec": "REC-13",
         "plays": 754,
         "completion": 7.82
-      }
+      },
+      "spread_subscores": {
+        "转发意愿": 0.5,
+        "收藏意愿": 0
+      },
+      "spread_reason": "转发 0.5：求职/家长圈内转发，圈外弱；收藏 0：10万只是薪资数字，无保存价值。",
+      "time_anchor": "未核实",
+      "time_decay": 0,
+      "time_reason": "知乎热榜题，成文与源素材均无校招日期，不扣",
+      "spread_downgraded": false
     },
     {
       "id": "1705",
@@ -116,19 +161,30 @@
       "title": "37 岁，公司快黄了",
       "column": "看职场",
       "score": 7.0,
-      "video_score": 8.5,
+      "video_score": 9.0,
       "video_subscores": {
         "钩子张力": 3,
         "身份代入感": 2,
         "情绪冲突": 1.5,
         "可视化": 1,
-        "完播友好度": 1
+        "完播友好度": 1,
+        "传播潜力": 0.5,
+        "时效分": 0
       },
       "video_reason": "“37岁月薪7000公司快黄”身份+危机开场；“赔偿金是期权，时间才是本金”落点清晰。",
       "old_pick": true,
       "video_pick": true,
       "dimension_scores": null,
-      "cap_triggered": null
+      "cap_triggered": null,
+      "spread_subscores": {
+        "转发意愿": 0.5,
+        "收藏意愿": 0
+      },
+      "spread_reason": "转发 0.5：中年私企打工人圈内共鸣转发，圈外弱；收藏 0：37岁/7000是个人境遇数字，无保存价值。",
+      "time_anchor": "未核实",
+      "time_decay": 0,
+      "time_reason": "知乎热榜题，成文与源素材均无事件日期，不扣",
+      "spread_downgraded": false
     },
     {
       "id": "1901",
@@ -136,13 +192,15 @@
       "title": "20 元的赡养费，签了 25 年",
       "column": "过日子",
       "score": 7.5,
-      "video_score": 9.5,
+      "video_score": 11.0,
       "video_subscores": {
         "钩子张力": 4,
         "身份代入感": 2,
         "情绪冲突": 2,
         "可视化": 1,
-        "完播友好度": 0.5
+        "完播友好度": 0.5,
+        "传播潜力": 1.5,
+        "时效分": 0
       },
       "video_reason": "“20元签25年→7000元/年，29倍”+七旬老人告5名子女，真人+数字+家庭对簿公堂拉满；末段偏法条，落点扣0.5。",
       "old_pick": true,
@@ -153,7 +211,16 @@
         "rec": "REC-15",
         "plays": 1342,
         "completion": 22.04
-      }
+      },
+      "spread_subscores": {
+        "转发意愿": 1,
+        "收藏意愿": 0.5
+      },
+      "spread_reason": "转发 1：分家赡养，人人有父母，子女会转给家人；收藏 0.5：20元/25年极具记忆点，无方法。",
+      "time_anchor": "未核实",
+      "time_decay": 0,
+      "time_reason": "2001 年是分家协议背景，非新闻锚；近期触发报道日期查不到，不扣",
+      "spread_downgraded": false
     },
     {
       "id": "1902",
@@ -161,19 +228,30 @@
       "title": "1800 万躺在账户里，银行拖了两个月",
       "column": "做生意",
       "score": 7.5,
-      "video_score": 7.0,
+      "video_score": 8.0,
       "video_subscores": {
         "钩子张力": 3,
         "身份代入感": 1,
         "情绪冲突": 1.5,
         "可视化": 0.5,
-        "完播友好度": 1
+        "完播友好度": 1,
+        "传播潜力": 1.0,
+        "时效分": 0
       },
       "video_reason": "“1800万躺账户两个月，多收10万利息”数字反差强；但主角是企业法人，代入人群窄，法理偏多。",
       "old_pick": true,
       "video_pick": true,
       "dimension_scores": null,
-      "cap_triggered": null
+      "cap_triggered": null,
+      "spread_subscores": {
+        "转发意愿": 0.5,
+        "收藏意愿": 0.5
+      },
+      "spread_reason": "转发 0.5：有房贷/存款的大圈内转发，银行拖延警示；收藏 0.5：1800万、10万余元利息是记忆点数字。",
+      "time_anchor": "未核实",
+      "time_decay": 0,
+      "time_reason": "成文只写'日前'，生效判决报道日期查不到，不扣",
+      "spread_downgraded": false
     },
     {
       "id": "1903",
@@ -181,19 +259,30 @@
       "title": "一份外卖赔 500 元，店还在用假图",
       "column": "过日子",
       "score": 6.5,
-      "video_score": 9.0,
+      "video_score": 10.0,
       "video_subscores": {
         "钩子张力": 3.5,
         "身份代入感": 2,
         "情绪冲突": 1.5,
         "可视化": 1,
-        "完播友好度": 1
+        "完播友好度": 1,
+        "传播潜力": 1.0,
+        "时效分": 0
       },
       "video_reason": "“图上满盘小排，送到手是土豆烧杂骨”画面对比即钩子；点外卖人人代入；“判了500，店还在用假图”有持续对抗。",
       "old_pick": false,
       "video_pick": true,
       "dimension_scores": null,
-      "cap_triggered": null
+      "cap_triggered": null,
+      "spread_subscores": {
+        "转发意愿": 1,
+        "收藏意愿": 0
+      },
+      "spread_reason": "转发 1：人人点外卖，假图警示见者就转；收藏 0：500元是普通赔偿数，无保存价值。",
+      "time_anchor": "未核实",
+      "time_decay": 0,
+      "time_reason": "今年 5 月是购买日期，非新闻锚；曝光报道日期查不到，不扣",
+      "spread_downgraded": false
     },
     {
       "id": "2101",
@@ -201,13 +290,15 @@
       "title": "9 记耳光，84 万，七成责任",
       "column": "看职场",
       "score": 8.0,
-      "video_score": 9.5,
+      "video_score": 11.0,
       "video_subscores": {
         "钩子张力": 4,
         "身份代入感": 2,
         "情绪冲突": 2,
         "可视化": 1,
-        "完播友好度": 0.5
+        "完播友好度": 0.5,
+        "传播潜力": 1.5,
+        "时效分": 0
       },
       "video_reason": "“9记耳光，84万，七成责任”+昏迷14个月离世，钩子/冲突/画面全满；末段偏法条解释（七成怎么算），落点扣0.5。",
       "old_pick": true,
@@ -218,7 +309,16 @@
         "rec": "REC-18",
         "plays": 1582,
         "completion": 22.76
-      }
+      },
+      "spread_subscores": {
+        "转发意愿": 1,
+        "收藏意愿": 0.5
+      },
+      "spread_reason": "转发 1：欠薪+暴力+离世，跨圈警示；收藏 0.5：84万、七成责任是记忆点数字。",
+      "time_anchor": "未核实",
+      "time_decay": 0,
+      "time_reason": "二审维持原判的报道日期查不到（检索日 11-08 不是新闻锚），不扣",
+      "spread_downgraded": false
     },
     {
       "id": "2102",
@@ -226,13 +326,15 @@
       "title": "认一声干妈，81 个人被抓",
       "column": "做生意",
       "score": 7.5,
-      "video_score": 9.0,
+      "video_score": 10.0,
       "video_subscores": {
         "钩子张力": 3.5,
         "身份代入感": 2,
         "情绪冲突": 1.5,
         "可视化": 1,
-        "完播友好度": 1
+        "完播友好度": 1,
+        "传播潜力": 1.0,
+        "时效分": 0
       },
       "video_reason": "“认一声干妈，81个人被抓”+上千老人被骗上千万；“是想被承认”点睛；四步链条画面丰富。",
       "old_pick": true,
@@ -243,7 +345,16 @@
         "rec": "REC-19",
         "plays": 1313,
         "completion": 18.42
-      }
+      },
+      "spread_subscores": {
+        "转发意愿": 1,
+        "收藏意愿": 0
+      },
+      "spread_reason": "转发 1：防骗老人警示，子女会转给父母'别上当'；收藏 0：81人只是案件数字，无方法/清单。",
+      "time_anchor": "未核实",
+      "time_decay": 0,
+      "time_reason": "《焦点访谈》播出日期查不到，不扣",
+      "spread_downgraded": false
     },
     {
       "id": "2103",
@@ -251,13 +362,15 @@
       "title": "三个摄像头，80 次上门，0 份证据",
       "column": "过日子",
       "score": 6.0,
-      "video_score": 9.0,
+      "video_score": 10.5,
       "video_subscores": {
         "钩子张力": 4,
         "身份代入感": 1.5,
         "情绪冲突": 2,
         "可视化": 1,
-        "完播友好度": 0.5
+        "完播友好度": 0.5,
+        "传播潜力": 1.5,
+        "时效分": 0
       },
       "video_reason": "“三个摄像头，80次上门，0份证据”反直觉钩子顶级；夫妻对簿公堂；但二审未开、无收尾结论，落点扣0.5。",
       "old_pick": false,
@@ -268,7 +381,16 @@
         "rec": "REC-20",
         "plays": 1507,
         "completion": 25.73
-      }
+      },
+      "spread_subscores": {
+        "转发意愿": 1,
+        "收藏意愿": 0.5
+      },
+      "spread_reason": "转发 1：'0份证据'婚姻维权警示，跨圈；收藏 0.5：80次上门、0份证据是记忆点数字。",
+      "time_anchor": "未核实",
+      "time_decay": 0,
+      "time_reason": "成文与源素材均无事件/报道日期，不扣",
+      "spread_downgraded": false
     },
     {
       "id": "2201",
@@ -282,7 +404,9 @@
         "身份代入感": 0.5,
         "情绪冲突": 0.5,
         "可视化": 0.5,
-        "完播友好度": 1
+        "完播友好度": 1,
+        "传播潜力": 0,
+        "时效分": 0
       },
       "video_reason": "“6天涨250亿，净利跌95%”数字钩子强、金句落点好；但无真人、无代入人群（持股者小圈子）、冲突是财报时间差，视频观众不买单。",
       "old_pick": true,
@@ -293,7 +417,16 @@
         "rec": "REC-21",
         "plays": 340,
         "completion": 8.53
-      }
+      },
+      "spread_subscores": {
+        "转发意愿": 0,
+        "收藏意愿": 0
+      },
+      "spread_reason": "转发 0：财报题，普通人不会转；收藏 0：250亿/95%只是财报数字，对普通观众无保存价值。",
+      "time_anchor": "2026-11-08",
+      "time_decay": 0,
+      "time_reason": "36氪热榜条目日（最新动态）；距 038 轮（11-09）约 1 天，不扣（10-30 是涨势起点，非新闻锚）",
+      "spread_downgraded": false
     },
     {
       "id": "2202",
@@ -301,19 +434,30 @@
       "title": "你让 AI 写的代码，出了事谁修",
       "column": "去创业",
       "score": 7.5,
-      "video_score": 5.5,
+      "video_score": 5.0,
       "video_subscores": {
         "钩子张力": 2,
         "身份代入感": 1,
         "情绪冲突": 1,
         "可视化": 0.5,
-        "完播友好度": 1
+        "完播友好度": 1,
+        "传播潜力": 0.5,
+        "时效分": -1
       },
       "video_reason": "“九成代码AI写”有悬念但无真人无后果；受众窄（写代码创业者）；六道关是流程讲解。",
       "old_pick": true,
       "video_pick": false,
       "dimension_scores": null,
-      "cap_triggered": null
+      "cap_triggered": null,
+      "spread_subscores": {
+        "转发意愿": 0.5,
+        "收藏意愿": 0
+      },
+      "spread_reason": "转发 0.5：程序员圈内转发，圈外弱；收藏 0：90%/PR翻倍无方法/清单。",
+      "time_anchor": "2026-10-15",
+      "time_decay": -1,
+      "time_reason": "Claude Code 公开内部审查流程日；距 038 轮 25 天，扣 1",
+      "spread_downgraded": false
     },
     {
       "id": "2203",
@@ -321,13 +465,15 @@
       "title": "120 亿播放，他们没赚到千万",
       "column": "去创业",
       "score": 7.0,
-      "video_score": 7.5,
+      "video_score": 8.0,
       "video_subscores": {
         "钩子张力": 3,
         "身份代入感": 1,
         "情绪冲突": 1.5,
         "可视化": 1,
-        "完播友好度": 1
+        "完播友好度": 1,
+        "传播潜力": 0.5,
+        "时效分": 0
       },
       "video_reason": "“120亿播放，没赚到千万”数字反差+六个人（宝妈/网约车司机/送货员）真人画面+0.48%反暴富神话；财经题里唯一过线。",
       "old_pick": true,
@@ -338,7 +484,16 @@
         "rec": "REC-23",
         "plays": 1073,
         "completion": 15.83
-      }
+      },
+      "spread_subscores": {
+        "转发意愿": 0.5,
+        "收藏意愿": 0
+      },
+      "spread_reason": "转发 0.5：创作者圈内好奇转发，'120亿播放没赚到千万'；收藏 0：120亿只是行业数字，无保存价值。",
+      "time_anchor": "2026-11-06",
+      "time_decay": 0,
+      "time_reason": "播放量报 120 亿日；距 038 轮 3 天，日粒度无法证实超过 72 小时，不扣（边界情况）",
+      "spread_downgraded": false
     },
     {
       "id": "2301",
@@ -346,19 +501,30 @@
       "title": "6 亿遗产全给再婚妻子，原配子女起诉",
       "column": "过日子",
       "score": 7.2,
-      "video_score": 9.5,
+      "video_score": 10.5,
       "video_subscores": {
         "钩子张力": 4,
         "身份代入感": 1.5,
         "情绪冲突": 2,
         "可视化": 1,
-        "完播友好度": 1
+        "完播友好度": 1,
+        "传播潜力": 1.5,
+        "时效分": -0.5
       },
       "video_reason": "“6亿遗产全给再婚妻子，三个子女分文没有”+公证维持+遗弃报案，真人+巨额+家庭大战拉满。",
       "old_pick": true,
       "video_pick": true,
       "dimension_scores": null,
-      "cap_triggered": null
+      "cap_triggered": null,
+      "spread_subscores": {
+        "转发意愿": 1,
+        "收藏意愿": 0.5
+      },
+      "spread_reason": "转发 1：家庭遗产纠纷，人人有家庭；收藏 0.5：6亿、5734万是记忆点数字。",
+      "time_anchor": "2026-11-06",
+      "time_decay": -0.5,
+      "time_reason": "公证处维持公证书日；距 039 轮（11-10）4 天，扣 0.5",
+      "spread_downgraded": false
     },
     {
       "id": "2302",
@@ -366,13 +532,15 @@
       "title": "96% 能上普高，筛掉的是谁",
       "column": "过日子",
       "score": 6.5,
-      "video_score": 7.5,
+      "video_score": 8.0,
       "video_subscores": {
         "钩子张力": 3,
         "身份代入感": 2,
         "情绪冲突": 1,
         "可视化": 0.5,
-        "完播友好度": 1
+        "完播友好度": 1,
+        "传播潜力": 1.0,
+        "时效分": -0.5
       },
       "video_reason": "“96.24%能上普高，筛掉的是谁”数字反差+中考家长代入广；但冲突是政策解读、无真人对立。",
       "old_pick": false,
@@ -384,7 +552,16 @@
         "plays": 41,
         "completion": 1.64,
         "note": "发布仅48分钟，口径已剔除，不作为反证；待24h数回填后复核"
-      }
+      },
+      "spread_subscores": {
+        "转发意愿": 0.5,
+        "收藏意愿": 0.5
+      },
+      "spread_reason": "转发 0.5：山东家长圈内转发，地域+学段限定；收藏 0.5：96.24%、1537/1597是家长会存的升学数字。",
+      "time_anchor": "2026-11-04",
+      "time_decay": -0.5,
+      "time_reason": "「十五五」规划公布日；距 039 轮 6 天，扣 0.5",
+      "spread_downgraded": false
     },
     {
       "id": "2303",
@@ -392,19 +569,30 @@
       "title": "招医生月薪 2499，官方说还有绩效",
       "column": "看职场",
       "score": 6.5,
-      "video_score": 8.5,
+      "video_score": 10.0,
       "video_subscores": {
         "钩子张力": 3.5,
         "身份代入感": 1.5,
         "情绪冲突": 1.5,
         "可视化": 1,
-        "完播友好度": 1
+        "完播友好度": 1,
+        "传播潜力": 1.5,
+        "时效分": 0
       },
       "video_reason": "“硕士医生月薪2499，低于最低工资2740”身份+数字双反差，招聘展板照片本身就是画面；“绩效就是薛定谔的”落点。",
       "old_pick": false,
       "video_pick": true,
       "dimension_scores": null,
-      "cap_triggered": null
+      "cap_triggered": null,
+      "spread_subscores": {
+        "转发意愿": 1,
+        "收藏意愿": 0.5
+      },
+      "spread_reason": "转发 1：招聘工资低于法定最低工资，全民劳动权益警示；收藏 0.5：2499 vs 2740最低工资是记忆点对比。",
+      "time_anchor": "2026-11-08",
+      "time_decay": 0,
+      "time_reason": "网友发布照片日；距 039 轮（11-10）2 天，不扣",
+      "spread_downgraded": false
     }
   ],
   "summary": {

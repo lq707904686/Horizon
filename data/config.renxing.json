@@ -41,7 +41,7 @@
       "language": "zh",
       "max_results": 60,
       "profile": "renxing",
-      "query": "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"
+      "query": "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业 OR 民生 OR 维权 OR 消费 OR 欠薪"
     },
     "hackernews": {
       "enabled": false
@@ -174,6 +174,20 @@
         "name": "贴吧搜索·被骗",
         "profile": "renxing",
         "url": "https://www.sinrowa.com/baidu/tieba/search/%E8%A2%AB%E9%AA%97?only_thread=1"
+      },
+      {
+        "category": "热榜",
+        "enabled": true,
+        "name": "贴吧搜索·讨薪",
+        "profile": "renxing",
+        "url": "https://www.sinrowa.com/baidu/tieba/search/%E8%AE%A8%E8%96%AA?only_thread=1"
+      },
+      {
+        "category": "热榜",
+        "enabled": true,
+        "name": "贴吧搜索·降薪",
+        "profile": "renxing",
+        "url": "https://www.sinrowa.com/baidu/tieba/search/%E9%99%8D%E8%96%AA?only_thread=1"
       },
       {
         "category": "热榜",
