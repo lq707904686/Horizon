@@ -1,13 +1,13 @@
 {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "scope": "人性台账爆款选题雷达·每日选题 (Horizon renxing profile, 图文源)",
   "queries": [
     "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"
   ],
   "topics": [
-    "6 亿遗产全给再婚妻",
-    "公证遗嘱被女儿起诉",
-    "再婚家庭遗产争夺"
+    "鲸鱼 APP 提现无门",
+    "存管银行早终止合作",
+    "理财暴雷警方立案"
   ],
   "min_score": 7.0,
   "fallback_score": null,
