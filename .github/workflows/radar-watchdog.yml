@@ -28,6 +28,9 @@ jobs:
       - name: 检查并补跑
         env:
           GH_TOKEN: ${{ github.token }}
+          # 必须显式指定仓库：本 job 不 checkout，gh 否则报
+          # "not a git repository"（2026-11-06 两次 push 运行都因此失败）
+          GH_REPO: lq707904686/Horizon
         run: |
           set -e
           RUN_JSON=$(gh run list --workflow daily-renxing.yml --limit 1 \

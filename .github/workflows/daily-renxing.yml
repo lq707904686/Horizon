@@ -9,6 +9,9 @@ on:
 jobs:
   daily-radar:
     runs-on: ubuntu-latest
+    # 北京时间归档：不设 TZ 则用 UTC 日期，早上 7:10（UTC 23:10）的运行会把简报写到前一天路径并覆盖前一天内容（2026-11-09 已撞过一次）。设 TZ 后 Horizon 与 date 命令都按北京时间取日期。
+    env:
+      TZ: Asia/Shanghai
     permissions:
       contents: write  # 需要提交 hotspots.json
 
