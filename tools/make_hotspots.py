@@ -5,6 +5,14 @@ hotspots.json 是「人性台账」生产流程 v3.4.6 阶段 3.5 (gen_viral_con
 的热点输入契约, 字段含义见《爆款内容方法论》第五节。
 用法: python tools/make_hotspots.py --summaries data/summaries --out hotspots.json
 
+D2 Set 决策单元 (2026-11-11):
+  hotspots.json 新增 "sets" 数组: 每个话题带上父条目的公众号分 score、
+  视频分 video_score（标题行有 🎬 X/12 时解析, 模型没输出时为 null，
+  由助理按 rubric 补评，不在 radar run 里等模型）、5 真分类 category_5、
+  来源 source。文章线按 score 挑、视频线按 video_score >= 7 拍，
+  同一话题的文章+视频构成一个 Set。原 "topics" 字符串数组原样保留，
+  供 v3.4.6 阶段 3.5 继续使用，不破坏旧契约。
+
 v1.6 硬过滤 (2026-10-27):
   简报里每个条目以 `### 标题 ⭐️ X.0/10` 开头, 其下的 ```hotspots 代码块
   是该条目的候选选题。旧版不看分数全量抽取, 导致 5-6 分条目也进了
@@ -40,6 +48,12 @@ _MD_ESCAPE_RX = re.compile(r"\\([\\`*_{}\[\]()<>#!|\-])")
 # 条目标题行里的分数: `### [标题](url) ⭐️ 7.0/10`
 # ⭐ 是 U+2B50, 后常跟 U+FE0F 变体选择符。
 _SCORE_EMOJI_RX = re.compile(r"⭐\uFE0F?\s*(\d+(?:\.\d+)?)\s*/\s*10")
+# 视频分: 标题行 "🎬 8.5/12"（🎬 是 U+1F3AC, 后常跟 U+FE0F）。
+_VIDEO_SCORE_RX = re.compile(r"🎬\uFE0F?\s*(\d+(?:\.\d+)?)\s*/\s*12")
+# 5 真分类: 正文首个 "归属：做生意"（第一角度即主归属）。
+_CATEGORY_RX = re.compile(r"归属：\s*([^；\n，,]+)")
+# 来源: 正文 "rss · 36氪24小时热榜 · 11月8日 08:43" 一行。
+_SOURCE_RX = re.compile(r"^(?:rss|tophub|newsnow|google|百度|头条|rsshub)\s*·\s*([^\n·]+)", re.M)
 _SCORE_EOL_RX = re.compile(r"(\d+(?:\.\d+)?)\s*/\s*10\s*$")
 _HEADING_RX = re.compile(r"^#{2,4}\s", re.M)
 
@@ -58,6 +72,24 @@ def _extract_score(heading_line: str):
     if m:
         return float(m.group(1))
     return None
+
+
+def _extract_video_score(heading_line: str):
+    """从条目标题行提取视频分, 提不到返回 None（模型没输出时为 null）。"""
+    m = _VIDEO_SCORE_RX.search(heading_line)
+    return float(m.group(1)) if m else None
+
+
+def _extract_category(body: str):
+    """从正文首个“归属：X”取 5 真分类, 提不到返回 None。"""
+    m = _CATEGORY_RX.search(body)
+    return m.group(1).strip() if m else None
+
+
+def _extract_source(body: str):
+    """从正文来源行取来源名（如 36氪24小时热榜）, 提不到返回 None。"""
+    m = _SOURCE_RX.search(body)
+    return m.group(1).strip() if m else None
 
 
 def _norm(topic: str) -> str:
@@ -94,7 +126,8 @@ def _block_topics(body: str):
 
 
 def extract_scored_topics(md_path):
-    """返回 [(score|None, [topics]), ...], 每项对应简报里的一个条目。"""
+    """返回 [(score|None, video_score|None, category|None, source|None,
+    [topics]), ...], 每项对应简报里的一个条目。"""
     with open(md_path, encoding="utf-8") as f:
         text = _unescape(f.read())
     scored = []
@@ -102,7 +135,8 @@ def extract_scored_topics(md_path):
         topics = _block_topics(body)
         if not topics:
             continue
-        scored.append((_extract_score(heading), topics))
+        scored.append((_extract_score(heading), _extract_video_score(heading),
+                        _extract_category(body), _extract_source(body), topics))
     return scored
 
 
@@ -123,40 +157,53 @@ def legacy_extract(md_path):
 
 
 def filter_topics(scored):
-    """硬过滤, 返回 (topics, stats)。
+    """硬过滤, 返回 (topics, sets, stats)。
 
+    topics: 字符串数组（旧契约, 原样保留）。
+    sets: 与 topics 同一批保留话题, 每项 {topic, score, video_score,
+    category_5, source}。video_score 为 None 表示 radar run 未输出，
+    由助理按 rubric 补评。
     stats: kept_sections / dropped_sections / fallback_score(None=未回退)。
     """
     stats = {"kept_sections": 0, "dropped_sections": 0, "fallback_score": None}
-    with_score = [(s, t) for s, t in scored if s is not None]
+    with_score = [(s, v, c, src, t) for s, v, c, src, t in scored if s is not None]
     if not with_score:
-        return None, stats  # 调用方回退旧行为
+        return None, None, stats  # 调用方回退旧行为
 
-    tiers = sorted({s for s, _ in with_score}, reverse=True)
+    tiers = sorted({s for s, _, _, _, _ in with_score}, reverse=True)
     line = MIN_SCORE
     if all(s < MIN_SCORE for s in tiers):
         line = tiers[0]  # 当日无过线条目: 回退到最高分档
         stats["fallback_score"] = line
 
-    kept = []  # (score, order, topic)
+    kept = []  # (score, video_score, category, source, order, topic)
     order = 0
-    for score, topics in with_score:
+    for score, video_score, category, source, topics in with_score:
         if score < line:
             stats["dropped_sections"] += 1
             continue
         stats["kept_sections"] += 1
         for topic in topics[:MAX_PER_ITEM]:
-            kept.append((score, order, topic))
+            kept.append((score, video_score, category, source, order, topic))
             order += 1
 
     seen = set()
     topics = []
-    for score, _, topic in sorted(kept, key=lambda x: (-x[0], x[1])):
+    sets = []
+    for score, video_score, category, source, _, topic in sorted(
+            kept, key=lambda x: (-x[0], x[4])):
         if _norm(topic) in seen:
             continue
         seen.add(_norm(topic))
         topics.append(topic)
-    return topics, stats
+        sets.append({
+            "topic": topic,
+            "score": score,
+            "video_score": video_score,
+            "category_5": category,
+            "source": source,
+        })
+    return topics, sets, stats
 
 
 def main():
@@ -175,12 +222,14 @@ def main():
         latest = files[-1]
         print(f"读取最新简报: {latest}")
         scored = extract_scored_topics(latest)
-        topics, stats = filter_topics(scored)
+        topics, sets, stats = filter_topics(scored)
         if topics is None:
             # 简报里没有任何可解析的条目分数 (格式变了): 回退旧行为, 不静默丢数据
             print("警告: 简报中未解析到任何条目分数, 回退为全量抽取 (请检查简报格式)",
                   file=sys.stderr)
             topics = legacy_extract(latest)
+            sets = [{"topic": t, "score": None, "video_score": None,
+                     "category_5": None, "source": None} for t in topics]
             min_score = 0.0
         else:
             fallback_score = stats["fallback_score"]
@@ -197,11 +246,15 @@ def main():
         "scope": "人性台账爆款选题雷达·每日选题 (Horizon renxing profile, 图文源)",
         "queries": ["职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"],
         "topics": topics,
+        "sets": sets,
         "min_score": min_score,
         "fallback_score": fallback_score,
         "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。"
                 "已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: "
-                "只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。",
+                "只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。"
+                "Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，"
+                "视频线只拍 video_score >= 7 的话题；video_score 为 null 表示"
+                " radar run 未输出，由助理按 rubric 补评后再定拍不拍。",
     }
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
