@@ -1,15 +1,38 @@
 {
-  "date": "2026-11-10",
+  "date": "2026-11-12",
   "scope": "人性台账爆款选题雷达·每日选题 (Horizon renxing profile, 图文源)",
   "queries": [
     "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"
   ],
   "topics": [
-    "鲸鱼 APP 提现无门",
-    "存管银行早终止合作",
-    "理财暴雷警方立案"
+    "代买中 825 万被店主吞",
+    "判赢了还欠 281 万",
+    "熟人代买翻车现场"
+  ],
+  "sets": [
+    {
+      "topic": "代买中 825 万被店主吞",
+      "score": 7.5,
+      "video_score": null,
+      "category_5": "做生意",
+      "source": "百度热搜"
+    },
+    {
+      "topic": "判赢了还欠 281 万",
+      "score": 7.5,
+      "video_score": null,
+      "category_5": "做生意",
+      "source": "百度热搜"
+    },
+    {
+      "topic": "熟人代买翻车现场",
+      "score": 7.5,
+      "video_score": null,
+      "category_5": "做生意",
+      "source": "百度热搜"
+    }
   ],
   "min_score": 7.0,
   "fallback_score": null,
-  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。"
+  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。"
 }
