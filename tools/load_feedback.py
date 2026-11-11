@@ -46,6 +46,10 @@ VIDEO_MIN_RECORDS = 20  # 视频路径冷启动门槛：窗口内满 20 条视�
 
 ARTICLE_MARKER = "## 历史反馈加权（v1.8 自动生成，勿手改）"
 VIDEO_MARKER = "## 视频反馈加权（v1.8 自动生成，勿手改）"
+# D5 防同质化：近 3 天已用（归属，主母题，主公式）三元组，供模型核对公式重复。
+# 本段是事实历史，不是加权——冷启动期也照常追加（权重为 0 不影响本段）。
+RECENT_MARKER = "## 近 3 天已用母题与公式（防同质化，勿手改）"
+RECENT_DAYS = 3
 
 
 def load_recent(log_path, window_days):
@@ -142,6 +146,56 @@ def build_video_section(video_tag_scores, window_days, video_record_count):
     )
 
 
+def recent_combos(article_records, days=RECENT_DAYS):
+    """近 N 天已选/已写选题的三元组（归属，主母题，主公式）。
+
+    每条记录取第一角度的标签（category_5[0] / motifs[0] / formulas[0]）；
+    缺失的字段留空字符串。供 D5 公式重复降分核对用。
+    """
+    cutoff = datetime.now().date() - timedelta(days=days)
+    combos = []
+    for rec in article_records:
+        d = rec.get("date", "")
+        try:
+            dt = datetime.strptime(d, "%Y-%m-%d").date()
+        except Exception:
+            continue
+        if dt < cutoff:
+            continue
+        cats = rec.get("category_5") or []
+        motifs = rec.get("motifs") or []
+        formulas = rec.get("formulas") or []
+        combos.append({
+            "date": d,
+            "title": rec.get("title", ""),
+            "category_5": cats[0] if cats else "",
+            "motif": motifs[0] if motifs else "",
+            "formula": formulas[0] if formulas else "",
+        })
+    return combos
+
+
+def build_recent_section(combos, days=RECENT_DAYS):
+    """近 3 天已用三元组段：事实历史，冷启动期也照常追加。"""
+    payload = {
+        "days": days,
+        "count": len(combos),
+        "combos": combos,
+    }
+    return (
+        "\n\n## 近 3 天已用母题与公式（防同质化，勿手改）\n"
+        "\n"
+        "> 以下为近 3 天已选 / 已写的选题三元组（归属，主母题，主公式）。\n"
+        "> 评分时核对：某候选条目的三元组若与表中任一完全相同，总分降 1 分，\n"
+        "> reason 注明\"公式重复：与 X 月 X 日《标题》同款\"（见 analysis.md 公式重复降分）。\n"
+        "> 不在表中的不算重复；同一事件有新进展时按升分触发器与回访规则走，不走本条。\n"
+        "\n"
+        "```json\n"
+        + json.dumps(payload, ensure_ascii=False, indent=1)
+        + "\n```\n"
+    )
+
+
 def strip_section(text, marker):
     """删掉 prompt 里已有的某一段（幂等重跑用）；没有则原样返回。"""
     if marker in text:
@@ -225,15 +279,25 @@ def main():
             for tag, adj in sorted(video_tag_scores.items(), key=lambda x: -x[1]):
                 print(f"  视频 {tag}: {adj:+.2f}")
 
-    if article_section is None and video_section is None:
-        print("两条路径均未达启动门槛，不改 prompt。")
+    # D5 防同质化段：事实历史，不走冷启动门槛——近 3 天有已用组合就追加。
+    recent_combos_list = recent_combos(article_records)
+    recent_section = None
+    if recent_combos_list:
+        recent_section = build_recent_section(recent_combos_list)
+        print(f"已注入近 3 天已用组合：{len(recent_combos_list)} 条（防同质化，冷启动期也追加）。")
+
+    if article_section is None and video_section is None and not recent_combos_list:
+        print("两条路径均未达启动门槛，且近 3 天无已用组合，不改 prompt。")
         return 0
 
     prompt_path = Path(args.prompt)
     text = prompt_path.read_text(encoding="utf-8")
     text = strip_section(text, VIDEO_MARKER)
     text = strip_section(text, ARTICLE_MARKER)
+    text = strip_section(text, RECENT_MARKER)
     new_text = text.rstrip() + "\n"
+    if recent_section is not None:
+        new_text += recent_section
     if article_section is not None:
         new_text += article_section
     if video_section is not None:
