@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "rubric": "profiles/renxing/analysis.md video_score v1.1（2026-11-11 传播潜力维 R1 + 时效分 R3）",
+    "rounds": [
+      "040"
+    ],
+    "scale": "video_score 0-12；分项：钩子张力/4 + 身份代入感/2 + 情绪冲突/2 + 可视化/1 + 完播友好度/1 + 传播潜力/2（转发意愿/1 + 收藏意愿/1），再减时效分（锚超 72h -0.5，超 7 天 -1，下限 0），可给 0.5",
+    "video_line": "拍片只看 video_score >= 7；7.0-7.4 入选但排后，>= 7.5 优先；传播潜力 0 分的题即使总分 >= 7 也降级排后；公众号进 hotspots 的线（score >= 7）不变",
+    "caps_note": "三条封顶（标题级6分/未证实7分/纯观点6分）只约束公众号 score，不约束 video_score",
+    "history_note": "040 轮台账只记总分 score，五维分项 dimension_scores 与封顶触发 cap_triggered 未记录，本文件三条目两字段一律为 null，不得凭印象编造",
+    "old_pick_note": "old_pick 为公众号 score >= 7（旧选片口径：按公众号分选片）；video_pick 为 video_score >= 7（新口径）；040 轮无 v1.0 视频分，old_pick 仅作新旧口径对照",
+    "score_source": "公众号 score 取自第 040 轮 _ID台账.json；video_score 按本文件 rubric 逐篇打分",
+    "playback_source": "三篇尚未拍片，playback 一律为 null；拍片后按视频号后台截图口径回填",
+    "scoring_note": "2026-11-11 040 轮首次按 v1.1 打分（五子维 0-10 + 传播潜力 0-2，再减时效分）；只凭文章本身（标题+成文+源素材），未用播放数据；三篇全部入选（2401 11.5、2402 7.5、2403 10.5）；2402/2403 公众号 score 6.5 未进 hotspots，视频分破格入选；降级规则未触发；2403 锚点取 2026-11-01 新规施行日（见 time_reason）"
+  },
+  "entries": [
+    {
+      "id": "2401",
+      "round": "040",
+      "title": "存管银行早跑了，你还在充值",
+      "column": "做生意",
+      "score": 7.5,
+      "video_score": 11.5,
+      "video_subscores": {
+        "钩子张力": 3.5,
+        "身份代入感": 2,
+        "情绪冲突": 2,
+        "可视化": 1,
+        "完播友好度": 1,
+        "传播潜力": 2,
+        "时效分": 0
+      },
+      "video_reason": "存管牌子还在、合作早已终止的反转 + 真人受害者（290.92 万）+ 警方立案，钩子与冲突都强；三步核验可存可转。",
+      "old_pick": true,
+      "video_pick": true,
+      "dimension_scores": null,
+      "cap_triggered": null,
+      "playback": null,
+      "spread_subscores": {
+        "转发意愿": 1,
+        "收藏意愿": 1
+      },
+      "spread_reason": "转发 1：P2P 暴雷 + 警方立案，跨圈警示，凡是往平台里放过钱的人都会转给家人；收藏 1：打银行客服核存管 + 查监管名单 + 查备案/许可，三步可存。",
+      "time_anchor": "2026-11-10",
+      "time_decay": 0,
+      "time_reason": "立案日（厦门市公安局经侦支队，红星新闻 11-10 22:02）；距 040 轮（11-11）1 天，不扣",
+      "spread_downgraded": false
+    },
+    {
+      "id": "2402",
+      "round": "040",
+      "title": "号称百万订单，只卖 6.3 万辆",
+      "column": "做生意",
+      "score": 6.5,
+      "video_score": 7.5,
+      "video_subscores": {
+        "钩子张力": 3,
+        "身份代入感": 1,
+        "情绪冲突": 1,
+        "可视化": 1,
+        "完播友好度": 1,
+        "传播潜力": 1,
+        "时效分": -0.5
+      },
+      "video_reason": "百万预订 vs 6.3 万辆交付的数字反差是钩子，但题材偏商业旁观、情绪对立弱；公众号 6.5 分未进 hotspots，视频分破格入选。",
+      "old_pick": false,
+      "video_pick": true,
+      "dimension_scores": null,
+      "cap_triggered": null,
+      "playback": null,
+      "spread_subscores": {
+        "转发意愿": 0.5,
+        "收藏意愿": 0.5
+      },
+      "spread_reason": "转发 0.5：Cybertruck 是特定圈子（车迷/商业观察）话题，全民转不动；收藏 0.5：“百万 vs 6.3 万”是记忆点数字，“先问三句”是提醒而非可存清单。",
+      "time_anchor": "2026-11-06",
+      "time_decay": -0.5,
+      "time_reason": "马斯克在 X 上确认停产计划日；距 040 轮（11-11）5 天，超 72 小时扣 0.5",
+      "spread_downgraded": false
+    },
+    {
+      "id": "2403",
+      "round": "040",
+      "title": "月薪两万，社保按四千交",
+      "column": "看职场",
+      "score": 6.5,
+      "video_score": 10.5,
+      "video_subscores": {
+        "钩子张力": 3.5,
+        "身份代入感": 2,
+        "情绪冲突": 2,
+        "可视化": 1,
+        "完播友好度": 1,
+        "传播潜力": 2,
+        "时效分": -1
+      },
+      "video_reason": "月薪 2 万 vs 基数 4000 的五倍反差 + 打工人全民代入 + 追回 20 万的真实胜诉，钩子与冲突都强；公众号 6.5 分未进 hotspots，视频分破格入选。",
+      "old_pick": false,
+      "video_pick": true,
+      "dimension_scores": null,
+      "cap_triggered": null,
+      "playback": null,
+      "spread_subscores": {
+        "转发意愿": 1,
+        "收藏意愿": 1
+      },
+      "spread_reason": "转发 1：每个打工人都要查社保基数，全民相关；收藏 1：查基数 + 存齐四样材料（合同、工资流水、考勤表、社保记录），方法清单可存。",
+      "time_anchor": "2026-11-01",
+      "time_decay": -1,
+      "time_reason": "《全国税务行政处罚裁量基准（2026 年版）》施行日（本轮新闻锚，源素材角度栏明言）；距 040 轮（11-11）10 天，超 7 天扣 1。另：红星新闻采访 11-09 转载，系个案报道转载日，非新闻锚。",
+      "spread_downgraded": false
+    }
+  ],
+  "summary": {
+    "total": 3,
+    "old_pick_count": 1,
+    "video_pick_count": 3,
+    "dropped_by_video_rule": [],
+    "added_by_video_rule": [
+      "2402",
+      "2403"
+    ],
+    "borderline_video_7_0": []
+  }
+}
