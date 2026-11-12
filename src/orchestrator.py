@@ -33,6 +33,7 @@ from .ai.summarizer import DailySummarizer
 from .ai.enricher import ContentEnricher, EnrichmentBatchResult
 from .ai.tokens import get_usage_snapshot
 from .processing import ProfileRegistry
+from .processing.events import propose_event_candidates
 from .processing.tools import ToolRegistry
 
 
@@ -631,6 +632,128 @@ class HorizonOrchestrator:
 
         return merged
 
+    async def cluster_events(
+        self,
+        items: List[ContentItem],
+        *,
+        log: bool = True,
+    ) -> List[ContentItem]:
+        """Cluster items by real-world event: text proposes, model disposes.
+
+        Two-stage, 2026-11-12 终轮整改第二批 (P2-22):
+        1. ``propose_event_candidates`` (character n-gram overlap, no AI
+           call) proposes groups that might be one event.
+        2. One model call verdicts each group as ``same_event`` /
+           ``follow_up`` / ``different``. Only ``same_event`` merges, into
+           the highest-scored item (items arrive sorted by score desc).
+           ``follow_up`` items are kept but tagged with a shared
+           ``event_group`` so the follow-up relation stays visible;
+           ``different`` is untouched. Unsure means ``follow_up``, never a
+           merge. If the model call fails or is unparseable, items return
+           unchanged — text similarity alone never merges anything, and the
+           later ``merge_topic_duplicates`` pass is still a second net.
+
+        Heat rule, in-run part: a merged same-event group survives as one
+        item, so that event's heat is counted once, from one source. The
+        cross-run part (48h: one independent source per event; 24h: weight
+        halved) is NOT implemented here — there is no persistent event
+        store to compare a new run against (``src/processing/history.py``
+        is a read-only BM25 search over past digests). The ``event_group``
+        tags written here are the foundation a future event-history file
+        would key on; do not claim the decay rule until that store exists.
+        """
+        if len(items) <= 1:
+            return items
+
+        from .ai.prompting.deduplication import EVENT_CLUSTER_SYSTEM, EVENT_CLUSTER_USER
+        from .ai.utils import parse_json_response
+
+        groups = propose_event_candidates(items)
+        if not groups:
+            return items
+
+        lines = []
+        for group in groups:
+            parts = []
+            for idx in group:
+                item = items[idx]
+                analysis = item.processing.analysis if item.processing else None
+                summary = analysis.summary if analysis and analysis.summary else "—"
+                source = item.source_type.value
+                published = item.published_at.isoformat() if item.published_at else "—"
+                parts.append(
+                    f"[{idx}] {item.title}\n    Source: {source} · {published}\n    Summary: {summary}"
+                )
+            lines.append("\n".join(parts))
+        groups_text = "\n\n---\n\n".join(lines)
+
+        try:
+            ai_client = create_ai_client(self.config.ai)
+            response = await ai_client.complete(
+                system=EVENT_CLUSTER_SYSTEM,
+                user=EVENT_CLUSTER_USER.format(groups=groups_text),
+            )
+            result = parse_json_response(response)
+            if result is None:
+                raise ValueError("could not parse event verdicts")
+            verdicts = result.get("verdicts", [])
+        except Exception as e:
+            if log:
+                self.console.print(
+                    f"[yellow]  event-cluster: model verdict failed ({e}), keeping items[/yellow]"
+                )
+            return items
+
+        verdict_by_group = {}
+        for entry in verdicts:
+            if not isinstance(entry, dict):
+                continue
+            group = entry.get("group")
+            verdict = entry.get("verdict")
+            if (
+                isinstance(group, list)
+                and len(group) >= 2
+                and verdict in {"same_event", "follow_up", "different"}
+            ):
+                verdict_by_group[tuple(sorted(int(i) for i in group))] = verdict
+
+        drop_indices: set[int] = set()
+        for group in groups:
+            key = tuple(group)
+            verdict = verdict_by_group.get(key)
+            if verdict is None:
+                continue
+            primary_idx = group[0]
+            primary = items[primary_idx]
+            event_id = f"evt:{primary.id}"
+            if verdict == "same_event":
+                merged_titles = []
+                for dup_idx in group[1:]:
+                    dup = items[dup_idx]
+                    merged_titles.append(dup.title)
+                    if dup.content:
+                        if not primary.content or dup.content not in primary.content:
+                            label = dup.source_type.value
+                            primary.content = (primary.content or "") + f"\n\n--- From {label} ---\n{dup.content}"
+                    if log:
+                        self.console.print(
+                            f"   [dim]event-cluster: keep [{primary_idx}] {primary.title}[/dim]\n"
+                            f"   [dim]       merge [{dup_idx}] {dup.title} (same event)[/dim]"
+                        )
+                    drop_indices.add(dup_idx)
+                primary.metadata["event_group"] = event_id
+                primary.metadata["merged_event_items"] = merged_titles
+            elif verdict == "follow_up":
+                for idx in group:
+                    items[idx].metadata["event_group"] = event_id
+                    items[idx].metadata["event_relation"] = "follow_up"
+                if log:
+                    self.console.print(
+                        f"   [dim]event-cluster: group {group} is a follow-up, kept with {event_id}[/dim]"
+                    )
+
+        return [item for i, item in enumerate(items) if i not in drop_indices]
+
     async def merge_topic_duplicates(
         self,
         items: List[ContentItem],
@@ -741,6 +864,13 @@ class HorizonOrchestrator:
                 f"{self.icons['filter']} Selected {len(threshold_items)} items "
                 "with profile filters\n"
             )
+
+        # Event clustering runs before per-profile topic dedup: same-event
+        # items from different sources merge here (heat counted once), and
+        # follow-ups are tagged with a shared event_group. Items arrive
+        # sorted by score desc, so the primary of each group is the best.
+        if threshold_items:
+            threshold_items = await self.cluster_events(threshold_items, log=log)
 
         deduped_items = threshold_items
         if topic_dedup and deduped_items:
