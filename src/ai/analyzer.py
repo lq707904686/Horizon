@@ -150,31 +150,26 @@ class ContentAnalyzer:
 
         # Generate user prompt
         user_prompt = analysis_user_prompt(item, content_section, discussion_section)
+        system_prompt = analysis_system_prompt(profile)
 
-        # Get AI completion
-        response = await self.client.complete(
-            system=analysis_system_prompt(profile),
-            user=user_prompt,
-        )
-
-        result, failure = self._validate_analysis_response(response)
-        if result is None:
-            repair_response = await self.client.complete(
-                system=analysis_system_prompt(profile),
-                user=(
-                    user_prompt
-                    + "\n\nYour previous response did not satisfy the output contract "
-                    f"({failure}). Analyze the item again and return only the required JSON object."
-                ),
-                temperature=0,
-            )
-            result, failure = self._validate_analysis_response(repair_response)
+        # Dual-eval (AIHOT-style, 2026-11-12 终轮整改第二批): score the same
+        # item twice against the same standard and take the mean, so the
+        # existing ``score >= threshold`` filter is exactly the AIHOT rule
+        # ``round1 + round2 >= 2 * threshold``. Cost: analysis calls double.
+        # Independence limit, stated honestly: the client has no seed
+        # parameter (complete() takes system/user/temperature/max_tokens
+        # only) and both rounds use the identical prompt and temperature,
+        # so the two rounds are two samples from the same distribution,
+        # not decorrelated runs. A single-round jitter is still visible
+        # afterwards because both round scores are recorded.
+        first = await self._analyze_once(item, system_prompt, user_prompt)
+        second = await self._analyze_once(item, system_prompt, user_prompt)
+        result = self._combine_dual_eval(first, second)
 
         if result is None:
             logger.warning(
-                "Could not parse analysis response for %s after one repair attempt (%s), using defaults",
+                "Could not parse analysis response for %s after two rounds",
                 item.id,
-                failure,
             )
             if item.processing:
                 item.processing.analysis = ContentAnalysis(
@@ -186,6 +181,60 @@ class ContentAnalyzer:
 
         if item.processing:
             item.processing.analysis = result
+
+    @staticmethod
+    def _combine_dual_eval(
+        first: Optional[ContentAnalysis],
+        second: Optional[ContentAnalysis],
+    ) -> Optional[ContentAnalysis]:
+        """Combine two scoring rounds into one analysis.
+
+        Both rounds: score is the mean (each round was already capped by
+        ``_validate_analysis_response``); ``score_rounds`` and ``dual_eval``
+        record what happened. One round: the surviving round is used alone
+        and marked ``single_eval`` — a failed round never silently drops
+        the item. Neither round: None.
+        """
+        rounds = [r for r in (first, second) if r is not None]
+        if not rounds:
+            return None
+        primary = rounds[0]
+        if len(rounds) == 2:
+            scores = [r.score for r in rounds]
+            primary.score = sum(scores) / len(scores)
+            primary.score_rounds = scores
+            primary.dual_eval = "dual"
+        else:
+            primary.score_rounds = [primary.score]
+            primary.dual_eval = "single_eval"
+            primary.reason = f"{primary.reason}（双评仅一轮成功，单轮评分）"
+        return primary
+
+    async def _analyze_once(
+        self,
+        item: ContentItem,
+        system_prompt: str,
+        user_prompt: str,
+    ) -> Optional[ContentAnalysis]:
+        """One scoring round: a single completion plus one repair attempt."""
+        response = await self.client.complete(
+            system=system_prompt,
+            user=user_prompt,
+        )
+
+        result, failure = self._validate_analysis_response(response)
+        if result is None:
+            repair_response = await self.client.complete(
+                system=system_prompt,
+                user=(
+                    user_prompt
+                    + "\n\nYour previous response did not satisfy the output contract "
+                    f"({failure}). Analyze the item again and return only the required JSON object."
+                ),
+                temperature=0,
+            )
+            result, failure = self._validate_analysis_response(repair_response)
+        return result
 
     # Hard score caps (analysis.md 三条封顶规则，终轮整改 2026-11-12).
     # Prompt text alone never enforced these: a title-only item scored 9 used

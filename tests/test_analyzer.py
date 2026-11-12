@@ -169,9 +169,19 @@ def test_analysis_prompt_combines_common_rules_and_profile_policy():
 
 
 def test_analyze_item_repairs_invalid_result_once():
+    # Dual-eval: round 1 is invalid then repaired; round 2 is a fresh valid
+    # call, so the fake must serve three responses in total.
     responses = iter(
         [
             json.dumps({"score": 12, "reason": "Too high", "summary": "Update"}),
+            json.dumps(
+                {
+                    "score": 8,
+                    "reason": "Relevant",
+                    "summary": "A corrected update",
+                    "tags": ["ai"],
+                }
+            ),
             json.dumps(
                 {
                     "score": 8,
@@ -193,12 +203,14 @@ def test_analyze_item_repairs_invalid_result_once():
         ContentAnalyzer(SimpleNamespace(complete=complete), PROFILES)._analyze_item(item)
     )
 
-    assert len(requests) == 2
+    assert len(requests) == 3
     assert requests[1]["temperature"] == 0
     assert item.processing is not None
     assert item.processing.analysis is not None
     assert item.processing.analysis.score == 8
     assert item.processing.analysis.summary == "A corrected update"
+    assert item.processing.analysis.dual_eval == "dual"
+    assert item.processing.analysis.score_rounds == [8, 8]
 
 
 def test_tech_blog_analysis_uses_head_middle_tail_content_sampling():
@@ -261,6 +273,7 @@ def test_analyze_item_malformed_json_result_uses_fallback(result):
 
 
 def test_auto_profile_classification_runs_before_analysis():
+    # Dual-eval: classification + two analysis rounds = three responses.
     responses = iter(
         [
             json.dumps(
@@ -268,6 +281,14 @@ def test_auto_profile_classification_runs_before_analysis():
                     "profile": "tech-news",
                     "confidence": 0.9,
                     "reason": "A timely release announcement",
+                }
+            ),
+            json.dumps(
+                {
+                    "score": 8,
+                    "reason": "Relevant",
+                    "summary": "A release",
+                    "tags": ["release"],
                 }
             ),
             json.dumps(
@@ -388,3 +409,81 @@ def test_structured_fields_survive_validation():
     assert result.topic_category == "民生"
     assert result.time_anchor == "2026-11-04"
     assert result.cap_triggered is None
+
+
+def _dual_client(scores):
+    """Fake client returning one score per complete() call, in order."""
+    calls = {"n": 0}
+
+    async def complete(**kwargs):
+        idx = min(calls["n"], len(scores) - 1)
+        calls["n"] += 1
+        value = scores[idx]
+        if value is None:
+            return "not json at all"
+        return json.dumps(
+            {
+                "score": value,
+                "reason": f"round score {value}",
+                "summary": "summary",
+                "tags": [],
+            }
+        )
+
+    return SimpleNamespace(complete=complete, config=SimpleNamespace()), calls
+
+
+def test_dual_eval_mean_of_two_rounds():
+    client, calls = _dual_client([8.0, 6.0])
+    item = _make_item("rss:test:dual")
+    asyncio.run(ContentAnalyzer(client, PROFILES)._analyze_item(item))
+    analysis = item.processing.analysis
+    assert analysis.score == 7.0
+    assert analysis.score_rounds == [8.0, 6.0]
+    assert analysis.dual_eval == "dual"
+    assert calls["n"] == 2
+
+
+def test_dual_eval_sum_rule_matches_threshold_filter():
+    # AIHOT rule: round1 + round2 >= 2 * threshold. Mean 5.0 passes 5.0.
+    client, _ = _dual_client([4.0, 6.0])
+    item = _make_item("rss:test:dual-sum")
+    asyncio.run(ContentAnalyzer(client, PROFILES)._analyze_item(item))
+    assert item.processing.analysis.score == 5.0
+    assert item.processing.analysis.dual_eval == "dual"
+
+
+def test_dual_eval_single_round_survives_second_failure():
+    client, calls = _dual_client([7.5, None])
+    item = _make_item("rss:test:dual-single")
+    asyncio.run(ContentAnalyzer(client, PROFILES)._analyze_item(item))
+    analysis = item.processing.analysis
+    # Second round fails twice (initial + repair at temperature=0); the
+    # surviving first round is used alone and marked single_eval.
+    assert analysis.score == 7.5
+    assert analysis.score_rounds == [7.5]
+    assert analysis.dual_eval == "single_eval"
+    assert "单轮评分" in analysis.reason
+    assert calls["n"] == 3
+
+
+def test_dual_eval_caps_apply_per_round_before_mean():
+    # title_only round capped 9 -> 6; verified round stays 8; mean is 7.
+    responses = [
+        {"score": 9, "reason": "r", "summary": "s", "tags": [], "evidence_level": "title_only"},
+        {"score": 8, "reason": "r", "summary": "s", "tags": [], "evidence_level": "verified"},
+    ]
+    calls = {"n": 0}
+
+    async def complete(**kwargs):
+        idx = min(calls["n"], 1)
+        calls["n"] += 1
+        return json.dumps(responses[idx])
+
+    client = SimpleNamespace(complete=complete, config=SimpleNamespace())
+    item = _make_item("rss:test:dual-cap")
+    asyncio.run(ContentAnalyzer(client, PROFILES)._analyze_item(item))
+    analysis = item.processing.analysis
+    assert analysis.score_rounds == [6.0, 8.0]
+    assert analysis.score == 7.0
+    assert analysis.dual_eval == "dual"

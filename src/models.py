@@ -98,12 +98,42 @@ class ContentAnalysis(BaseModel):
     source_kind: Optional[str] = None
     topic_category: Optional[str] = None
     time_anchor: Optional[str] = None
+    # Dual-eval (AIHOT-style, 2026-11-12 终轮整改第二批): the same item is
+    # scored twice against the same standard; ``score`` is the mean of the
+    # two rounds, so the existing ``score >= threshold`` filter is exactly
+    # the AIHOT rule ``round1 + round2 >= 2 * threshold``. Both round
+    # scores are kept so a single-round jitter can be reviewed afterwards.
+    # ``dual_eval`` is "dual" when both rounds succeeded, "single_eval"
+    # when one round failed and the surviving round was used alone.
+    score_rounds: Optional[List[float]] = None
+    dual_eval: Optional[str] = None
 
     @field_validator("cap_triggered")
     @classmethod
     def validate_cap_triggered(cls, value: Optional[str]) -> Optional[str]:
         if value is not None and value not in CAP_TRIGGERED_VALUES:
             raise ValueError(f"cap_triggered must be one of {CAP_TRIGGERED_VALUES}, got {value!r}")
+        return value
+
+    @field_validator("dual_eval")
+    @classmethod
+    def validate_dual_eval(cls, value: Optional[str]) -> Optional[str]:
+        if value is not None and value not in {"dual", "single_eval"}:
+            raise ValueError(f"dual_eval must be 'dual' or 'single_eval', got {value!r}")
+        return value
+
+    @field_validator("score_rounds")
+    @classmethod
+    def validate_score_rounds(
+        cls, value: Optional[List[float]]
+    ) -> Optional[List[float]]:
+        if value is None:
+            return None
+        if len(value) > 2:
+            raise ValueError(f"score_rounds holds at most 2 rounds, got {len(value)}")
+        for sub in value:
+            if sub is None or sub < 0 or sub > 10:
+                raise ValueError(f"score_rounds entries must be 0-10, got {sub!r}")
         return value
 
     @field_validator("dimension_scores")
