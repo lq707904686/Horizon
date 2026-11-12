@@ -418,10 +418,25 @@ class DailySummarizer:
 
         title_link = f"[{title}]({url})" if url else title
 
+        # Heading carries both scores (analysis.md 规定格式，顺序不可颠倒：
+        # tools/make_hotspots.py 取第一个 ⭐️ 分数做 hotspots 过滤，取 🎬 做
+        # 视频分)。video_score 为 None 时不渲染，旧简报格式保持不变。
+        heading = f"{'#' * heading_level} {title_link} \u2b50\ufe0f {score}/10"  # ⭐️
+        video_score = (
+            analysis.video_score
+            if analysis and analysis.video_score is not None
+            else None
+        )
+        if video_score is not None:
+            heading += f" \U0001f3ac\ufe0f {video_score}/12"  # 🎬
         lines = [
             f'<a id="{anchor_id or f"item-{index}"}"></a>',
-            f"{'#' * heading_level} {title_link} \u2b50\ufe0f {score}/10",  # ⭐️
+            heading,
         ]
+        if analysis and analysis.cap_triggered:
+            # 封顶触发单独成行，供 tools/make_hotspots.py 判定 verified，
+            # 也让读简报的人一眼看到该条被封顶的原因。
+            lines.append(f"封顶：{analysis.cap_triggered}")
         if summary.strip():
             lines.extend(["", summary])
         if primary_content.strip():

@@ -187,6 +187,27 @@ class ContentAnalyzer:
         if item.processing:
             item.processing.analysis = result
 
+    # Hard score caps (analysis.md 三条封顶规则，终轮整改 2026-11-12).
+    # Prompt text alone never enforced these: a title-only item scored 9 used
+    # to pass through unchanged. The caps are applied here, in code, after
+    # validation, so a model that ignores the cap cannot smuggle a high score
+    # into the digest. video_score is deliberately NOT capped (analysis.md
+    # L110 exemption): a capped item can still be worth filming, but then it
+    # must be handled as 传闻/待核实, which we record on video_reason.
+    CAP_LIMITS = {
+        "title_only": 6.0,
+        "opinion_only": 6.0,
+        "unconfirmed": 7.0,
+    }
+    CAP_NAMES = {
+        "title_only": "标题级6分",
+        "opinion_only": "纯观点6分",
+        "unconfirmed": "未证实7分",
+    }
+    # video_score at/above the filming line on a capped item: the footage must
+    # be shot as hearsay, never as verified fact.
+    RUMOR_NOTE = "传闻/待核实口径：只拍冲突本身，不坐实未证实数字"
+
     @classmethod
     def _validate_analysis_response(
         cls,
@@ -203,4 +224,59 @@ class ContentAnalyzer:
             return None, f"invalid field {location or '<root>'}: {first_error['type']}"
         if result.score is None:
             return None, "score is required by the analysis contract"
+        cls._apply_score_caps(result)
         return result, ""
+
+    @classmethod
+    def _apply_score_caps(cls, result: ContentAnalysis) -> None:
+        """Enforce the three hard caps on ``result`` in place.
+
+        ``evidence_level`` is authoritative: a cap applies when it names one
+        of the three capped levels, and ``cap_triggered`` is (re)derived from
+        it so the two fields can never disagree. ``verified`` clears any cap
+        the model may have set by mistake. ``video_score`` is never touched.
+        """
+        level = result.evidence_level.value if result.evidence_level else None
+        if level == "verified":
+            result.cap_triggered = None
+            return
+        limit = cls.CAP_LIMITS.get(level)
+        if limit is None:
+            # No evidence level (old contract): trust an explicit cap_triggered
+            # if the model set one, otherwise there is nothing to enforce.
+            if result.cap_triggered:
+                name_to_limit = {v: k for k, v in cls.CAP_NAMES.items()}
+                stated = name_to_limit.get(result.cap_triggered)
+                if stated is not None and result.score > cls.CAP_LIMITS[stated]:
+                    original = result.score
+                    result.score = cls.CAP_LIMITS[stated]
+                    result.reason = (
+                        f"{result.reason}（触发封顶：{result.cap_triggered}，"
+                        f"原分 {original} 已截断至 {result.score}）"
+                    )
+            return
+        cap_name = cls.CAP_NAMES[level]
+        result.cap_triggered = cap_name
+        capped = False
+        if result.score > limit:
+            original = result.score
+            result.score = limit
+            capped = True
+        if capped or cap_name not in result.reason:
+            suffix = f"（触发封顶：{cap_name}"
+            if capped:
+                suffix += f"，原分 {original} 已截断至 {limit}"
+            suffix += "）"
+            if suffix not in result.reason:
+                result.reason = f"{result.reason}{suffix}"
+        # Cap exemption for video: keep video_score, but mark the footage
+        # as hearsay when it clears the filming line.
+        if (
+            result.video_score is not None
+            and result.video_score >= 7
+        ):
+            if result.video_reason:
+                if "传闻" not in result.video_reason and "待核实" not in result.video_reason:
+                    result.video_reason = f"{result.video_reason}（{cls.RUMOR_NOTE}）"
+            else:
+                result.video_reason = cls.RUMOR_NOTE

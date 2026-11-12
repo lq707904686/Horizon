@@ -55,13 +55,72 @@ class ClassificationResult(BaseModel):
     reason: Optional[str] = None
 
 
+class EvidenceLevel(str, Enum):
+    """How well the scored item's key facts are evidenced.
+
+    Drives the hard score caps in ``ContentAnalyzer._validate_analysis_response``
+    (analysis.md 三条封顶规则的代码层实现): title-only / opinion-only items
+    cap at 6, unconfirmed key facts cap at 7. ``verified`` means no cap applies.
+    """
+
+    TITLE_ONLY = "title_only"
+    UNCONFIRMED = "unconfirmed"
+    OPINION_ONLY = "opinion_only"
+    VERIFIED = "verified"
+
+
+# analysis.md 三条封顶的取值名（cap_triggered 只允许这三个值或 null）。
+CAP_TRIGGERED_VALUES = ("标题级6分", "未证实7分", "纯观点6分")
+
+
 class ContentAnalysis(BaseModel):
-    """Profile-driven first-pass analysis."""
+    """Profile-driven first-pass analysis.
+
+    ``score``/``reason``/``summary``/``tags`` are the original contract.
+    The remaining fields are the v1.8 structured fields (2026-11-12 终轮整改):
+    they used to exist only as prompt text in ``profiles/renxing/analysis.md``
+    and were silently dropped by this model, so ``video_score`` never reached
+    hotspots.json and no cap was ever enforced in code. All new fields are
+    optional so older callers (analyzer failure fallbacks, webhook CLI) keep
+    working unchanged.
+    """
 
     score: Optional[float] = Field(default=None, ge=0, le=10, allow_inf_nan=False)
     reason: str
     summary: str
     tags: List[str] = Field(default_factory=list)
+    evidence_level: Optional[EvidenceLevel] = None
+    dimension_scores: Optional[Dict[str, float]] = None
+    video_score: Optional[float] = Field(default=None, ge=0, le=12, allow_inf_nan=False)
+    video_reason: Optional[str] = None
+    video_subscores: Optional[Dict[str, Any]] = None
+    cap_triggered: Optional[str] = None
+    source_kind: Optional[str] = None
+    topic_category: Optional[str] = None
+    time_anchor: Optional[str] = None
+
+    @field_validator("cap_triggered")
+    @classmethod
+    def validate_cap_triggered(cls, value: Optional[str]) -> Optional[str]:
+        if value is not None and value not in CAP_TRIGGERED_VALUES:
+            raise ValueError(f"cap_triggered must be one of {CAP_TRIGGERED_VALUES}, got {value!r}")
+        return value
+
+    @field_validator("dimension_scores")
+    @classmethod
+    def validate_dimension_scores(
+        cls, value: Optional[Dict[str, float]]
+    ) -> Optional[Dict[str, float]]:
+        if value is None:
+            return None
+        allowed = {"证据", "机制", "决策", "张力", "金句"}
+        unknown = sorted(set(value) - allowed)
+        if unknown:
+            raise ValueError(f"dimension_scores has unknown dimensions: {unknown}")
+        for name, sub in value.items():
+            if sub is None or sub < 0 or sub > 2:
+                raise ValueError(f"dimension_scores[{name!r}] must be 0-2, got {sub!r}")
+        return value
 
 
 class ArtifactSource(BaseModel):
@@ -437,6 +496,10 @@ class GoogleNewsConfig(BaseModel):
     max_results: int = 100  # cap ~100
     category: Optional[str] = None
     profile: ProfileRoute = None
+    # Name of a registered content extractor (e.g. "trafilatura") used to fetch
+    # the full article text behind each feed entry. Same key as
+    # RSSSourceConfig.content_extractor; None keeps the feed summary only.
+    content_extractor: Optional[str] = None
 
 
 class SourcesConfig(BaseModel):

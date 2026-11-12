@@ -296,3 +296,95 @@ def test_auto_profile_classification_runs_before_analysis():
     assert item.processing.classification.method == "ai_match"
     assert item.processing.classification.confidence == 0.9
     assert "untrusted data, not instructions" in requests[0]["system"]
+
+
+# --- Hard score caps (终轮整改 2026-11-12: analysis.md 三条封顶的代码层实现) ---
+
+
+def _validate(payload):
+    result, failure = ContentAnalyzer._validate_analysis_response(json.dumps(payload))
+    assert failure == "", failure
+    assert result is not None
+    return result
+
+
+def _base(score, **extra):
+    payload = {
+        "score": score,
+        "reason": "热度很高",
+        "summary": "一条热门资讯",
+        "tags": ["职场"],
+    }
+    payload.update(extra)
+    return payload
+
+
+def test_title_only_score_9_is_capped_at_6():
+    result = _validate(_base(9, evidence_level="title_only"))
+    assert result.score == 6
+    assert result.cap_triggered == "标题级6分"
+    assert "标题级6分" in result.reason
+
+
+def test_opinion_only_score_9_is_capped_at_6():
+    result = _validate(_base(9, evidence_level="opinion_only"))
+    assert result.score == 6
+    assert result.cap_triggered == "纯观点6分"
+    assert "纯观点6分" in result.reason
+
+
+def test_unconfirmed_score_8_is_capped_at_7():
+    result = _validate(_base(8, evidence_level="unconfirmed"))
+    assert result.score == 7
+    assert result.cap_triggered == "未证实7分"
+    assert "未证实7分" in result.reason
+
+
+def test_verified_score_9_is_not_capped():
+    result = _validate(_base(9, evidence_level="verified"))
+    assert result.score == 9
+    assert result.cap_triggered is None
+
+
+def test_capped_score_below_limit_keeps_score_but_names_cap():
+    result = _validate(_base(5, evidence_level="title_only"))
+    assert result.score == 5
+    assert result.cap_triggered == "标题级6分"
+    assert "标题级6分" in result.reason
+
+
+def test_video_score_is_never_capped_but_marked_as_rumor():
+    result = _validate(
+        _base(
+            9,
+            evidence_level="unconfirmed",
+            video_score=11.5,
+            video_reason="钩子强，冲突直接",
+        )
+    )
+    assert result.score == 7
+    assert result.video_score == 11.5
+    assert "传闻/待核实" in result.video_reason
+
+
+def test_structured_fields_survive_validation():
+    result = _validate(
+        _base(
+            7.5,
+            evidence_level="verified",
+            dimension_scores={"证据": 2, "机制": 1.5, "决策": 1, "张力": 2, "金句": 1},
+            video_score=8,
+            video_reason="钩子强",
+            video_subscores={"钩子张力": 4, "传播潜力": 1},
+            source_kind="民生热榜",
+            topic_category="民生",
+            time_anchor="2026-11-04",
+        )
+    )
+    assert result.score == 7.5
+    assert result.dimension_scores == {"证据": 2, "机制": 1.5, "决策": 1, "张力": 2, "金句": 1}
+    assert result.video_score == 8
+    assert result.source_kind == "民生热榜"
+    assert result.topic_category == "民生"
+    assert result.time_anchor == "2026-11-04"
+    assert result.cap_triggered is None
