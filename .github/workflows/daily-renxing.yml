@@ -9,7 +9,7 @@ on:
 jobs:
   daily-radar:
     runs-on: ubuntu-latest
-    # 北京时间归档：不设 TZ 则用 UTC 日期，早上 7:10（UTC 23:10）的运行会把简报写到前一天路径并覆盖前一天内容（2026-11-09 已撞过一次）。设 TZ 后 Horizon 与 date 命令都按北京时间取日期。
+    # 北京时间归档：不设 TZ 则用 UTC 日期，早上 7:10（UTC 23:10）的运行会把简报写到前一天路径并覆盖前一天内容（2026-11-09 已撞过一次）。TZ 只修 date 命令与 hotspots.json 的日期；Horizon 内部用 UTC 定文件名与 front-matter 日期（2026-11-12 实测：TZ 已生效但简报仍写进 11-11），所以下面另有重命名步骤根治。
     env:
       TZ: Asia/Shanghai
     permissions:
@@ -53,6 +53,24 @@ jobs:
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: uv run horizon --hours 24
+
+      - name: 按北京时间重命名简报（Horizon 文件名用 UTC）
+        # Horizon 内部用 UTC 定文件名与 front-matter 日期，TZ 环境变量改不了它；
+        # 07:00 北京时间运行时会写到前一天路径并覆盖前一天简报（2026-11-09/10/11/12
+        # 连撞四次）。这里把 Horizon 刚写的文件（文件名 + front-matter 里的 title/date
+        # 两行）改到北京时间日期。只改 front-matter（第 2 行到下一个 ---），正文里的
+        # 日期不动；UTC 日期与北京时间同一天时不做任何事。
+        run: |
+          UTC_DATE=$(TZ=UTC date +'%Y-%m-%d')
+          BJ_DATE=$(date +'%Y-%m-%d')
+          if [ "$UTC_DATE" != "$BJ_DATE" ]; then
+            for f in docs/_posts/${UTC_DATE}-summary-*.md; do
+              [ -e "$f" ] || continue
+              sed -i "2,/^---$/s/${UTC_DATE}/${BJ_DATE}/g" "$f"
+              mv "$f" "${f/${UTC_DATE}/${BJ_DATE}}"
+            done
+          fi
+          ls docs/_posts/ | tail -3
 
       - name: 生成 hotspots.json（喂给公众号流程）
         run: python tools/make_hotspots.py --summaries data/summaries --out hotspots.json
