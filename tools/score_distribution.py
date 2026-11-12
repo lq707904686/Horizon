@@ -67,7 +67,8 @@ def build_distribution(scored, md_path=None, date=None):
     """从 extract_scored_topics 的结果生成一条分布记录。
 
     scored: [(score|None, video_score|None, category|None, source|None,
-    url|None, cap|None, [topics]), ...]。无分条目不计入分布。
+    url|None, cap|None, feasibility|None, feasibility_reason|None,
+    [topics]), ...]。无分条目不计入分布。
     """
     if date is None:
         date = datetime.date.today().isoformat()
@@ -78,7 +79,7 @@ def build_distribution(scored, md_path=None, date=None):
     scores = [s for s, *_ in scored if s is not None]
     bands = {b: 0 for b in BANDS}
     per_source = {}
-    for score, _v, _c, source, _u, _cap, _t in scored:
+    for score, _v, _c, source, _u, _cap, _feas, _feas_reason, _t in scored:
         if score is None:
             continue
         bands[_band(score)] += 1

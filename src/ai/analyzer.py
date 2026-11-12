@@ -14,6 +14,7 @@ from .client import AIClient
 from .classifier import ContentClassifier
 from .prompting.analysis import analysis_system_prompt, analysis_user_prompt
 from .utils import parse_json_response
+from .video_feasibility import assess_video_feasibility
 from ..models import ContentAnalysis, ContentItem
 from ..processing.content import select_content, split_content
 from ..processing.profiles import ProfileRegistry
@@ -178,6 +179,17 @@ class ContentAnalyzer:
                     summary=item.title,
                 )
             return
+
+        # Script-visualization feasibility (deterministic, model-independent):
+        # judged on the same text the model scored (title + selected
+        # content slice), not the full article. Set here, after the dual
+        # rounds combine, so it is computed once per item and never dropped
+        # (third-round review R4 lesson: score_rounds was computed then
+        # lost downstream — this field is rendered into the digest heading
+        # by the summarizer and carried into hotspots.json sets[]).
+        result.video_feasibility = assess_video_feasibility(
+            f"{item.title}\n{selected_content}"
+        )
 
         if item.processing:
             item.processing.analysis = result

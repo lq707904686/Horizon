@@ -94,6 +94,16 @@ class ContentAnalysis(BaseModel):
     video_score: Optional[float] = Field(default=None, ge=0, le=12, allow_inf_nan=False)
     video_reason: Optional[str] = None
     video_subscores: Optional[Dict[str, Any]] = None
+    # Script-visualization feasibility (全盘打磨方案_20261113 §七 联动断点 2):
+    # deterministic code check, NOT model-judged — video_score ranked the
+    # 040 round backwards (2401: 11.5 FAIL, 2402: 7.5 benchmark) because it
+    # never asks whether the script can say the article's numbers out loud.
+    # Computed by src/ai/video_feasibility.py from the article's number
+    # table; shape: {level, numbers, number_count, placeable_templates,
+    # template_count, reason}. level is one of 可视化可行 / 部分可行 /
+    # 不可行. None means "not assessed" (e.g. analysis failed). video_score
+    # itself is never changed by this field.
+    video_feasibility: Optional[Dict[str, Any]] = None
     cap_triggered: Optional[str] = None
     source_kind: Optional[str] = None
     topic_category: Optional[str] = None

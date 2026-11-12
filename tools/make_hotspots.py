@@ -18,6 +18,11 @@ D2 Set 决策单元 (2026-11-11):
   source_name（与 source 同值，明确语义）、verified（该条是否通过核实：
   简报里有“封顶：X”行即 False，无封顶即 True，无分数时为 None）。
   旧键 topic/score/video_score/category_5/source 全部保留，不破坏旧契约。
+  剧本可视化可行性复核 (2026-11-13，全盘打磨方案 §七 联动断点 2)：
+  sets 每项再新增 video_feasibility（可视化可行 / 部分可行 / 不可行，
+  标题行无此字段时为 null）与 video_feasibility_reason（"文章数字 N
+  个，可落位模板 M 种"）。video_score 本身、7.0 的 hotspots 线与评分
+  标准文字一概不动；这档只回答"剧本能不能把文章数字说出来"。
   每轮写完 hotspots.json 后，顺带更新 data/score_distribution.json
   （见 tools/score_distribution.py）：各分段条数、最高分、≥7.0 数、
   过 5.0 阈值条数、候选池总数、各源贡献条数，按日期追加，供“选题荒
@@ -70,6 +75,12 @@ _POOL_RX = re.compile(r"从\s*(\d+)\s*条内容中筛选出")
 _SCORE_EMOJI_RX = re.compile(r"⭐\uFE0F?\s*(\d+(?:\.\d+)?)\s*/\s*10")
 # 视频分: 标题行 "🎬 8.5/12"（🎬 是 U+1F3AC, 后常跟 U+FE0F）。
 _VIDEO_SCORE_RX = re.compile(r"🎬\uFE0F?\s*(\d+(?:\.\d+)?)\s*/\s*12")
+# 剧本可视化可行性: 标题行 "· 可视化可行（5数/3模板）"，由 summarizer 在
+# 🎬 后渲染（src/ai/video_feasibility.py 定档位，LEVELS 三档）。
+# 顺序不能乱：先试 "可视化可行"/"部分可行"，最后 "不可行"（"不可行"含
+# "可行"二字，裸 "可行"绝不能单独成档）。counts 缺失时只取档位、原因
+# 为 None（旧简报无此字段时就是这样）。
+_FEASIBILITY_RX = re.compile(r"·\s*(可视化可行|部分可行|不可行)(?:（(\d+)数/(\d+)模板）)?")
 # 5 真分类: 正文首个 "归属：做生意"（第一角度即主归属）。
 _CATEGORY_RX = re.compile(r"归属：\s*([^；\n，,]+)")
 # 来源: 正文 "rss · 36氪24小时热榜 · 11月8日 08:43" 一行。
@@ -98,6 +109,21 @@ def _extract_video_score(heading_line: str):
     """从条目标题行提取视频分, 提不到返回 None（模型没输出时为 null）。"""
     m = _VIDEO_SCORE_RX.search(heading_line)
     return float(m.group(1)) if m else None
+
+
+def _extract_video_feasibility(heading_line: str):
+    """从条目标题行提取剧本可视化可行性, 返回 (档位|None, 原因|None)。
+
+    原因由标题里的 counts 还原（"文章数字 5 个，可落位模板 3 种"）；
+    标题无此字段（旧简报 / 未复核）时返回 (None, None)。
+    """
+    m = _FEASIBILITY_RX.search(heading_line)
+    if not m:
+        return None, None
+    level = m.group(1)
+    if m.group(2) is None or m.group(3) is None:
+        return level, None
+    return level, f"文章数字 {m.group(2)} 个，可落位模板 {m.group(3)} 种"
 
 
 def _extract_category(body: str):
@@ -159,7 +185,8 @@ def _block_topics(body: str):
 
 def extract_scored_topics(md_path):
     """返回 [(score|None, video_score|None, category|None, source|None,
-    url|None, cap|None, [topics]), ...], 每项对应简报里的一个条目。"""
+    url|None, cap|None, feasibility|None, feasibility_reason|None,
+    [topics]), ...], 每项对应简报里的一个条目。"""
     with open(md_path, encoding="utf-8") as f:
         text = _unescape(f.read())
     scored = []
@@ -167,9 +194,11 @@ def extract_scored_topics(md_path):
         topics = _block_topics(body)
         if not topics:
             continue
+        feasibility, feasibility_reason = _extract_video_feasibility(heading)
         scored.append((_extract_score(heading), _extract_video_score(heading),
                         _extract_category(body), _extract_source(body),
-                        _extract_url(heading), _extract_cap(body), topics))
+                        _extract_url(heading), _extract_cap(body),
+                        feasibility, feasibility_reason, topics))
     return scored
 
 
@@ -194,38 +223,45 @@ def filter_topics(scored):
 
     topics: 字符串数组（旧契约, 原样保留）。
     sets: 与 topics 同一批保留话题, 每项 {topic, score, video_score,
-    category_5, source, source_url, source_name, verified, cap_triggered}。
+    video_feasibility, video_feasibility_reason, category_5, source,
+    source_url, source_name, verified, cap_triggered}。
     video_score 为 None 表示 radar run 未输出，由助理按 rubric 补评。
+    video_feasibility 为 None 表示该条未复核（旧简报无此字段 / 分析
+    失败）；有值时为 可视化可行 / 部分可行 / 不可行，原因见
+    video_feasibility_reason（"文章数字 N 个，可落位模板 M 种"）。
     verified: 有分数且未被封顶为 True，被封顶为 False，无分数为 None。
     stats: kept_sections / dropped_sections / fallback_score(None=未回退)。
     """
     stats = {"kept_sections": 0, "dropped_sections": 0, "fallback_score": None}
-    with_score = [(s, v, c, src, u, cap, t) for s, v, c, src, u, cap, t in scored if s is not None]
+    with_score = [(s, v, c, src, u, cap, feas, feas_reason, t)
+                  for s, v, c, src, u, cap, feas, feas_reason, t in scored
+                  if s is not None]
     if not with_score:
         return None, None, stats  # 调用方回退旧行为
 
-    tiers = sorted({s for s, _, _, _, _, _, _ in with_score}, reverse=True)
+    tiers = sorted({s for s, *_ in with_score}, reverse=True)
     line = MIN_SCORE
     if all(s < MIN_SCORE for s in tiers):
         line = tiers[0]  # 当日无过线条目: 回退到最高分档
         stats["fallback_score"] = line
 
-    kept = []  # (score, video_score, category, source, url, cap, order, topic)
+    kept = []  # (score, video_score, category, source, url, cap, feasibility, reason, order, topic)
     order = 0
-    for score, video_score, category, source, url, cap, topics in with_score:
+    for score, video_score, category, source, url, cap, feas, feas_reason, topics in with_score:
         if score < line:
             stats["dropped_sections"] += 1
             continue
         stats["kept_sections"] += 1
         for topic in topics[:MAX_PER_ITEM]:
-            kept.append((score, video_score, category, source, url, cap, order, topic))
+            kept.append((score, video_score, category, source, url, cap,
+                         feas, feas_reason, order, topic))
             order += 1
 
     seen = set()
     topics = []
     sets = []
-    for score, video_score, category, source, url, cap, _, topic in sorted(
-            kept, key=lambda x: (-x[0], x[6])):
+    for score, video_score, category, source, url, cap, feas, feas_reason, _, topic in sorted(
+            kept, key=lambda x: (-x[0], x[8])):
         if _norm(topic) in seen:
             continue
         seen.add(_norm(topic))
@@ -234,6 +270,8 @@ def filter_topics(scored):
             "topic": topic,
             "score": score,
             "video_score": video_score,
+            "video_feasibility": feas,
+            "video_feasibility_reason": feas_reason,
             "category_5": category,
             "source": source,
             "source_url": url,
@@ -269,6 +307,8 @@ def main():
                   file=sys.stderr)
             topics = legacy_extract(latest)
             sets = [{"topic": t, "score": None, "video_score": None,
+                     "video_feasibility": None,
+                     "video_feasibility_reason": None,
                      "category_5": None, "source": None, "source_url": None,
                      "source_name": None, "verified": None,
                      "cap_triggered": None} for t in topics]
@@ -290,7 +330,9 @@ def main():
             "只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。"
             "Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，"
             "视频线只拍 video_score >= 7 的话题；video_score 为 null 表示"
-            " radar run 未输出，由助理按 rubric 补评后再定拍不拍。")
+            " radar run 未输出，由助理按 rubric 补评后再定拍不拍。"
+            "video_feasibility 为 null 表示未复核；“不可行”表示文章没有"
+            "可上画面的数字，剧本无米下锅，选题会前先看这档。")
     if fallback_score is not None:
         # BUG-3 已修：回退时 note 必须写明回退，不能再写“已按条目分数硬过滤”。
         note += (f"【回退】当日无 {MIN_SCORE} 分以上条目，已按当日最高分档 "

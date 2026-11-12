@@ -7,6 +7,7 @@ from typing import Dict, List, Optional
 from urllib.parse import quote, urlsplit
 
 from .localization import normalize_language
+from .video_feasibility import LEVELS as _FEASIBILITY_LEVELS
 from ..models import ContentItem
 
 
@@ -421,6 +422,10 @@ class DailySummarizer:
         # Heading carries both scores (analysis.md 规定格式，顺序不可颠倒：
         # tools/make_hotspots.py 取第一个 ⭐️ 分数做 hotspots 过滤，取 🎬 做
         # 视频分)。video_score 为 None 时不渲染，旧简报格式保持不变。
+        # Feasibility tier renders right after 🎬 (same heading, so
+        # make_hotspots can parse it into sets[] next to video_score):
+        # " · 可视化可行（5数/3模板）". Level literals come from
+        # video_feasibility.LEVELS; unknown levels are never rendered.
         heading = f"{'#' * heading_level} {title_link} \u2b50\ufe0f {score}/10"  # ⭐️
         video_score = (
             analysis.video_score
@@ -429,6 +434,19 @@ class DailySummarizer:
         )
         if video_score is not None:
             heading += f" \U0001f3ac\ufe0f {video_score}/12"  # 🎬
+        feasibility = (
+            analysis.video_feasibility
+            if analysis and isinstance(analysis.video_feasibility, dict)
+            else None
+        )
+        feasibility_level = feasibility.get("level") if feasibility else None
+        if feasibility_level in _FEASIBILITY_LEVELS:
+            counts = ""
+            number_count = feasibility.get("number_count")
+            template_count = feasibility.get("template_count")
+            if isinstance(number_count, int) and isinstance(template_count, int):
+                counts = f"（{number_count}数/{template_count}模板）"
+            heading += f" · {feasibility_level}{counts}"
         lines = [
             f'<a id="{anchor_id or f"item-{index}"}"></a>',
             heading,
