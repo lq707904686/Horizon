@@ -9,6 +9,10 @@ on:
 jobs:
   daily-radar:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
+    concurrency:
+      group: renxing-daily
+      cancel-in-progress: false
     # 北京时间归档：不设 TZ 则用 UTC 日期，早上 7:10（UTC 23:10）的运行会把简报写到前一天路径并覆盖前一天内容（2026-11-09 已撞过一次）。TZ 只修 date 命令与 hotspots.json 的日期；Horizon 内部用 UTC 定文件名与 front-matter 日期（2026-11-12 实测：TZ 已生效但简报仍写进 11-11），所以下面另有重命名步骤根治。
     env:
       TZ: Asia/Shanghai
@@ -42,9 +46,11 @@ jobs:
         run: |
           nohup python3 -m http.server 8123 --directory data/hotlists >/tmp/hotlists-server.log 2>&1 &
           sleep 2
-          curl -s -o /dev/null -w "baidu.xml: %{http_code}\n" http://127.0.0.1:8123/baidu.xml
-          curl -s -o /dev/null -w "toutiao.xml: %{http_code}\n" http://127.0.0.1:8123/toutiao.xml
-          for f in weixin weibo douyin bilibili zhihu; do curl -s -o /dev/null -w "$f.xml: %{http_code}\n" http://127.0.0.1:8123/$f.xml; done
+          curl -fsS -o /dev/null -w "baidu.xml: %{http_code}\n" http://127.0.0.1:8123/baidu.xml
+          curl -fsS -o /dev/null -w "toutiao.xml: %{http_code}\n" http://127.0.0.1:8123/toutiao.xml
+          for f in weixin weibo douyin bilibili zhihu; do curl -fsS -o /dev/null -w "$f.xml: %{http_code}\n" http://127.0.0.1:8123/$f.xml; done
+          # BUG-1 根治：上面任一源 404/500 即失败退出；再验 7 个文件本地均非空
+          for f in baidu toutiao weixin weibo douyin bilibili zhihu; do test -s "data/hotlists/$f.xml" || { echo "热榜文件缺失或为空: $f.xml"; exit 1; }; done
 
       - name: 加载历史反馈加权（v1.8 反馈闭环）
         run: python tools/load_feedback.py --window 14 --log data/feedback_log.jsonl --prompt profiles/renxing/analysis.md
@@ -95,3 +101,13 @@ jobs:
           commit_message: "📝 每日选题雷达: ${{ env.DATE }}"
           publish_branch: gh-pages
           enable_jekyll: true
+
+      - name: 失败时写 job summary 通知
+        if: failure()
+        run: |
+          {
+            echo "## 雷达运行失败"
+            echo ""
+            echo "时间：$(date +'%Y-%m-%d %H:%M %Z')"
+            echo "请到 Actions 页面查看 daily-renxing.yml 本次运行的失败步骤。"
+          } >> "$GITHUB_STEP_SUMMARY"
