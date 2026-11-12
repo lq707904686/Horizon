@@ -1,38 +1,140 @@
 {
-  "date": "2026-11-12",
+  "date": "2026-11-13",
   "scope": "人性台账爆款选题雷达·每日选题 (Horizon renxing profile, 图文源)",
   "queries": [
     "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"
   ],
   "topics": [
-    "代买中 825 万被店主吞",
-    "判赢了还欠 281 万",
-    "熟人代买翻车现场"
+    "潜逃 15 年空饷 140 万",
+    "捅人干部升正科",
+    "谁在给逃犯发工资",
+    "应聘司机 6 小时倒贴 2 万",
+    "高薪招聘变租车骗局",
+    "警方破获招聘诈骗案",
+    "患者欠费扣医生钱",
+    "卫健局叫停扣款",
+    "医生被逼申请离职"
   ],
   "sets": [
     {
-      "topic": "代买中 825 万被店主吞",
-      "score": 7.5,
-      "video_score": null,
-      "category_5": "做生意",
-      "source": "百度热搜"
+      "topic": "潜逃 15 年空饷 140 万",
+      "score": 8.0,
+      "video_score": 9.5,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 1 个，可落位模板 1 种",
+      "category_5": "带队伍",
+      "source": "知乎热榜",
+      "source_url": "https://www.zhihu.com/question/2101649988895904476",
+      "source_name": "知乎热榜",
+      "verified": true,
+      "cap_triggered": null
     },
     {
-      "topic": "判赢了还欠 281 万",
-      "score": 7.5,
-      "video_score": null,
-      "category_5": "做生意",
-      "source": "百度热搜"
+      "topic": "捅人干部升正科",
+      "score": 8.0,
+      "video_score": 9.5,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 1 个，可落位模板 1 种",
+      "category_5": "带队伍",
+      "source": "知乎热榜",
+      "source_url": "https://www.zhihu.com/question/2101649988895904476",
+      "source_name": "知乎热榜",
+      "verified": true,
+      "cap_triggered": null
     },
     {
-      "topic": "熟人代买翻车现场",
+      "topic": "谁在给逃犯发工资",
+      "score": 8.0,
+      "video_score": 9.5,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 1 个，可落位模板 1 种",
+      "category_5": "带队伍",
+      "source": "知乎热榜",
+      "source_url": "https://www.zhihu.com/question/2101649988895904476",
+      "source_name": "知乎热榜",
+      "verified": true,
+      "cap_triggered": null
+    },
+    {
+      "topic": "应聘司机 6 小时倒贴 2 万",
       "score": 7.5,
-      "video_score": null,
-      "category_5": "做生意",
-      "source": "百度热搜"
+      "video_score": 9.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 5 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "百度热搜",
+      "source_url": "https://www.baidu.com/s?wd=%E7%94%B7%E5%AD%90%E5%BA%94%E8%81%98%E5%8F%B8%E6%9C%BA%E5%B9%B2%E4%BA%866%E5%B0%8F%E6%97%B6%E5%80%92%E8%B4%B42%E4%B8%87&sa=fyb_news&rsv_dl=fyb_news",
+      "source_name": "百度热搜",
+      "verified": true,
+      "cap_triggered": null
+    },
+    {
+      "topic": "高薪招聘变租车骗局",
+      "score": 7.5,
+      "video_score": 9.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 5 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "百度热搜",
+      "source_url": "https://www.baidu.com/s?wd=%E7%94%B7%E5%AD%90%E5%BA%94%E8%81%98%E5%8F%B8%E6%9C%BA%E5%B9%B2%E4%BA%866%E5%B0%8F%E6%97%B6%E5%80%92%E8%B4%B42%E4%B8%87&sa=fyb_news&rsv_dl=fyb_news",
+      "source_name": "百度热搜",
+      "verified": true,
+      "cap_triggered": null
+    },
+    {
+      "topic": "警方破获招聘诈骗案",
+      "score": 7.5,
+      "video_score": 9.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 5 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "百度热搜",
+      "source_url": "https://www.baidu.com/s?wd=%E7%94%B7%E5%AD%90%E5%BA%94%E8%81%98%E5%8F%B8%E6%9C%BA%E5%B9%B2%E4%BA%866%E5%B0%8F%E6%97%B6%E5%80%92%E8%B4%B42%E4%B8%87&sa=fyb_news&rsv_dl=fyb_news",
+      "source_name": "百度热搜",
+      "verified": true,
+      "cap_triggered": null
+    },
+    {
+      "topic": "患者欠费扣医生钱",
+      "score": 7.5,
+      "video_score": 8.0,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 2 种",
+      "category_5": "看职场",
+      "source": "百度热搜",
+      "source_url": "https://www.baidu.com/s?wd=%E4%B8%9C%E8%8E%9E%E5%8D%AB%E5%81%A5%E5%B1%80%E4%BB%8B%E5%85%A5%E2%80%9C%E6%82%A3%E8%80%85%E6%AC%A0%E8%B4%B9%E6%89%A3%E5%8C%BB%E7%94%9F%E9%92%B1%E2%80%9D&sa=fyb_news&rsv_dl=fyb_news",
+      "source_name": "百度热搜",
+      "verified": true,
+      "cap_triggered": null
+    },
+    {
+      "topic": "卫健局叫停扣款",
+      "score": 7.5,
+      "video_score": 8.0,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 2 种",
+      "category_5": "看职场",
+      "source": "百度热搜",
+      "source_url": "https://www.baidu.com/s?wd=%E4%B8%9C%E8%8E%9E%E5%8D%AB%E5%81%A5%E5%B1%80%E4%BB%8B%E5%85%A5%E2%80%9C%E6%82%A3%E8%80%85%E6%AC%A0%E8%B4%B9%E6%89%A3%E5%8C%BB%E7%94%9F%E9%92%B1%E2%80%9D&sa=fyb_news&rsv_dl=fyb_news",
+      "source_name": "百度热搜",
+      "verified": true,
+      "cap_triggered": null
+    },
+    {
+      "topic": "医生被逼申请离职",
+      "score": 7.5,
+      "video_score": 8.0,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 2 种",
+      "category_5": "看职场",
+      "source": "百度热搜",
+      "source_url": "https://www.baidu.com/s?wd=%E4%B8%9C%E8%8E%9E%E5%8D%AB%E5%81%A5%E5%B1%80%E4%BB%8B%E5%85%A5%E2%80%9C%E6%82%A3%E8%80%85%E6%AC%A0%E8%B4%B9%E6%89%A3%E5%8C%BB%E7%94%9F%E9%92%B1%E2%80%9D&sa=fyb_news&rsv_dl=fyb_news",
+      "source_name": "百度热搜",
+      "verified": true,
+      "cap_triggered": null
     }
   ],
   "min_score": 7.0,
   "fallback_score": null,
-  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。"
+  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。video_feasibility 为 null 表示未复核；“不可行”表示文章没有可上画面的数字，剧本无米下锅，选题会前先看这档。"
 }
