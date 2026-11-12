@@ -38,6 +38,7 @@ import feedparser
 import httpx
 
 from .base import BaseScraper
+from ..extractors import ExtractorRegistry
 from ..models import ContentItem, GoogleNewsConfig, SourceType
 
 logger = logging.getLogger(__name__)
@@ -49,15 +50,24 @@ class GoogleNewsScraper(BaseScraper):
     SOURCE_TYPE = SourceType.GOOGLE_NEWS
     BASE_URL = "https://news.google.com/rss/search"
 
-    def __init__(self, config: GoogleNewsConfig, http_client: httpx.AsyncClient):
+    def __init__(
+        self,
+        config: GoogleNewsConfig,
+        http_client: httpx.AsyncClient,
+        extractors: Optional[ExtractorRegistry] = None,
+    ):
         """Initialize the scraper.
 
         Args:
             config: Google News source configuration.
             http_client: Shared async HTTP client.
+            extractors: Optional registry of content extractors for full
+                article fetching (same wiring as RSSScraper); used only when
+                ``config.content_extractor`` names one.
         """
         super().__init__({"google_news": config}, http_client)
         self.gn_config = config
+        self._extractors = extractors
 
     async def fetch(self, since: datetime) -> List[ContentItem]:
         """Fetch articles from the Google News RSS search endpoint.
@@ -98,7 +108,7 @@ class GoogleNewsScraper(BaseScraper):
             for entry in feed.entries:
                 if len(items) >= self.gn_config.max_results:
                     break
-                item = self._entry_to_item(entry)
+                item = await self._entry_to_item(entry)
                 if item is not None:
                     items.append(item)
             return items
@@ -126,7 +136,7 @@ class GoogleNewsScraper(BaseScraper):
             return f"when:{hours}h"
         return f"after:{since_utc.strftime('%Y-%m-%d')}"
 
-    def _entry_to_item(self, entry: Any) -> Optional[ContentItem]:
+    async def _entry_to_item(self, entry: Any) -> Optional[ContentItem]:
         """Map one Google News RSS entry into a ContentItem.
 
         Returns None when the entry has no title/link or an unparseable
@@ -148,6 +158,17 @@ class GoogleNewsScraper(BaseScraper):
 
             source_name = self._extract_source_name(entry)
 
+            content = self._extract_content(entry)
+            # Full-text extraction (终轮整改 2026-11-12): feed 摘要只有标题级
+            # 信息，配了 content_extractor 时抓原文，失败则保留 feed 摘要，
+            # 不让一次抓取失败丢掉整条。
+            if self.gn_config.content_extractor and self._extractors:
+                extractor = self._extractors.get(self.gn_config.content_extractor)
+                if extractor:
+                    full = await extractor.extract(link, self.client)
+                    if full:
+                        content = full
+
             entry_id = entry.get("id") or link
             entry_hash = hashlib.sha256(str(entry_id).encode("utf-8")).hexdigest()[:16]
 
@@ -162,7 +183,7 @@ class GoogleNewsScraper(BaseScraper):
                 source_type=self.SOURCE_TYPE,
                 title=title,
                 url=link,
-                content=self._extract_content(entry),
+                content=content,
                 author=source_name,
                 published_at=published,
                 profile=self.gn_config.profile,

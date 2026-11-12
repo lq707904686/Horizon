@@ -41,7 +41,8 @@
       "language": "zh",
       "max_results": 60,
       "profile": "renxing",
-      "query": "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业 OR 民生 OR 维权 OR 消费 OR 欠薪"
+      "query": "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业 OR 民生 OR 维权 OR 消费 OR 欠薪",
+      "content_extractor": "trafilatura"
     },
     "hackernews": {
       "enabled": false
@@ -61,21 +62,24 @@
         "enabled": true,
         "name": "爱范儿",
         "profile": "renxing",
-        "url": "https://www.ifanr.com/feed"
+        "url": "https://www.ifanr.com/feed",
+        "content_extractor": "trafilatura"
       },
       {
         "category": "效率",
         "enabled": true,
         "name": "少数派",
         "profile": "renxing",
-        "url": "https://sspai.com/feed"
+        "url": "https://sspai.com/feed",
+        "content_extractor": "trafilatura"
       },
       {
         "name": "虎嗅",
         "url": "https://rss.huxiu.com/",
         "category": "商业",
         "enabled": true,
-        "profile": "renxing"
+        "profile": "renxing",
+        "content_extractor": "trafilatura"
       },
       {
         "category": "热榜",
@@ -201,7 +205,8 @@
         "enabled": true,
         "name": "36氪24小时热榜",
         "profile": "renxing",
-        "url": "https://www.sinrowa.com/36kr/hot-list"
+        "url": "https://www.sinrowa.com/36kr/hot-list",
+        "content_extractor": "trafilatura"
       }
     ],
     "telegram": {
