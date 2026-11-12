@@ -22,15 +22,16 @@ data/feedback_log.jsonl，按最近 N 天（默认 14 天）聚合各标签
   只取 kind == video 的记录另算一套“视频标签分”，权重 0.15、
   限幅 ±5 不变，写入独立 video_tag_scores 段，**仅供 video_score
   参考，不参与公众号 score、不推翻任何封顶**。
-  冷启动门槛与公众号路径不同：视频满 20 条窗口内记录即启动
-  （--min-video-records，默认 20），不看 21 天覆盖。
+  冷启动门槛与公众号路径不同：视频满 10 条、30 天窗口内记录即启动
+  （--min-video-records，默认 10；视频窗口固定 30 天，不跟 --window，
+  因视频发布约 1 集/天、14 天窗口内攒满 20 条结构上够不着）。
 
 用法：
   python tools/load_feedback.py --window 14 \\
     --log data/feedback_log.jsonl --prompt profiles/renxing/analysis.md
   # 测试（跳过冷启动期限制）：
   python tools/load_feedback.py --window 14 --min-days 0
-  # 测试视频路径（跳过 20 条门槛）：
+  # 测试视频路径（跳过 10 条门槛）：
   python tools/load_feedback.py --window 14 --min-video-records 0
 """
 import argparse
@@ -42,7 +43,8 @@ from pathlib import Path
 
 WEIGHT = 0.15
 CAP = 5.0
-VIDEO_MIN_RECORDS = 20  # 视频路径冷启动门槛：窗口内满 20 条视频记录即启动
+VIDEO_MIN_RECORDS = 10  # 视频路径冷启动门槛：30 天窗口内满 10 条视频记录即启动
+VIDEO_WINDOW_DAYS = 30  # 视频路径聚合窗口（固定，不跟 --window）
 
 ARTICLE_MARKER = "## 历史反馈加权（v1.8 自动生成，勿手改）"
 VIDEO_MARKER = "## 视频反馈加权（v1.8 自动生成，勿手改）"
@@ -242,13 +244,17 @@ def main():
 
     log_path = Path(args.log)
     records = load_recent(log_path, args.window)
-    if not records:
+    # 视频路径用独立的 30 天窗口（固定，不跟 --window），与公众号路径互不干扰。
+    video_records = [
+        r for r in load_recent(log_path, VIDEO_WINDOW_DAYS)
+        if r.get("kind") == "video"
+    ]
+    if not records and not video_records:
         print(f"无反馈数据（{log_path} 缺失或窗口内为空），权重为 0，不改 prompt。")
         return 0
 
     # 两条路径各走各的门槛、互不干扰（kind 缺失的老记录按公众号算）。
     article_records = [r for r in records if r.get("kind", "article") != "video"]
-    video_records = [r for r in records if r.get("kind") == "video"]
 
     article_section = None
     if article_records:
@@ -272,9 +278,9 @@ def main():
                   f"（需 {args.min_video_records} 条），视频权重为 0，不改视频段。")
         else:
             video_tag_scores = aggregate(video_records)
-            video_section = build_video_section(video_tag_scores, args.window,
+            video_section = build_video_section(video_tag_scores, VIDEO_WINDOW_DAYS,
                                                 len(video_records))
-            print(f"已注入视频反馈加权：窗口 {args.window} 天，{len(video_records)} 条视频记录，"
+            print(f"已注入视频反馈加权：窗口 {VIDEO_WINDOW_DAYS} 天，{len(video_records)} 条视频记录，"
                   f"{len(video_tag_scores)} 个标签。")
             for tag, adj in sorted(video_tag_scores.items(), key=lambda x: -x[1]):
                 print(f"  视频 {tag}: {adj:+.2f}")

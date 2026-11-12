@@ -29,6 +29,11 @@ load_feedback.py 再按 14 天窗口聚合，给评分加权。
   时至少带 plays + completion）。只记“挑了/写了”不记效果的行，
   对加权没有帮助。
 
+补记规则（打磨方案 §五/§八 P0-10）：
+  --date 只能填当日或过去 7 天内的日期，超限即报错、不写日志。
+  补记日 = 发布日：11-28 冷启动三项按真实日期算，--date 自由填写
+  可刷窗口、补记会失真。当天挑完当天记；漏记超过 7 天的行不补。
+
 用法：
   python tools/record_feedback.py --date 2026-11-07 \\
     --title "谁把高校教师逼成了业务员" \\
@@ -68,6 +73,33 @@ def video_result_score(completion_pct):
     return -3
 
 
+# 补记窗口（打磨方案 §五/§八 P0-10）：--date 只许填当日或过去 7 天内。
+RECORD_DATE_MAX_AGE_DAYS = 7
+
+
+def validate_record_date(date_str, today=None):
+    """校验 --date：合规则返回 None，否则返回错误信息字符串。
+
+    补记日 = 发布日：11-28 冷启动三项按真实日期算，--date 自由填写
+    可刷窗口、补记会失真，故未来日期与超过 7 天的旧日期一律拒绝。
+    """
+    try:
+        record_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError:
+        return f"日期格式错误：{date_str}，应为 YYYY-MM-DD"
+    today = today or datetime.now().date()
+    age_days = (today - record_date).days
+    if age_days < 0:
+        return f"--date 不能是未来日期：{date_str}（今天是 {today.isoformat()}）"
+    if age_days > RECORD_DATE_MAX_AGE_DAYS:
+        return (
+            f"--date {date_str} 距今天 {age_days} 天，超出补记窗口"
+            f"（只许填当日或过去 {RECORD_DATE_MAX_AGE_DAYS} 天内的日期；"
+            "补记日 = 发布日，不许用 --date 刷窗口）"
+        )
+    return None
+
+
 def _split(s):
     return [x.strip() for x in (s or "").split(",") if x.strip()]
 
@@ -105,10 +137,9 @@ def main():
                     help="反馈日志路径（默认 data/feedback_log.jsonl）")
     args = ap.parse_args()
 
-    try:
-        datetime.strptime(args.date, "%Y-%m-%d")
-    except ValueError:
-        print(f"日期格式错误：{args.date}，应为 YYYY-MM-DD", file=sys.stderr)
+    date_error = validate_record_date(args.date)
+    if date_error:
+        print(date_error, file=sys.stderr)
         return 1
 
     video_args = (args.rec_id, args.plays, args.completion, args.avg_watch,
