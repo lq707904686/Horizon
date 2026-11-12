@@ -35,6 +35,14 @@ from ..processing.tools import ToolRegistry, ToolResult
 
 logger = logging.getLogger(__name__)
 
+# 占位标题护栏（打磨方案 §五/§八 P0-9）：enricher 产物标题含以下任一标记
+# 或为空时，视为模型自发输出的占位标题。仓库实测：12 天 172 条简报里
+# 25 条占位标题（14.5%），且 11-08 当日最高分 8.0 的头条本身就是占位
+# 标题；全仓 grep 证实没有任何回退逻辑可失败——“选题单”是模型自发
+# 输出，不是回退失败。护栏做在 enricher 产物出口处：标题生成后校验，
+# 不合规则回退源标题，并计数告警供首跑验收。
+PLACEHOLDER_TITLE_MARKERS = ("选题单", "选题台账")
+
 ModelT = TypeVar("ModelT", bound=BaseModel)
 
 class ToolRequest(BaseModel):
@@ -88,6 +96,8 @@ class GeneratedBlockWithHeader(GeneratedBlock):
 class EnrichmentBatchResult:
     succeeded_ids: list[str] = field(default_factory=list)
     failures: dict[str, str] = field(default_factory=dict)
+    # 标题护栏回退的条目 id（占位标题 → 源标题），供每轮输出计数验收。
+    title_fallback_ids: list[str] = field(default_factory=list)
 
     @property
     def succeeded_count(self) -> int:
@@ -96,6 +106,10 @@ class EnrichmentBatchResult:
     @property
     def failed_count(self) -> int:
         return len(self.failures)
+
+    @property
+    def title_fallback_count(self) -> int:
+        return len(self.title_fallback_ids)
 
     @property
     def failed_ids(self) -> list[str]:
@@ -143,6 +157,23 @@ class ContentEnricher:
         config = getattr(self.client, "config", None)
         return max(getattr(config, "enrichment_concurrency", 1), 1)
 
+    @staticmethod
+    def guard_artifact_title(generated_title: str, source_title: str) -> tuple[str, bool]:
+        """占位标题护栏：返回 (最终标题, 是否回退源标题)。
+
+        生成标题为空或含任一占位标记（“选题单”/“选题台账”）时回退到
+        源标题；源标题本身为空时无法回退，原样返回生成标题（下游校验
+        仍会按原有逻辑报错，不静默吞掉）。
+        """
+        generated = (generated_title or "").strip()
+        source = (source_title or "").strip()
+        if (
+            not generated
+            or any(m in generated for m in PLACEHOLDER_TITLE_MARKERS)
+        ) and source:
+            return source, True
+        return generated, False
+
     @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=2, max=10), reraise=True)
     async def _complete(self, **kwargs: Any) -> str:
         return await self.client.complete(**kwargs)
@@ -183,16 +214,16 @@ class ContentEnricher:
 
         async def process(
             item: ContentItem, task_id: TaskID
-        ) -> tuple[str, Optional[Exception]]:
+        ) -> tuple[str, Optional[Exception], bool]:
             async with semaphore:
                 try:
-                    await self._enrich_item(item)
+                    fell_back = await self._enrich_item(item)
                 except Exception as exc:
                     logger.error("Error enriching item %s: %s", item.id, exc)
-                    return item.id, exc
+                    return item.id, exc, False
                 finally:
                     progress.advance(task_id)
-            return item.id, None
+            return item.id, None, fell_back
 
         with Progress(
             SpinnerColumn(),
@@ -206,15 +237,23 @@ class ContentEnricher:
             outcomes = await asyncio.gather(*(process(item, task_id) for item in items))
 
         return EnrichmentBatchResult(
-            succeeded_ids=[item_id for item_id, exc in outcomes if exc is None],
+            succeeded_ids=[item_id for item_id, exc, _ in outcomes if exc is None],
             failures={
                 item_id: f"{type(exc).__name__}: {exc}"
-                for item_id, exc in outcomes
+                for item_id, exc, _ in outcomes
                 if exc is not None
             },
+            title_fallback_ids=[
+                item_id
+                for item_id, exc, fell_back in outcomes
+                if exc is None and fell_back
+            ],
         )
 
-    async def _enrich_item(self, item: ContentItem) -> None:
+    async def _enrich_item(self, item: ContentItem) -> bool:
+        """Enrich one item; returns True if any language title fell back
+        to the source title via the placeholder-title guardrail."""
+        title_fell_back = False
         if not item.processing or not item.processing.analysis:
             raise ValueError("Item must be analyzed before enrichment")
         profile = self.profiles.get(item.processing.classification.profile)
@@ -231,6 +270,17 @@ class ContentEnricher:
             self._expand_request_source_refs(generated.blocks, tool_results)
             self._validate_blocks(generated.blocks, profile, tool_results)
             generated.title = normalize_language(generated.title, language)
+            # 占位标题护栏（出口处校验）：不合规则回退源标题并记数。
+            guarded, fell_back = self.guard_artifact_title(generated.title, item.title)
+            if fell_back:
+                logger.warning(
+                    "Placeholder title for item %s (%r) — fell back to source title %r",
+                    item.id,
+                    generated.title,
+                    guarded,
+                )
+                title_fell_back = True
+            generated.title = guarded
             for block in generated.blocks:
                 block.title = normalize_language(block.title, language)
                 block.content = normalize_language(block.content, language)
@@ -246,6 +296,7 @@ class ContentEnricher:
                 sources=[source for source in sources.values() if source.id in referenced],
             )
         item.processing.artifacts.update(artifacts)
+        return title_fell_back
 
     @staticmethod
     def _expand_request_source_refs(

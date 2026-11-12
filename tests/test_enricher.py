@@ -580,3 +580,116 @@ def test_history_search_reuses_one_call_for_both_languages(tmp_path, monkeypatch
         assert artifact.sources[0].url == "https://example.com/preview"
         assert artifact.sources[0].title.startswith("2026-04-01")
         assert artifact.blocks[-1].source_refs == ["tool-1-1"]
+
+
+def _placeholder_title_responses():
+    """Fake AI responses mirroring test_enrichment_generates_blocks...,
+    but the generated artifact title is a placeholder title."""
+    return iter(
+        [
+            json.dumps(
+                {
+                    "tool_requests": [
+                        {
+                            "block_id": "background",
+                            "tool": "web_search",
+                            "arguments": {"query": "project architecture"},
+                            "purpose": "Explain the existing architecture",
+                        }
+                    ]
+                }
+            ),
+            json.dumps(
+                {
+                    "title": "人性台账 · 选题单",
+                    "blocks": [
+                        {
+                            "id": "summary",
+                            "title": "摘要",
+                            "content": "项目发布了新的架构，它改变了系统设计，并采用了新的边界。",
+                            "source_refs": [],
+                        }
+                    ],
+                }
+            ),
+            json.dumps(
+                {
+                    "title": "人性台账 · 选题单",
+                    "blocks": [
+                        {
+                            "id": "summary",
+                            "type": "section",
+                            "title": "摘要",
+                            "content": "项目发布了新的架构，它改变了系统设计，并采用了新的边界。",
+                            "source_refs": [],
+                        },
+                        {
+                            "id": "background",
+                            "type": "section",
+                            "title": "未隔离的背景",
+                            "content": "这个版本应被丢弃。",
+                            "source_refs": [],
+                        },
+                    ],
+                }
+            ),
+            json.dumps(
+                {
+                    "title": "",
+                    "block": {
+                        "id": "background",
+                        "type": "section",
+                        "title": "背景",
+                        "content": "旧架构的背景信息。",
+                        "source_refs": ["tool-1"],
+                    },
+                }
+            ),
+        ]
+    )
+
+
+def _placeholder_enricher():
+    responses = _placeholder_title_responses()
+
+    async def complete(**kwargs):
+        return next(responses)
+
+    return ContentEnricher(
+        SimpleNamespace(complete=complete),
+        PROFILES,
+        ["zh"],
+        tools=FakeTools(),
+    )
+
+
+def test_guard_artifact_title_placeholders():
+    guard = ContentEnricher.guard_artifact_title
+    # 两种实测占位形态都回退源标题
+    assert guard("人性台账 · 选题单", "真实话题标题") == ("真实话题标题", True)
+    assert guard("〈真实话题〉：选题台账", "真实话题标题") == ("真实话题标题", True)
+    assert guard("选题单", "真实话题标题") == ("真实话题标题", True)
+    # 空标题回退源标题
+    assert guard("", "真实话题标题") == ("真实话题标题", True)
+    assert guard("   ", "真实话题标题") == ("真实话题标题", True)
+    # 正常标题不动
+    assert guard("新架构发布", "A technical release") == ("新架构发布", False)
+    # 源标题本身为空时无法回退，原样返回（下游校验仍会报错）
+    assert guard("人性台账 · 选题单", "") == ("人性台账 · 选题单", False)
+
+
+def test_enrichment_falls_back_to_source_title_on_placeholder():
+    item = make_item()
+    enricher = _placeholder_enricher()
+    fell_back = asyncio.run(enricher._enrich_item(item))
+    assert fell_back is True
+    assert item.processing.artifacts["zh"].title == "A technical release"
+
+
+def test_enrich_batch_counts_title_fallbacks():
+    item = make_item()
+    enricher = _placeholder_enricher()
+    result = asyncio.run(enricher.enrich_batch([item]))
+    assert result.succeeded_ids == [item.id]
+    assert result.title_fallback_ids == [item.id]
+    assert result.title_fallback_count == 1

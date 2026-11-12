@@ -1185,6 +1185,11 @@ class HorizonOrchestrator:
         self.console.print(
             f"   Enriched {result.succeeded_count}/{len(items)} items"
         )
+        if result.title_fallback_count:
+            self.console.print(
+                f"   [yellow]标题护栏：{result.title_fallback_count} 条占位标题已回退"
+                f"源标题：{', '.join(result.title_fallback_ids)}[/yellow]"
+            )
         if result.failed_count:
             self.console.print(
                 f"   [yellow]Skipped {result.failed_count} items after enrichment "
