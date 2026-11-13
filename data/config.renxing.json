@@ -133,27 +133,6 @@
       {
         "category": "热榜",
         "enabled": true,
-        "name": "澎湃热榜",
-        "profile": "renxing",
-        "url": "http://127.0.0.1:8123/thepaper.xml"
-      },
-      {
-        "category": "热榜",
-        "enabled": true,
-        "name": "牛客热榜",
-        "profile": "renxing",
-        "url": "http://127.0.0.1:8123/nowcoder.xml"
-      },
-      {
-        "category": "热榜",
-        "enabled": true,
-        "name": "华尔街见闻",
-        "profile": "renxing",
-        "url": "http://127.0.0.1:8123/wallstreetcn.xml"
-      },
-      {
-        "category": "热榜",
-        "enabled": true,
         "name": "贴吧搜索·裁员",
         "profile": "renxing",
         "url": "https://www.sinrowa.com/baidu/tieba/search/%E8%A3%81%E5%91%98?only_thread=1"
