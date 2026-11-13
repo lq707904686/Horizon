@@ -15,6 +15,22 @@
         "8.0+": 0
       },
       "per_source": {}
+    },
+    {
+      "date": "2026-11-14",
+      "total_items": 0,
+      "candidate_pool_total": null,
+      "max_score": null,
+      "count_ge_7": 0,
+      "count_ge_5": 0,
+      "bands": {
+        "below_5": 0,
+        "5.0-5.9": 0,
+        "6.0-6.9": 0,
+        "7.0-7.9": 0,
+        "8.0+": 0
+      },
+      "per_source": {}
     }
   ]
 }
