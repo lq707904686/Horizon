@@ -1,14 +1,14 @@
 {
   "ai": {
     "analysis_concurrency": 5,
-    "api_key_env": "LIGHTVELA_API_KEY",
-    "base_url": "https://token.lightvela.ai/v1",
+    "api_key_env": "NVIDIA_BUILD_API_KEY",
+    "base_url": "https://integrate.api.nvidia.com/v1",
     "enrichment_concurrency": 5,
     "languages": [
       "zh"
     ],
     "max_tokens": 8192,
-    "model": "auto",
+    "model": "nvidia/nemotron-3.5-bolt-e4b",
     "provider": "openai",
     "temperature": 0.3,
     "throttle_sec": 1
