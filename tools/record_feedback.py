@@ -119,6 +119,10 @@ def main():
     ap.add_argument("--status", default=None, choices=list(RESULT_SCORES),
                     help="状态：已选/已写/爆款/明确弃/扑街（仅公众号记录用）")
     ap.add_argument("--reads", type=int, default=None, help="阅读量（报效果时填）")
+    # ★ P314 Top10 第 9 项：互动三列（评论/转发/在看），每周抄一次。
+    ap.add_argument("--comments", type=int, default=None, help="评论数（互动回填）")
+    ap.add_argument("--forwards", type=int, default=None, help="转发数（互动回填）")
+    ap.add_argument("--inviews", type=int, default=None, help="在看数（互动回填）")
     ap.add_argument("--kind", default="article", choices=["article", "video"],
                     help="记录类型：article（默认，公众号）/ video（视频号）")
     ap.add_argument("--rec-id", default=None, help="视频集编号，如 REC-23（仅视频）")
@@ -141,6 +145,11 @@ def main():
     if date_error:
         print(date_error, file=sys.stderr)
         return 1
+    for _label, _v in (("--comments", args.comments),
+                       ("--forwards", args.forwards),
+                       ("--inviews", args.inviews)):
+        if _v is not None and _v < 0:
+            return _fail(f"{_label} 不能为负")
 
     video_args = (args.rec_id, args.plays, args.completion, args.avg_watch,
                   args.plays_3s, args.publish_date, args.as_of)
@@ -194,6 +203,12 @@ def main():
     if args.kind == "article":
         rec["status"] = args.status
         rec["reads"] = args.reads
+        if args.comments is not None:
+            rec["comments"] = args.comments
+        if args.forwards is not None:
+            rec["forwards"] = args.forwards
+        if args.inviews is not None:
+            rec["inviews"] = args.inviews
     else:
         rec["rec_id"] = args.rec_id
         rec["publish_date"] = args.publish_date
@@ -206,6 +221,9 @@ def main():
             "avg_watch_s": args.avg_watch,
             "plays_3s": args.plays_3s,
             "plays_3s_rate_pct": plays_3s_rate,
+            "comments": args.comments,
+            "forwards": args.forwards,
+            "inviews": args.inviews,
         }
 
     log_path = Path(args.log)

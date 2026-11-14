@@ -218,6 +218,17 @@ def legacy_extract(md_path):
     return topics
 
 
+# ★ P314 Top10 第 7 项：占位标题（选题单里的待填行）一律丢弃，14.5%→0%。
+#   源标题回退属 Horizon 上游 enricher 侧，不在本补丁内，见取材表规范。
+_PLACEHOLDER_RX = re.compile(r"选题单|选题台账|待填|占位|⚠\s*待填")
+
+
+def _is_placeholder(topic):
+    """占位标题：空标题，或含选题单/选题台账/待填/占位/⚠ 待填。topics 为纯字符串。"""
+    t = str(topic or "")
+    return (not t.strip()) or bool(_PLACEHOLDER_RX.search(t))
+
+
 def filter_topics(scored):
     """硬过滤, 返回 (topics, sets, stats)。
 
@@ -232,7 +243,8 @@ def filter_topics(scored):
     verified: 有分数且未被封顶为 True，被封顶为 False，无分数为 None。
     stats: kept_sections / dropped_sections / fallback_score(None=未回退)。
     """
-    stats = {"kept_sections": 0, "dropped_sections": 0, "fallback_score": None}
+    stats = {"kept_sections": 0, "dropped_sections": 0,
+             "placeholder_dropped": 0, "fallback_score": None}
     with_score = [(s, v, c, src, u, cap, feas, feas_reason, t)
                   for s, v, c, src, u, cap, feas, feas_reason, t in scored
                   if s is not None]
@@ -251,8 +263,15 @@ def filter_topics(scored):
         if score < line:
             stats["dropped_sections"] += 1
             continue
+        kept_topics = [t for t in topics[:MAX_PER_ITEM]
+                     if not _is_placeholder(t)]
+        stats["placeholder_dropped"] += (
+            len(topics[:MAX_PER_ITEM]) - len(kept_topics))
+        if not kept_topics:
+            stats["dropped_sections"] += 1
+            continue
         stats["kept_sections"] += 1
-        for topic in topics[:MAX_PER_ITEM]:
+        for topic in kept_topics:
             kept.append((score, video_score, category, source, url, cap,
                          feas, feas_reason, order, topic))
             order += 1
@@ -322,6 +341,7 @@ def main():
                 print(f"当日无 {MIN_SCORE} 分以上条目, 回退到最高分档 {fallback_score} 分")
             print(f"硬过滤: 保留 {stats['kept_sections']} 个条目, "
                   f"丢弃 {stats['dropped_sections']} 个低于 {min_score} 分的条目, "
+                  f"占位标题丢弃 {stats['placeholder_dropped']} 条, "
                   f"抽取到 {len(topics)} 个话题")
 
     today = datetime.date.today().isoformat()
