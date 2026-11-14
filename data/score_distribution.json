@@ -18,19 +18,78 @@
     },
     {
       "date": "2026-11-14",
-      "total_items": 0,
-      "candidate_pool_total": null,
-      "max_score": null,
-      "count_ge_7": 0,
-      "count_ge_5": 0,
+      "total_items": 15,
+      "candidate_pool_total": 536,
+      "max_score": 7.5,
+      "count_ge_7": 5,
+      "count_ge_5": 15,
       "bands": {
         "below_5": 0,
-        "5.0-5.9": 0,
-        "6.0-6.9": 0,
-        "7.0-7.9": 0,
+        "5.0-5.9": 6,
+        "6.0-6.9": 4,
+        "7.0-7.9": 5,
         "8.0+": 0
       },
-      "per_source": {}
+      "per_source": {
+        "虎嗅": 6,
+        "36氪24小时热榜": 3,
+        "百度热搜": 2,
+        "爱范儿": 2,
+        "少数派": 1,
+        "财联社电报": 1
+      },
+      "kept_source_shares": [
+        {
+          "source": "虎嗅",
+          "count": 6,
+          "share": 0.4615
+        },
+        {
+          "source": "百度热搜",
+          "count": 4,
+          "share": 0.3077
+        },
+        {
+          "source": "36氪24小时热榜",
+          "count": 3,
+          "share": 0.2308
+        }
+      ],
+      "source_quota_warn": [
+        "虎嗅"
+      ],
+      "per_column": {
+        "看职场": {
+          "items": 13,
+          "ge_7": 5,
+          "selected": 13
+        },
+        "带队伍": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "做生意": {
+          "items": 1,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "做销售": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "去创业": {
+          "items": 1,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "其他": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        }
+      }
     }
   ]
 }
