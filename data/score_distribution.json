@@ -90,6 +90,68 @@
           "selected": 0
         }
       }
+    },
+    {
+      "date": "2026-11-15",
+      "total_items": 4,
+      "candidate_pool_total": 479,
+      "max_score": 6.0,
+      "count_ge_7": 0,
+      "count_ge_5": 4,
+      "bands": {
+        "below_5": 0,
+        "5.0-5.9": 1,
+        "6.0-6.9": 3,
+        "7.0-7.9": 0,
+        "8.0+": 0
+      },
+      "per_source": {
+        "36氪24小时热榜": 2,
+        "爱范儿": 1,
+        "百度热搜": 1
+      },
+      "kept_source_shares": [
+        {
+          "source": "爱范儿",
+          "count": 3,
+          "share": 1.0
+        }
+      ],
+      "source_quota_warn": [
+        "爱范儿"
+      ],
+      "per_column": {
+        "看职场": {
+          "items": 3,
+          "ge_7": 0,
+          "selected": 3
+        },
+        "带队伍": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "做生意": {
+          "items": 1,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "做销售": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "去创业": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "其他": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        }
+      }
     }
   ]
 }
