@@ -1,15 +1,15 @@
 {
   "ai": {
     "analysis_concurrency": 5,
-    "api_key_env": "DEEPSEEK_API_KEY",
-    "base_url": "https://api.deepseek.com",
+    "api_key_env": "LIGHTVELA_API_KEY",
+    "base_url": "https://token.lightvela.ai/v1",
     "enrichment_concurrency": 5,
     "languages": [
       "zh"
     ],
     "max_tokens": 8192,
-    "model": "deepseek-chat",
-    "provider": "deepseek",
+    "model": "auto",
+    "provider": "openai",
     "temperature": 0.3,
     "throttle_sec": 1
   },
