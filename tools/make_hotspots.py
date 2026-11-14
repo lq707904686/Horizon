@@ -40,7 +40,8 @@ v1.6 硬过滤 (2026-10-27):
   本版按条目分数硬过滤: 低于 MIN_SCORE 的条目整块丢弃, 每条目最多保留
   MAX_PER_ITEM 条, 全局去重, 按分数降序。prompt 不动, 只靠代码层把关。
   若当日没有任何条目达到 MIN_SCORE, 回退到当日最高分档 (避免空 feed),
-  并在输出 JSON 里标注 fallback_score。
+  并在输出 JSON 里标注 fallback_score。（P315 R8：回退只取该档第 1 个
+  条目、最多 3 个话题，低分凑数不再出简报。）
 """
 
 import argparse
@@ -55,6 +56,17 @@ import sys
 # --- 硬过滤参数: 改这里即可调线, 不用动 prompt ---
 MIN_SCORE = 7.0      # 低于此分的条目不进 hotspots.json
 MAX_PER_ITEM = 3     # 每个条目最多保留的选题数 (取块内前 N 行)
+
+# ★ P315 Top10 R4/R5/R8（2026-11-14）：来源配额 + 栏目分流统计 + 干旱日回退收敛。
+#   R4：单源占入选话题超 SOURCE_QUOTA_WARN_PCT 即 WARN，只告警、不删源、不改
+#       入选结果；百度是当前单点（v2 报告：百度供 ≥7.0 的 64%），目标 <40%。
+#   R5：五栏目当日入选数 / ≥7.0 数统计进 score_distribution.json 记录
+#       （per_column），某栏目连续 COLUMN_ZERO_ALERT_DAYS 日入选为 0 即告警。
+#   R8：干旱日回退只取最高分档第 1 个条目（其余同档条目计入
+#       fallback_capped_sections），话题数仍受 MAX_PER_ITEM 约束，最多 3 条。
+SOURCE_QUOTA_WARN_PCT = 0.40  # 单源占比告警线（入选话题 / ≥7.0 条目任一超线即 WARN）
+COLUMNS_5 = ("看职场", "带队伍", "做生意", "做销售", "去创业")
+COLUMN_ZERO_ALERT_DAYS = 3    # 某栏目连续多日（默认 3 日，含当日）入选为 0 即告警
 
 HOTSPOTS_RX = re.compile(r"```hotspots\s*\n(.*?)```", re.S)
 # Horizon 的 summarizer 落盘前会对 AI 输出做 markdown 转义：
@@ -229,6 +241,97 @@ def _is_placeholder(topic):
     return (not t.strip()) or bool(_PLACEHOLDER_RX.search(t))
 
 
+def source_shares(sources):
+    """来源占比：sources 为来源名列表，返回 [(来源, 条数, 占比)] 按条数降序。
+
+    来源取不到记为 "unknown"。占比分母是传入列表长度；空列表返回 []。
+    """
+    total = len(sources)
+    if total == 0:
+        return []
+    counts = {}
+    for s in sources:
+        key = (s or "unknown").strip() or "unknown"
+        counts[key] = counts.get(key, 0) + 1
+    return sorted(((k, v, v / total) for k, v in counts.items()),
+                  key=lambda x: (-x[1], x[0]))
+
+
+def quota_warnings(shares, threshold=SOURCE_QUOTA_WARN_PCT):
+    """超配额来源：shares 为 source_shares 的返回，返回 [来源, ...]。
+
+    只做判断，不删源、不改入选；调用方只打印 WARN，退出码保持 0。
+    """
+    return [src for src, _n, pct in shares if pct > threshold]
+
+
+def column_stats(scored, sets):
+    """五栏目分流统计：返回 {栏目: {"items": 简报条目数, "ge_7": ≥7.0 条目数,
+    "selected": 入选话题数}}。栏目不在五栏内的（含取不到）归入 "其他"。"""
+    stats = {c: {"items": 0, "ge_7": 0, "selected": 0} for c in COLUMNS_5}
+    stats["其他"] = {"items": 0, "ge_7": 0, "selected": 0}
+    for score, _v, category, _src, _u, _cap, _f, _fr, _t in scored:
+        if score is None:
+            continue
+        key = category if category in stats else "其他"
+        stats[key]["items"] += 1
+        if score >= MIN_SCORE:
+            stats[key]["ge_7"] += 1
+    for s in sets:
+        key = s.get("category_5") if isinstance(s, dict) else None
+        stats[key if key in stats else "其他"]["selected"] += 1
+    return stats
+
+
+def _read_history_records(path):
+    """容错读 score_distribution.json 的 records 列表：文件缺失/损坏返回 []。"""
+    try:
+        with open(path, encoding="utf-8") as f:
+            history = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return []
+    records = history.get("records", []) if isinstance(history, dict) else []
+    return [r for r in records if isinstance(r, dict)]
+
+
+def column_zero_alerts(records, days=COLUMN_ZERO_ALERT_DAYS, today=None):
+    """栏目连续零入选告警：返回 [栏目, ...]。
+
+    只看以 today 结尾的连续自然日：某栏目在最近 days 天（含当日）每天
+    的 per_column.selected 均为 0 即告警。缺某日记录、或当日记录缺
+    per_column（旧记录），都算“无法确认”，断开连续计数，不误报。
+    """
+    if today is None:
+        today = datetime.date.today()
+    by_date = {}
+    for r in records:
+        per_column = r.get("per_column")
+        if not isinstance(per_column, dict):
+            continue
+        try:
+            d = datetime.date.fromisoformat(str(r.get("date", "")))
+        except ValueError:
+            continue
+        by_date[d] = per_column
+    alerts = []
+    for col in COLUMNS_5:
+        run = 0
+        for i in range(days):
+            day = today - datetime.timedelta(days=i)
+            per_column = by_date.get(day)
+            if per_column is None:
+                break
+            col_stat = per_column.get(col)
+            if not isinstance(col_stat, dict):
+                break
+            if col_stat.get("selected", 0) != 0:
+                break
+            run += 1
+        if run >= days:
+            alerts.append(col)
+    return alerts
+
+
 def filter_topics(scored):
     """硬过滤, 返回 (topics, sets, stats)。
 
@@ -241,10 +344,12 @@ def filter_topics(scored):
     失败）；有值时为 可视化可行 / 部分可行 / 不可行，原因见
     video_feasibility_reason（"文章数字 N 个，可落位模板 M 种"）。
     verified: 有分数且未被封顶为 True，被封顶为 False，无分数为 None。
-    stats: kept_sections / dropped_sections / fallback_score(None=未回退)。
+    stats: kept_sections / dropped_sections / fallback_score(None=未回退) /
+    fallback_capped_sections（干旱日回退时同档被截掉的条目数，P315 R8）。
     """
     stats = {"kept_sections": 0, "dropped_sections": 0,
-             "placeholder_dropped": 0, "fallback_score": None}
+             "placeholder_dropped": 0, "fallback_score": None,
+             "fallback_capped_sections": 0}
     with_score = [(s, v, c, src, u, cap, feas, feas_reason, t)
                   for s, v, c, src, u, cap, feas, feas_reason, t in scored
                   if s is not None]
@@ -259,6 +364,7 @@ def filter_topics(scored):
 
     kept = []  # (score, video_score, category, source, url, cap, feasibility, reason, order, topic)
     order = 0
+    fallback_kept = False  # P315 R8：干旱日回退是否已取过最高分档第 1 个条目
     for score, video_score, category, source, url, cap, feas, feas_reason, topics in with_score:
         if score < line:
             stats["dropped_sections"] += 1
@@ -270,6 +376,12 @@ def filter_topics(scored):
         if not kept_topics:
             stats["dropped_sections"] += 1
             continue
+        if stats["fallback_score"] is not None and fallback_kept:
+            # ★ P315 R8：干旱日回退只取最高分档第 1 个条目，其余同档条目
+            #   不进简报（不算 dropped_sections：它们并未低于分数线）。
+            stats["fallback_capped_sections"] += 1
+            continue
+        fallback_kept = True
         stats["kept_sections"] += 1
         for topic in kept_topics:
             kept.append((score, video_score, category, source, url, cap,
@@ -311,6 +423,8 @@ def main():
     min_score = MIN_SCORE
     fallback_score = None
     scored = []
+    column_record = None  # P315 R5：五栏目分流统计（仅正常过滤分支产出）
+    quota_record = None   # P315 R4：入选话题来源占比 + 超线告警清单
     if not files:
         print("未找到简报文件, hotspots.json 写空 topics", file=sys.stderr)
         topics = []
@@ -343,6 +457,42 @@ def main():
                   f"丢弃 {stats['dropped_sections']} 个低于 {min_score} 分的条目, "
                   f"占位标题丢弃 {stats['placeholder_dropped']} 条, "
                   f"抽取到 {len(topics)} 个话题")
+            if fallback_score is not None:
+                print(f"干旱日回退收敛: 最高分档只取第 1 个条目, "
+                      f"同档其余 {stats['fallback_capped_sections']} 个条目未进简报, "
+                      f"话题上限 {MAX_PER_ITEM} 条")
+            # ★ P315 R4：来源配额检查（入选话题 + ≥7.0 条目两口径），超线只 WARN。
+            kept_sources = [s.get("source") for s in sets]
+            ge7_sources = [src for s, _v, _c, src, *_r in scored
+                           if s is not None and s >= MIN_SCORE]
+            kept_shares = source_shares(kept_sources)
+            quota_warn = set()
+            for _label, _shares, _total in (
+                    ("入选话题", kept_shares, len(kept_sources)),
+                    ("≥7.0 条目", source_shares(ge7_sources), len(ge7_sources))):
+                if not _shares:
+                    print(f"来源配额（{_label}）: 无数据")
+                    continue
+                _line = "、".join(f"{_s} {_n} 条（{_p:.0%}）"
+                                 for _s, _n, _p in _shares)
+                print(f"来源配额（{_label}，共 {_total} 条）: {_line}")
+                for _src in quota_warnings(_shares):
+                    quota_warn.add(_src)
+                    print(f"来源配额 WARN: {_src} 占比超 "
+                          f"{SOURCE_QUOTA_WARN_PCT:.0%}（{_label}口径），"
+                          f"只告警、不删源（R4 目标：百度 <40%）")
+            quota_record = {
+                "kept_source_shares": [
+                    {"source": _s, "count": _n, "share": round(_p, 4)}
+                    for _s, _n, _p in kept_shares],
+                "source_quota_warn": sorted(quota_warn),
+            }
+            # ★ P315 R5：五栏目分流统计（当日入选数 / ≥7.0 数）。
+            column_record = column_stats(scored, sets)
+            for _col in list(COLUMNS_5) + ["其他"]:
+                _cs = column_record[_col]
+                print(f"栏目分流（{_col}）: 简报 {_cs['items']} 条、"
+                      f"≥7.0 {_cs['ge_7']} 条、入选 {_cs['selected']} 个话题")
 
     today = datetime.date.today().isoformat()
     note = ("由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。"
@@ -356,7 +506,8 @@ def main():
     if fallback_score is not None:
         # BUG-3 已修：回退时 note 必须写明回退，不能再写“已按条目分数硬过滤”。
         note += (f"【回退】当日无 {MIN_SCORE} 分以上条目，已按当日最高分档 "
-                 f"{fallback_score} 分抽取；min_score 仍为 {MIN_SCORE}，"
+                 f"{fallback_score} 分抽取（只取该档第 1 个条目、最多 3 个话题，"
+                 f"低分凑数不再出简报）；min_score 仍为 {MIN_SCORE}，"
                  f"不是 {fallback_score}，使用前请重点核实事实（干旱日规则）。"
                  f"verified=false 的条目被封顶（标题级/未证实/纯观点），"
                  f"只可按传闻/待核实口径使用。")
@@ -386,9 +537,26 @@ def main():
             "score_distribution.json",
         )
         record = build_distribution(scored, md_path=latest if files else None)
+        # ★ P315 R4/R5：配额与栏目统计随当日分布记录一并留存（该文件已由
+        #   workflow 提交回仓库，栏目连续零入选告警靠它跨日比对，不另建文件）。
+        if quota_record is not None:
+            record["kept_source_shares"] = quota_record["kept_source_shares"]
+            record["source_quota_warn"] = quota_record["source_quota_warn"]
+        if column_record is not None:
+            record["per_column"] = column_record
         update_history(dist_path, record)
         print(f"评分分布已更新 {dist_path}（{record['date']}，共 {record['total_items']} 条，"
               f"最高 {record['max_score']}，≥7.0 有 {record['count_ge_7']} 条）")
+        if column_record is not None:
+            try:
+                _alert_day = datetime.date.fromisoformat(record["date"])
+            except ValueError:
+                _alert_day = None
+            if _alert_day is not None:
+                for _col in column_zero_alerts(
+                        _read_history_records(dist_path), today=_alert_day):
+                    print(f"栏目告警: {_col} 连续 {COLUMN_ZERO_ALERT_DAYS} 日入选为 0，"
+                          f"请按取材表补源（R5）")
     except Exception as exc:  # noqa: BLE001 - 分布是观测手段，不能拦主流程
         print(f"警告: 评分分布更新失败 ({exc})，hotspots.json 不受影响", file=sys.stderr)
 
