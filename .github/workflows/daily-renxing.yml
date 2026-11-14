@@ -58,6 +58,9 @@ jobs:
       - name: 运行爆款雷达
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          LIGHTVELA_API_KEY: ${{ secrets.LIGHTVELA_API_KEY }}
+          RUNINFRA_API_KEY: ${{ secrets.RUNINFRA_API_KEY }}
+          NVIDIA_BUILD_API_KEY: ${{ secrets.NVIDIA_BUILD_API_KEY }}
         run: uv run horizon --hours 24
 
       - name: 按北京时间重命名简报（Horizon 文件名用 UTC）
