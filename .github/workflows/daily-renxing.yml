@@ -82,10 +82,15 @@ jobs:
           ls docs/_posts/ | tail -3
 
       - name: 生成 hotspots.json（喂给公众号流程）
+        id: hotspots
         run: python tools/make_hotspots.py --summaries data/summaries --out hotspots.json
 
       - name: 提交 hotspots.json
         run: |
+          # P317：hotspots 为空即拒绝提交——上一轮好结果不得被空跑覆盖
+          # （make_hotspots 本身已在空时退出 1；此处是第二道门）。
+          python3 -c "import json, sys; sys.exit(0 if json.load(open('hotspots.json')).get('topics') else 1)" \
+            || { echo "hotspots 为空，拒绝提交"; exit 1; }
           git config user.name "renxing-radar"
           git config user.email "renxing-radar@users.noreply.github.com"
           git add hotspots.json data/score_distribution.json
@@ -112,5 +117,6 @@ jobs:
             echo "## 雷达运行失败"
             echo ""
             echo "时间：$(date +'%Y-%m-%d %H:%M %Z')"
+            echo "hotspots 步骤结果：${{ steps.hotspots.outcome }}（空简报会使该步骤直接失败，不提交、不覆盖上一次好结果）"
             echo "请到 Actions 页面查看 daily-renxing.yml 本次运行的失败步骤。"
           } >> "$GITHUB_STEP_SUMMARY"

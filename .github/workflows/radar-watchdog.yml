@@ -22,8 +22,8 @@ jobs:
   watchdog:
     runs-on: ubuntu-latest
     permissions:
-      actions: read   # 查雷达 workflow 的运行记录
-      actions: write  # 触发补跑
+      actions: write  # P317：旧版 actions 写了两次（重复键，严格解析直接失败，30+ 次全败）；
+        # 只留 write：gh run list（读）与 gh workflow run（写）都要它，write 已含读权限
     steps:
       - name: 检查并补跑
         env:
