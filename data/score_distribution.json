@@ -152,6 +152,79 @@
           "selected": 0
         }
       }
+    },
+    {
+      "date": "2026-11-16",
+      "total_items": 7,
+      "candidate_pool_total": 461,
+      "max_score": 7.0,
+      "count_ge_7": 2,
+      "count_ge_5": 7,
+      "bands": {
+        "below_5": 0,
+        "5.0-5.9": 2,
+        "6.0-6.9": 3,
+        "7.0-7.9": 2,
+        "8.0+": 0
+      },
+      "per_source_unit": "条目数（简报内带分条目，按条目计）",
+      "per_source": {
+        "百度热搜": 3,
+        "头条热榜": 1,
+        "unknown": 1,
+        "36氪24小时热榜": 1,
+        "虎嗅": 1
+      },
+      "kept_source_shares": [
+        {
+          "source": "百度热搜",
+          "count": 2,
+          "share": 0.6667,
+          "unit": "话题数（入选 hotspots 话题，按话题计）"
+        },
+        {
+          "source": "头条热榜",
+          "count": 1,
+          "share": 0.3333,
+          "unit": "话题数（入选 hotspots 话题，按话题计）"
+        }
+      ],
+      "source_quota_warn": [
+        "头条热榜",
+        "百度热搜"
+      ],
+      "per_column": {
+        "看职场": {
+          "items": 4,
+          "ge_7": 1,
+          "selected": 2
+        },
+        "带队伍": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "做生意": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "做销售": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "去创业": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "其他": {
+          "items": 3,
+          "ge_7": 1,
+          "selected": 1
+        }
+      }
     }
   ]
 }

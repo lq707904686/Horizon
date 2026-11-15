@@ -1,56 +1,101 @@
 {
-  "date": "2026-11-15",
+  "date": "2026-11-16",
   "scope": "人性台账爆款选题雷达·每日选题 (Horizon renxing profile, 图文源)",
   "queries": [
     "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"
   ],
   "topics": [
-    "英伟达员工请愿黄仁勋回归",
-    "华为赛力斯重申分工",
-    "Microsoft 365 故障 48 小时"
+    "央视曝光垃圾场侵占农田",
+    "地方政府违规操作",
+    "百万抗癌药进医保"
   ],
   "sets": [
     {
-      "topic": "英伟达员工请愿黄仁勋回归",
-      "score": 6.0,
-      "video_score": 5.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 19 个，可落位模板 5 种",
+      "topic": "央视曝光垃圾场侵占农田",
+      "score": 7.0,
+      "video_score": 8.0,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 2 种",
       "category_5": "看职场",
-      "source": "爱范儿",
-      "source_url": "https://www.ifanr.com/1689450?utm_source=rss&utm_medium=rss&utm_campaign=",
-      "source_name": "爱范儿",
-      "verified": false,
-      "cap_triggered": "标题级6分"
+      "source": "百度热搜",
+      "source_url": "https://www.baidu.com/s?wd=%E5%A4%AE%E8%A7%86%E6%9B%9D%E5%85%89%E5%BB%BA%E7%AD%91%E5%9E%83%E5%9C%BE%E4%BE%B5%E5%8D%A0%E5%9F%BA%E6%9C%AC%E5%86%9C%E7%94%B0&sa=fyb_news&rsv_dl=fyb_news",
+      "source_name": "百度热搜",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 1.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "rumor_stance": null
     },
     {
-      "topic": "华为赛力斯重申分工",
-      "score": 6.0,
-      "video_score": 5.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 19 个，可落位模板 5 种",
+      "topic": "地方政府违规操作",
+      "score": 7.0,
+      "video_score": 8.0,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 2 种",
       "category_5": "看职场",
-      "source": "爱范儿",
-      "source_url": "https://www.ifanr.com/1689450?utm_source=rss&utm_medium=rss&utm_campaign=",
-      "source_name": "爱范儿",
-      "verified": false,
-      "cap_triggered": "标题级6分"
+      "source": "百度热搜",
+      "source_url": "https://www.baidu.com/s?wd=%E5%A4%AE%E8%A7%86%E6%9B%9D%E5%85%89%E5%BB%BA%E7%AD%91%E5%9E%83%E5%9C%BE%E4%BE%B5%E5%8D%A0%E5%9F%BA%E6%9C%AC%E5%86%9C%E7%94%B0&sa=fyb_news&rsv_dl=fyb_news",
+      "source_name": "百度热搜",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 1.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "rumor_stance": null
     },
     {
-      "topic": "Microsoft 365 故障 48 小时",
-      "score": 6.0,
-      "video_score": 5.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 19 个，可落位模板 5 种",
-      "category_5": "看职场",
-      "source": "爱范儿",
-      "source_url": "https://www.ifanr.com/1689450?utm_source=rss&utm_medium=rss&utm_campaign=",
-      "source_name": "爱范儿",
+      "topic": "百万抗癌药进医保",
+      "score": 7.0,
+      "video_score": 8.0,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 2 种",
+      "category_5": "5 真分类之一",
+      "source": "头条热榜",
+      "source_url": "https://www.toutiao.com/trending/7708339893302201875/?category_name=topic_innerflow&event_type=hot_board&log_pb=%7B%22category_name%22%3A%22topic_innerflow%22%2C%22cluster_type%22%3A%2213%22%2C%22enter_from%22%3A%22click_category%22%2C%22entrance_hotspot%22%3A%22outside%22%2C%22event_type%22%3A%22hot_board%22%2C%22hot_board_cluster_id%22%3A%227708339893302201875%22%2C%22hot_board_impr_id%22%3A%2220261116070022F7648838D2E0ACC0D665%22%2C%22jump_page%22%3A%22hot_board_page%22%2C%22location%22%3A%22news_hot_card%22%2C%22page_location%22%3A%22hot_board_page%22%2C%22source%22%3A%22trending_tab%22%2C%22style_id%22%3A%2240132%22%2C%22title%22%3A%22%E5%8E%9F%E4%BB%B7%E8%B6%85%E7%99%BE%E4%B8%87%E7%9A%84CAR-T%E6%8A%97%E7%99%8C%E8%8D%AF%E8%BF%9B%E5%8C%BB%E4%BF%9D%22%7D&rank=&style_id=40132&topic_id=7708339893302201875",
+      "source_name": "头条热榜",
       "verified": false,
-      "cap_triggered": "标题级6分"
+      "cap_triggered": "未证实7分",
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 1.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 1.0
+      },
+      "evidence_level": "unconfirmed",
+      "event_group": null,
+      "rumor_stance": "传闻/待核实"
     }
   ],
   "min_score": 7.0,
-  "fallback_score": 6.0,
-  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。video_feasibility 为 null 表示未复核；“不可行”表示文章没有可上画面的数字，剧本无米下锅，选题会前先看这档。【回退】当日无 7.0 分以上条目，已按当日最高分档 6.0 分抽取（只取该档第 1 个条目、最多 3 个话题，低分凑数不再出简报）；min_score 仍为 7.0，不是 6.0，使用前请重点核实事实（干旱日规则）。verified=false 的条目被封顶（标题级/未证实/纯观点），只可按传闻/待核实口径使用。"
+  "fallback_score": null,
+  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。video_feasibility 为 null 表示未复核；“不可行”表示文章没有可上画面的数字，剧本无米下锅，选题会前先看这档。"
 }
