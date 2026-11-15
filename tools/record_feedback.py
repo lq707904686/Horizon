@@ -29,10 +29,25 @@ load_feedback.py 再按 14 天窗口聚合，给评分加权。
   时至少带 plays + completion）。只记“挑了/写了”不记效果的行，
   对加权没有帮助。
 
-补记规则（打磨方案 §五/§八 P0-10）：
-  --date 只能填当日或过去 7 天内的日期，超限即报错、不写日志。
-  补记日 = 发布日：11-28 冷启动三项按真实日期算，--date 自由填写
-  可刷窗口、补记会失真。当天挑完当天记；漏记超过 7 天的行不补。
+补记规则（打磨方案 §五/§八 P0-10，P317 放宽）：
+  --date 只能填当日或过去 30 天内的日期，超限即报错、不写日志。
+  P317 放宽原因：7 天窗口把 11-12~11-14 的漏记锁在门外，日志自 11-11
+  起再无新行、反馈回路冻住——先把“每天记”恢复，再谈权重。
+  超 7 天的补记自动打 backfilled: true 标记（审计用）；补记日仍 =
+  发布日，--date 自由填写可刷窗口、补记会失真——标记就是防刷的账。
+  当天挑完当天记，别攒到月底。
+
+补记检查清单（视频 9/10 只差 1 条时，见 load_feedback.py 告警）：
+  1. 对照已记 rec_id（load_feedback 告警里会列出），挑其中没有的、
+     已发布的 1 集，取其发布日当 --date（不是今天）。
+  2. 视频：--kind video --rec-id REC-xx --title "标题" --plays N
+     --completion X --publish-date <发布日> --as-of <指标口径日>，
+     plays/completion 缺一不可；有 3 秒播放量再加 --plays-3s。
+  3. 公众号：--status 已选/已写/爆款/明确弃/扑街 + --reads（有
+     效果时必填；10 条全是 +1、reads 全 null 的行对加权没帮助）。
+  4. 跑完再验：python tools/load_feedback.py --window 14
+     --log data/feedback_log.jsonl --prompt profiles/renxing/analysis.md
+     ——视频行满 10 条即注入视频段，告警消失才算通。
 
 用法：
   python tools/record_feedback.py --date 2026-11-07 \\
@@ -73,22 +88,34 @@ def video_result_score(completion_pct):
     return -3
 
 
-# 补记窗口（打磨方案 §五/§八 P0-10）：--date 只许填当日或过去 7 天内。
-RECORD_DATE_MAX_AGE_DAYS = 7
+# 补记窗口（打磨方案 §五/§八 P0-10，P317 由 7 天放宽到 30 天）：
+# 7 天窗口把漏记 3 天以上的行锁在门外，日志冻住、回路不开。
+# 超过 7 天的补记打 backfilled 标记（见 main），窗口放宽不等于免审。
+RECORD_DATE_MAX_AGE_DAYS = 30
+# 超过此天数的补记行打 backfilled: true 标记（审计用）。
+BACKFILL_MARK_AFTER_DAYS = 7
+
+
+def record_age_days(date_str, today=None):
+    """--date 距今天的天数（负数 = 未来日期，None = 格式错误）。"""
+    try:
+        record_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError:
+        return None
+    today = today or datetime.now().date()
+    return (today - record_date).days
 
 
 def validate_record_date(date_str, today=None):
     """校验 --date：合规则返回 None，否则返回错误信息字符串。
 
     补记日 = 发布日：11-28 冷启动三项按真实日期算，--date 自由填写
-    可刷窗口、补记会失真，故未来日期与超过 7 天的旧日期一律拒绝。
+    可刷窗口、补记会失真，故未来日期与超过窗口的旧日期一律拒绝。
     """
-    try:
-        record_date = datetime.strptime(date_str, "%Y-%m-%d").date()
-    except ValueError:
+    age_days = record_age_days(date_str, today=today)
+    if age_days is None:
         return f"日期格式错误：{date_str}，应为 YYYY-MM-DD"
     today = today or datetime.now().date()
-    age_days = (today - record_date).days
     if age_days < 0:
         return f"--date 不能是未来日期：{date_str}（今天是 {today.isoformat()}）"
     if age_days > RECORD_DATE_MAX_AGE_DAYS:
@@ -200,6 +227,10 @@ def main():
         "result_score": result_score,
         "logged_at": datetime.now().isoformat(timespec="seconds"),
     }
+    # P317：超 7 天的补记打标记——窗口放宽是为了把冻住的日志续上，
+    # 不是为了让人用 --date 刷窗口；backfilled 行在审计时一眼可辨。
+    if (record_age_days(args.date) or 0) > BACKFILL_MARK_AFTER_DAYS:
+        rec["backfilled"] = True
     if args.kind == "article":
         rec["status"] = args.status
         rec["reads"] = args.reads

@@ -176,7 +176,14 @@ def test_create_chained_client_parses_chain():
 
 
 def test_create_chained_client_uses_provider_defaults_without_leaking_base_url():
-    """Every heterogeneous entry gets its own connection defaults."""
+    """Every heterogeneous entry gets its own connection defaults.
+
+    P317: the entry matching the production primary keeps the primary's
+    own model / api_key_env / base_url (a custom OpenAI-compatible
+    endpoint such as bolt must not be overwritten with the enum
+    defaults gpt-4 / OPENAI_API_KEY). Every other entry still gets its
+    own enum defaults, and the primary base_url never leaks to them.
+    """
     providers = list(AIProvider)
     config = AIConfig(
         provider=AIProvider.OPENAI,
@@ -197,8 +204,12 @@ def test_create_chained_client_uses_provider_defaults_without_leaking_base_url()
     assert [entry.provider for entry in chained.configs] == providers
     for entry in chained.configs:
         defaults = AI_PROVIDER_DEFAULTS[entry.provider]
-        assert entry.model == defaults["model"]
-        assert entry.api_key_env == defaults["api_key_env"]
+        if entry.provider == config.provider:
+            assert entry.model == "custom-primary-model"
+            assert entry.api_key_env == "CUSTOM_PRIMARY_API_KEY"
+        else:
+            assert entry.model == defaults["model"]
+            assert entry.api_key_env == defaults["api_key_env"]
         expected_base_url = (
             config.base_url
             if entry.provider == config.provider
@@ -211,6 +222,33 @@ def test_create_chained_client_uses_provider_defaults_without_leaking_base_url()
         assert entry.analysis_concurrency == config.analysis_concurrency
         assert entry.enrichment_concurrency == config.enrichment_concurrency
         assert entry.languages == config.languages
+
+
+def test_create_chained_client_primary_keeps_bolt_endpoint():
+    """Production primary (openai-compatible bolt endpoint) survives chaining.
+
+    Regression: wiring provider_chain naively used to rebuild the primary
+    entry from the OPENAI enum defaults (model gpt-4, OPENAI_API_KEY),
+    which would have sent the wrong model and key to the NVIDIA endpoint.
+    """
+    config = AIConfig(
+        provider=AIProvider.OPENAI,
+        model="nvidia/nemotron-3.5-bolt-e4b",
+        api_key_env="NVIDIA_BUILD_API_KEY",
+        base_url="https://integrate.api.nvidia.com/v1",
+        provider_chain="openai,deepseek",
+    )
+    chained = _create_chained_client(config)
+
+    primary, fallback = chained.configs
+    assert primary.provider == AIProvider.OPENAI
+    assert primary.model == "nvidia/nemotron-3.5-bolt-e4b"
+    assert primary.api_key_env == "NVIDIA_BUILD_API_KEY"
+    assert primary.base_url == "https://integrate.api.nvidia.com/v1"
+    assert fallback.provider == AIProvider.DEEPSEEK
+    assert fallback.model == "deepseek-chat"
+    assert fallback.api_key_env == "DEEPSEEK_API_KEY"
+    assert fallback.base_url == "https://api.deepseek.com"
 
 
 def test_create_chained_client_preserves_custom_azure_and_common_settings():
@@ -269,3 +307,84 @@ def test_create_chained_client_rejects_unknown_provider():
     )
     with pytest.raises(ValueError, match="Unsupported AI provider in chain"):
         _create_chained_client(config)
+
+
+# --- P317: per-attempt timeout on the chain ---
+
+class _SlowClient:
+    """Hangs forever unless cancelled (simulates a slow-but-not-failing provider)."""
+
+    def __init__(self):
+        self.calls = 0
+
+    async def complete(self, system, user, temperature=None, max_tokens=None):
+        self.calls += 1
+        await asyncio.sleep(60)
+        return "too late"
+
+
+def test_chained_client_timeout_falls_back_to_next_provider():
+    """A hung first provider falls back instead of eating the job budget."""
+    cfg1 = _make_config(AIProvider.OPENAI)
+    cfg2 = _make_config(AIProvider.OLLAMA)
+    slow = _SlowClient()
+    fast = _DummyClient(result="fallback ok")
+
+    chained = ChainedAIClient([cfg1, cfg2], clients=[slow, fast],
+                              attempt_timeout=0.05)
+    result = asyncio.run(chained.complete("sys", "usr"))
+
+    assert result == "fallback ok"
+    assert slow.calls == 1
+    assert len(fast.calls) == 1
+
+
+def test_chained_client_timeout_on_last_provider_raises():
+    """When every provider times out, the run fails loudly (no silent hang)."""
+    cfg1 = _make_config(AIProvider.OPENAI)
+    cfg2 = _make_config(AIProvider.OLLAMA)
+
+    chained = ChainedAIClient([cfg1, cfg2],
+                              clients=[_SlowClient(), _SlowClient()],
+                              attempt_timeout=0.05)
+    with pytest.raises(RuntimeError, match="All providers failed"):
+        asyncio.run(chained.complete("sys", "usr"))
+
+
+def test_chained_client_without_timeout_keeps_old_behavior():
+    """No timeout configured: a slow provider is still awaited (old behavior)."""
+    cfg1 = _make_config(AIProvider.OPENAI)
+    slow = _SlowClient()
+
+    async def _run():
+        return await asyncio.wait_for(
+            ChainedAIClient([cfg1], clients=[slow]).complete("sys", "usr"),
+            timeout=0.2,
+        )
+
+    with pytest.raises(asyncio.TimeoutError):
+        asyncio.run(_run())
+
+
+def test_create_chained_client_passes_attempt_timeout():
+    """chain_attempt_timeout_sec flows from config into the chained client."""
+    config = AIConfig(
+        provider=AIProvider.OPENAI,
+        model="m1",
+        api_key_env="K1",
+        provider_chain="openai,deepseek",
+        chain_attempt_timeout_sec=120,
+    )
+    chained = _create_chained_client(config)
+    assert chained._attempt_timeout == 120
+
+
+def test_create_chained_client_timeout_defaults_to_none():
+    config = AIConfig(
+        provider=AIProvider.OPENAI,
+        model="m1",
+        api_key_env="K1",
+        provider_chain="openai,deepseek",
+    )
+    chained = _create_chained_client(config)
+    assert chained._attempt_timeout is None

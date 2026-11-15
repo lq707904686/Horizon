@@ -3,8 +3,10 @@
 Covers 打磨方案 §五/§八 P0-10:
   - video cold-start threshold 20 records / 14 days -> 10 records / 30 days
     (load_feedback.py: VIDEO_MIN_RECORDS / VIDEO_WINDOW_DAYS)
-  - record_feedback.py --date only accepts today or the past 7 days
-    (补记日 = 发布日；--date must not be used to brush the window)
+  - record_feedback.py --date accepts today or the past 30 days
+    (P317: widened from 7 days — the 7-day window locked out the
+    11-12~11-14 backfills and froze the log; rows older than 7 days
+    are marked backfilled for audit)
 """
 import importlib.util
 import json
@@ -110,8 +112,10 @@ def test_validate_record_date():
     validate = record_feedback.validate_record_date
     assert validate("2026-11-12", today=TODAY) is None
     assert validate("2026-11-05", today=TODAY) is None  # 7 days ago: allowed
-    assert validate("2026-11-04", today=TODAY) is not None  # 8 days ago
-    assert "补记窗口" in validate("2026-11-04", today=TODAY)
+    assert validate("2026-11-04", today=TODAY) is None  # 8 days ago: allowed (P317)
+    assert validate("2026-10-13", today=TODAY) is None  # 30 days ago: allowed (P317)
+    assert validate("2026-10-12", today=TODAY) is not None  # 31 days ago
+    assert "补记窗口" in validate("2026-10-12", today=TODAY)
     assert validate("2026-11-13", today=TODAY) is not None  # future
     assert validate("2026-13-01", today=TODAY) is not None  # bad format
     assert validate("not-a-date", today=TODAY) is not None
@@ -124,7 +128,7 @@ def _run_record_feedback(monkeypatch, tmp_path, argv):
 
 
 def test_record_feedback_rejects_old_date_via_cli(monkeypatch, tmp_path):
-    old = (datetime.now() - timedelta(days=8)).strftime("%Y-%m-%d")
+    old = (datetime.now() - timedelta(days=31)).strftime("%Y-%m-%d")
     code, log_path = _run_record_feedback(
         monkeypatch,
         tmp_path,
@@ -132,6 +136,30 @@ def test_record_feedback_rejects_old_date_via_cli(monkeypatch, tmp_path):
     )
     assert code == 1
     assert not log_path.exists()  # rejected before any write
+
+
+def test_record_feedback_marks_backfill_over_7_days(monkeypatch, tmp_path):
+    old = (datetime.now() - timedelta(days=10)).strftime("%Y-%m-%d")
+    code, log_path = _run_record_feedback(
+        monkeypatch,
+        tmp_path,
+        ["--date", old, "--title", "补记选题", "--status", "已选"],
+    )
+    assert code == 0
+    rec = json.loads(log_path.read_text(encoding="utf-8").strip().splitlines()[0])
+    assert rec["backfilled"] is True
+
+
+def test_record_feedback_no_backfill_mark_within_7_days(monkeypatch, tmp_path):
+    recent = (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
+    code, log_path = _run_record_feedback(
+        monkeypatch,
+        tmp_path,
+        ["--date", recent, "--title", "近日选题", "--status", "已选"],
+    )
+    assert code == 0
+    rec = json.loads(log_path.read_text(encoding="utf-8").strip().splitlines()[0])
+    assert "backfilled" not in rec
 
 
 def test_record_feedback_rejects_future_date_via_cli(monkeypatch, tmp_path):

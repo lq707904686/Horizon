@@ -21,7 +21,9 @@
   count_ge_7 / count_ge_5  ≥7.0 / ≥5.0 的条目数
   bands                 分段计数：below_5 / 5.0-5.9 / 6.0-6.9 / 7.0-7.9 / 8.0+
   per_source           各源贡献条数（来源行取不到的记为 "unknown"，
-                       只统计已进简报的条目，不是全池贡献）
+                       只统计已进简报的条目，不是全池贡献；
+                       P317：单位是条目，与 kept_source_shares
+                       （话题）不同，见 per_source_unit 字段）
 """
 
 import argparse
@@ -79,7 +81,7 @@ def build_distribution(scored, md_path=None, date=None):
     scores = [s for s, *_ in scored if s is not None]
     bands = {b: 0 for b in BANDS}
     per_source = {}
-    for score, _v, _c, source, _u, _cap, _feas, _feas_reason, _t in scored:
+    for score, _v, _c, source, _u, _cap, _feas, _feas_reason, _t, _extra in scored:
         if score is None:
             continue
         bands[_band(score)] += 1
@@ -92,12 +94,28 @@ def build_distribution(scored, md_path=None, date=None):
         "count_ge_7": sum(1 for s in scores if s >= 7.0),
         "count_ge_5": sum(1 for s in scores if s >= 5.0),
         "bands": bands,
+        # P317：单位标注——per_source 按条目计；kept_source_shares 按话题计。
+        "per_source_unit": "条目数（简报内带分条目，按条目计）",
         "per_source": dict(sorted(per_source.items(), key=lambda kv: -kv[1])),
     }
 
 
+def _record_quality(record):
+    """同一天多条记录的好坏排序：（条目数，≥7.0 数，最高分）。"""
+    return (
+        record.get("total_items") or 0,
+        record.get("count_ge_7") or 0,
+        record.get("max_score") or 0,
+    )
+
+
 def update_history(path, record):
-    """把 record 按 date 去重追加进 path（{"records": [...]}，按日期排序）。"""
+    """把 record 按 date 去重追加进 path（{"records": [...]}，按日期排序）。
+
+    P317：保留当日最佳——同日已有记录且不比新记录差时，不覆盖。
+    11-13 的合格简报就是被迟到 4 小时 17 分的定时重跑整体覆盖成 0 条
+    的：旧记录 15 条被新记录 0 条顶掉。好记录只许被更好的记录替换。
+    """
     history = {"records": []}
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
@@ -105,7 +123,12 @@ def update_history(path, record):
                 history = json.load(f)
             except json.JSONDecodeError:
                 history = {"records": []}
-    records = [r for r in history.get("records", []) if r.get("date") != record["date"]]
+    records = history.get("records", []) if isinstance(history, dict) else []
+    records = [r for r in records if isinstance(r, dict)]
+    existing = [r for r in records if r.get("date") == record["date"]]
+    if existing and _record_quality(existing[0]) >= _record_quality(record):
+        return path
+    records = [r for r in records if r.get("date") != record["date"]]
     records.append(record)
     records.sort(key=lambda r: r.get("date", ""))
     history["records"] = records
@@ -122,7 +145,9 @@ def main():
     ap.add_argument("--out", default=None,
                     help="分布历史文件，默认 <summaries 上级>/score_distribution.json")
     args = ap.parse_args()
-    files = sorted(glob.glob(os.path.join(args.summaries, "horizon-*.md")))
+    # P317：按写入时间取最新简报（与 make_hotspots.py 同款改法）。
+    files = sorted(glob.glob(os.path.join(args.summaries, "horizon-*.md")),
+                   key=os.path.getmtime)
     if not files:
         print("未找到简报文件", file=sys.stderr)
         return 1

@@ -162,6 +162,64 @@ def _extract_cap(body: str):
     return m.group(1) if m else None
 
 
+# ★ P317：双评 / 五维 / 证据等级 / 事件组——summarizer 渲染的行
+# （旧简报无这几行时一律为 None，不破坏旧契约）。
+_DUAL_EVAL_RX = re.compile(
+    r"^双评：\s*([0-9.]+(?:\s*\+\s*[0-9.]+)?)\s*（(dual|single_eval)）\s*$", re.M)
+_DIMENSION_RX = re.compile(r"^五维：\s*(.+?)\s*$", re.M)
+_EVIDENCE_RX = re.compile(
+    r"^证据等级：\s*(title_only|unconfirmed|opinion_only|verified)\s*$", re.M)
+_EVENT_GROUP_RX = re.compile(r"^事件组：\s*(evt:[^\s（]+)", re.M)
+_DIMENSION_NAMES = ("证据", "机制", "决策", "张力", "金句")
+
+
+def _extract_dual_eval(body: str):
+    """从正文 `双评：7 + 9（dual）` 行取 (score_rounds|None, dual_eval|None)。"""
+    m = _DUAL_EVAL_RX.search(body)
+    if not m:
+        return None, None
+    try:
+        rounds = [float(x) for x in m.group(1).split("+")]
+    except ValueError:
+        return None, None
+    if not rounds or len(rounds) > 2 or any(r < 0 or r > 10 for r in rounds):
+        return None, None
+    return rounds, m.group(2)
+
+
+def _extract_dimension_scores(body: str):
+    """从正文 `五维：证据 2 / 机制 1.5 / …` 行取 {维度: 分}|None。"""
+    m = _DIMENSION_RX.search(body)
+    if not m:
+        return None
+    scores = {}
+    for part in m.group(1).split("/"):
+        part = part.strip()
+        if not part:
+            continue
+        name, _, value = part.rpartition(" ")
+        try:
+            num = float(value)
+        except ValueError:
+            return None
+        if name not in _DIMENSION_NAMES or not 0 <= num <= 2:
+            return None
+        scores[name] = num
+    return scores or None
+
+
+def _extract_evidence_level(body: str):
+    """从正文 `证据等级：unconfirmed` 行取等级名，未写返回 None。"""
+    m = _EVIDENCE_RX.search(body)
+    return m.group(1) if m else None
+
+
+def _extract_event_group(body: str):
+    """从正文 `事件组：evt:…` 行取事件组 id，未写返回 None。"""
+    m = _EVENT_GROUP_RX.search(body)
+    return m.group(1) if m else None
+
+
 def _norm(topic: str) -> str:
     """去重用归一化: 去空格与常见标点, 避免同一话题换个写法重复进。"""
     return re.sub(r"[\s·,，。！？!?:：、\-—_()\[\]\"\"''<>#*]", "", topic)
@@ -198,7 +256,9 @@ def _block_topics(body: str):
 def extract_scored_topics(md_path):
     """返回 [(score|None, video_score|None, category|None, source|None,
     url|None, cap|None, feasibility|None, feasibility_reason|None,
-    [topics]), ...], 每项对应简报里的一个条目。"""
+    [topics], extra), ...], 每项对应简报里的一个条目。
+    extra 是 P317 详情 dict：score_rounds / dual_eval / dimension_scores /
+    evidence_level / event_group（旧简报无对应行时值为 None）。"""
     with open(md_path, encoding="utf-8") as f:
         text = _unescape(f.read())
     scored = []
@@ -207,10 +267,17 @@ def extract_scored_topics(md_path):
         if not topics:
             continue
         feasibility, feasibility_reason = _extract_video_feasibility(heading)
+        score_rounds, dual_eval = _extract_dual_eval(body)
         scored.append((_extract_score(heading), _extract_video_score(heading),
                         _extract_category(body), _extract_source(body),
                         _extract_url(heading), _extract_cap(body),
-                        feasibility, feasibility_reason, topics))
+                        feasibility, feasibility_reason, topics, {
+                            "score_rounds": score_rounds,
+                            "dual_eval": dual_eval,
+                            "dimension_scores": _extract_dimension_scores(body),
+                            "evidence_level": _extract_evidence_level(body),
+                            "event_group": _extract_event_group(body),
+                        }))
     return scored
 
 
@@ -270,7 +337,7 @@ def column_stats(scored, sets):
     "selected": 入选话题数}}。栏目不在五栏内的（含取不到）归入 "其他"。"""
     stats = {c: {"items": 0, "ge_7": 0, "selected": 0} for c in COLUMNS_5}
     stats["其他"] = {"items": 0, "ge_7": 0, "selected": 0}
-    for score, _v, category, _src, _u, _cap, _f, _fr, _t in scored:
+    for score, _v, category, _src, _u, _cap, _f, _fr, _t, _extra in scored:
         if score is None:
             continue
         key = category if category in stats else "其他"
@@ -338,7 +405,10 @@ def filter_topics(scored):
     topics: 字符串数组（旧契约, 原样保留）。
     sets: 与 topics 同一批保留话题, 每项 {topic, score, video_score,
     video_feasibility, video_feasibility_reason, category_5, source,
-    source_url, source_name, verified, cap_triggered}。
+    source_url, source_name, verified, cap_triggered,
+    score_rounds, dual_eval, dimension_scores, evidence_level,
+    event_group, rumor_stance}（P317 新增的 6 个键：旧简报无对应行时为
+    null；rumor_stance 只在被封顶时为 "传闻/待核实"，其余为 null）。
     video_score 为 None 表示 radar run 未输出，由助理按 rubric 补评。
     video_feasibility 为 None 表示该条未复核（旧简报无此字段 / 分析
     失败）；有值时为 可视化可行 / 部分可行 / 不可行，原因见
@@ -350,8 +420,8 @@ def filter_topics(scored):
     stats = {"kept_sections": 0, "dropped_sections": 0,
              "placeholder_dropped": 0, "fallback_score": None,
              "fallback_capped_sections": 0}
-    with_score = [(s, v, c, src, u, cap, feas, feas_reason, t)
-                  for s, v, c, src, u, cap, feas, feas_reason, t in scored
+    with_score = [(s, v, c, src, u, cap, feas, feas_reason, t, e)
+                  for s, v, c, src, u, cap, feas, feas_reason, t, e in scored
                   if s is not None]
     if not with_score:
         return None, None, stats  # 调用方回退旧行为
@@ -362,10 +432,10 @@ def filter_topics(scored):
         line = tiers[0]  # 当日无过线条目: 回退到最高分档
         stats["fallback_score"] = line
 
-    kept = []  # (score, video_score, category, source, url, cap, feasibility, reason, order, topic)
+    kept = []  # (score, video_score, category, source, url, cap, feasibility, reason, order, topic, extra)
     order = 0
     fallback_kept = False  # P315 R8：干旱日回退是否已取过最高分档第 1 个条目
-    for score, video_score, category, source, url, cap, feas, feas_reason, topics in with_score:
+    for score, video_score, category, source, url, cap, feas, feas_reason, topics, extra in with_score:
         if score < line:
             stats["dropped_sections"] += 1
             continue
@@ -385,13 +455,13 @@ def filter_topics(scored):
         stats["kept_sections"] += 1
         for topic in kept_topics:
             kept.append((score, video_score, category, source, url, cap,
-                         feas, feas_reason, order, topic))
+                         feas, feas_reason, order, topic, extra))
             order += 1
 
     seen = set()
     topics = []
     sets = []
-    for score, video_score, category, source, url, cap, feas, feas_reason, _, topic in sorted(
+    for score, video_score, category, source, url, cap, feas, feas_reason, _, topic, extra in sorted(
             kept, key=lambda x: (-x[0], x[8])):
         if _norm(topic) in seen:
             continue
@@ -409,6 +479,15 @@ def filter_topics(scored):
             "source_name": source,
             "verified": (cap is None),
             "cap_triggered": cap,
+            # P317：双评 / 五维 / 证据等级 / 事件组进 sets（旧简报无对应行时为 null）。
+            "score_rounds": extra.get("score_rounds"),
+            "dual_eval": extra.get("dual_eval"),
+            "dimension_scores": extra.get("dimension_scores"),
+            "evidence_level": extra.get("evidence_level"),
+            "event_group": extra.get("event_group"),
+            # P317：传闻口径单独字段——被封顶（verified=false）的条目只能按
+            # 传闻/待核实拍，不能只靠 video_reason 文字；未封顶为 null。
+            "rumor_stance": "传闻/待核实" if cap is not None else None,
         })
     return topics, sets, stats
 
@@ -419,7 +498,9 @@ def main():
     ap.add_argument("--out", required=True, help="输出的 hotspots.json 路径")
     args = ap.parse_args()
 
-    files = sorted(glob.glob(os.path.join(args.summaries, "horizon-*.md")))
+    # P317：按写入时间取最新简报——文件名排序在跨日重命名/迟到重跑后会取错。
+    files = sorted(glob.glob(os.path.join(args.summaries, "horizon-*.md")),
+                   key=os.path.getmtime)
     min_score = MIN_SCORE
     fallback_score = None
     scored = []
@@ -444,7 +525,10 @@ def main():
                      "video_feasibility_reason": None,
                      "category_5": None, "source": None, "source_url": None,
                      "source_name": None, "verified": None,
-                     "cap_triggered": None} for t in topics]
+                     "cap_triggered": None,
+                     "score_rounds": None, "dual_eval": None,
+                     "dimension_scores": None, "evidence_level": None,
+                     "event_group": None, "rumor_stance": None} for t in topics]
             # BUG-2 已修：回退时 min_score 不再改写为 0.0。
             # 无分数可滤时 min_score 仍为 MIN_SCORE，fallback_score 保持 None，
             # 下游以“topics 全量、min_score 7.0”识别这是一次格式回退。
@@ -483,7 +567,10 @@ def main():
                           f"只告警、不删源（R4 目标：百度 <40%）")
             quota_record = {
                 "kept_source_shares": [
-                    {"source": _s, "count": _n, "share": round(_p, 4)}
+                    {"source": _s, "count": _n, "share": round(_p, 4),
+                     # P317：单位标注——kept_source_shares 按话题计，与
+                     # per_source（按条目计）单位不同，不要再混读。
+                     "unit": "话题数（入选 hotspots 话题，按话题计）"}
                     for _s, _n, _p in kept_shares],
                 "source_quota_warn": sorted(quota_warn),
             }
@@ -493,6 +580,14 @@ def main():
                 _cs = column_record[_col]
                 print(f"栏目分流（{_col}）: 简报 {_cs['items']} 条、"
                       f"≥7.0 {_cs['ge_7']} 条、入选 {_cs['selected']} 个话题")
+
+    if not topics:
+        # P317 硬门：hotspots 为空即失败——空简报不再静默 success，不写空
+        # 文件、不更新分布、不走到提交步，上一次好结果原样保留（11-13
+        # 迟到重跑与 11-14 两跑空简报的根因：空照常提交、job 照常 success）。
+        print("错误：hotspots 为空（无简报文件，或当日无可抽取话题），"
+              "拒绝写空文件", file=sys.stderr)
+        return 1
 
     today = datetime.date.today().isoformat()
     note = ("由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。"
@@ -560,6 +655,8 @@ def main():
     except Exception as exc:  # noqa: BLE001 - 分布是观测手段，不能拦主流程
         print(f"警告: 评分分布更新失败 ({exc})，hotspots.json 不受影响", file=sys.stderr)
 
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

@@ -17,6 +17,11 @@ _MARKDOWN_SPECIAL = re.compile(r"([\\`*_{}\[\]()<>#!|])")
 _MARKDOWN_BLOCK_START = re.compile(r"(?m)^( {0,3})(>|[-+] |\d+[.)] )")
 _URL_SAFE_CHARS = ":/?#[]@!$&'*,;=~%+"
 
+# 占位标题拦截（P317，与 src/ai/enricher.py 的护栏、tools/make_hotspots.py
+# 的 _PLACEHOLDER_RX 同款标记）：简报正文层再拦一道——11-12 简报正文仍有
+# 2 个占位标题条目（hotspots 层拦住了话题，正文没拦住条目）。
+_PLACEHOLDER_TITLE_RX = re.compile(r"选题单|选题台账|待填|占位|⚠\s*待填")
+
 
 def _escape_markdown(value: object) -> str:
     """Render untrusted text literally while retaining its readable content."""
@@ -114,6 +119,8 @@ class SummaryGroupView:
 class DailySummaryView:
     groups: List[SummaryGroupView]
     item_count: int
+    # P317：build_view 拦掉的占位标题条目数（不进正文、不进目录，只计数）。
+    placeholder_dropped: int = 0
 
 
 class DailySummarizer:
@@ -165,24 +172,35 @@ class DailySummarizer:
 
         groups = []
         global_index = 1
+        placeholder_dropped = 0
         for profile_id, profile_items in ordered_groups:
-            view_items = []
-            for index, item in enumerate(profile_items, start=1):
+            # P317：先收有效条目再编号——占位标题条目直接丢弃（不进正文、
+            # 不进目录、不占序号），group_count 按拦后实数算，webhook
+            # 的“第 index/total 条”才不会把拦掉的条目也算进去。
+            kept = []
+            for item in profile_items:
                 artifact = (
                     item.processing.artifacts.get(language)
                     if item.processing
                     else None
                 )
                 analysis = item.processing.analysis if item.processing else None
+                title = normalize_language(
+                    artifact.title if artifact else item.title, language
+                )
+                if _PLACEHOLDER_TITLE_RX.search(title):
+                    placeholder_dropped += 1
+                    continue
+                kept.append((item, title, analysis))
+            view_items = []
+            for index, (item, title, analysis) in enumerate(kept, start=1):
                 view_items.append(
                     SummaryItemView(
                         item=item,
                         index=index,
                         global_index=global_index,
-                        group_count=len(profile_items),
-                        title=normalize_language(
-                            artifact.title if artifact else item.title, language
-                        ),
+                        group_count=len(kept),
+                        title=title,
                         score=(
                             analysis.score
                             if analysis and analysis.score is not None
@@ -201,7 +219,11 @@ class DailySummarizer:
                     items=view_items,
                 )
             )
-        return DailySummaryView(groups=groups, item_count=len(items))
+        return DailySummaryView(
+            groups=groups,
+            item_count=len(items),
+            placeholder_dropped=placeholder_dropped,
+        )
 
     @staticmethod
     def _item_anchor(profile_id: str, index: int) -> str:
@@ -233,15 +255,22 @@ class DailySummarizer:
         if not items:
             return self._generate_empty_summary(date, total_fetched, labels)
 
+        view = self.build_view(items, language)
+        # P317：头行“筛选出 N 条”按拦后实数写，否则头行数与正文条目数对不上。
+        rendered_count = sum(len(group.items) for group in view.groups)
         header = (
             f"# {labels['header']} - {date}\n\n"
-            f"> {labels['selected_items'].format(total=total_fetched, selected=len(items))}\n\n"
-            "---\n\n"
+            f"> {labels['selected_items'].format(total=total_fetched, selected=rendered_count)}\n\n"
         )
+        if view.placeholder_dropped:
+            header += (
+                f"> 注：本轮另有 {view.placeholder_dropped} 条占位标题条目未进简报"
+                "（标题护栏已拦截）。\n\n"
+            )
+        header += "---\n\n"
 
         toc_sections = []
         body_sections = []
-        view = self.build_view(items, language)
         for group in view.groups:
             profile_name = _escape_markdown(group.name)
             if language == "zh":
@@ -286,21 +315,23 @@ class DailySummarizer:
         if not items:
             return self._generate_empty_summary(date, total_fetched, labels)
 
+        view = self.build_view(items, language)
+        # P317：头行按拦后实数写（build_view 拦掉的占位标题条目不计入）。
+        rendered_count = sum(len(group.items) for group in view.groups)
         if language == "zh":
             header = (
                 f"# {labels['header']} - {date}\n\n"
-                f"> 从 {total_fetched} 条内容中筛选出 {len(items)} 条重要资讯。\n\n"
+                f"> 从 {total_fetched} 条内容中筛选出 {rendered_count} 条重要资讯。\n\n"
                 "下面会按内容逐条发送详情，你可以只看感兴趣的标题。\n\n"
             )
         else:
             header = (
                 f"# {labels['header']} - {date}\n\n"
-                f"> Selected {len(items)} important items from {total_fetched} fetched items.\n\n"
+                f"> Selected {rendered_count} important items from {total_fetched} fetched items.\n\n"
                 "Details will be sent item by item so you can read only the topics you care about.\n\n"
             )
 
         sections = []
-        view = self.build_view(items, language)
         for group in view.groups:
             profile_name = _escape_markdown(group.name)
             if language == "zh":
@@ -455,6 +486,30 @@ class DailySummarizer:
             # 封顶触发单独成行，供 tools/make_hotspots.py 判定 verified，
             # 也让读简报的人一眼看到该条被封顶的原因。
             lines.append(f"封顶：{analysis.cap_triggered}")
+        # P317：双评 / 五维 / 证据等级进简报，供下游复核均值由哪两轮构成
+        # （双评 7.0 可能是 7.0+7.0，也可能是 9.0+5.0 的均值——只给均值
+        # 无法区分；这几行让 make_hotspots.py 能原样抽进 sets）。
+        if analysis and analysis.score_rounds:
+            rounds = " + ".join(f"{r:g}" for r in analysis.score_rounds)
+            lines.append(f"双评：{rounds}（{analysis.dual_eval or 'dual'}）")
+        if analysis and analysis.dimension_scores:
+            dims = " / ".join(
+                f"{name} {value:g}"
+                for name, value in analysis.dimension_scores.items()
+            )
+            lines.append(f"五维：{dims}")
+        if analysis and analysis.evidence_level is not None:
+            lines.append(f"证据等级：{analysis.evidence_level.value}")
+        if analysis and analysis.cap_triggered:
+            # 传闻口径单独成行：被封顶条目的 video_score 再高也只能按
+            # 传闻/待核实拍，make_hotspots.py 据此写 rumor_stance 字段。
+            lines.append("视频口径：传闻/待核实（只拍冲突本身，不坐实未证实数字）")
+        event_group = (item.metadata or {}).get("event_group")
+        if event_group:
+            relation = (item.metadata or {}).get("event_relation")
+            lines.append(
+                f"事件组：{event_group}" + (f"（{relation}）" if relation else "")
+            )
         if summary.strip():
             lines.extend(["", summary])
         if primary_content.strip():

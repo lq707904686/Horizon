@@ -1,5 +1,6 @@
 """AI client abstraction supporting multiple providers."""
 
+import asyncio
 import os
 import re
 from abc import ABC, abstractmethod
@@ -579,10 +580,13 @@ class ChainedAIClient(AIClient):
         configs: List[AIConfig],
         clients: Optional[List[AIClient]] = None,
         client_factory: Optional[Any] = None,
+        attempt_timeout: Optional[float] = None,
     ):
         self.configs = configs
         self._client_factory = client_factory or _create_single_client
         self._client_cache: Dict[int, AIClient] = {}
+        # P317：单次尝试超时（秒）。None = 不限（旧行为）。
+        self._attempt_timeout = attempt_timeout
         # Allow tests to inject pre-built clients directly
         if clients is not None:
             for idx, client in enumerate(clients):
@@ -604,10 +608,24 @@ class ChainedAIClient(AIClient):
         for i in range(len(self.configs)):
             try:
                 client = self._get_client(i)
-                result = await client.complete(system, user, temperature, max_tokens)
+                attempt = client.complete(system, user, temperature, max_tokens)
+                if self._attempt_timeout is not None:
+                    result = await asyncio.wait_for(attempt, self._attempt_timeout)
+                else:
+                    result = await attempt
                 if not result or not result.strip():
                     raise ValueError("Empty response from provider")
                 return result
+            except asyncio.TimeoutError as exc:
+                # P317：只慢不报错也算可回退——超时不吃掉整轮预算。
+                last_error = exc
+                if i < len(self.configs) - 1:
+                    logger.warning(
+                        "Provider %s timed out after %ss, falling back to %s...",
+                        self.configs[i].provider.value,
+                        self._attempt_timeout,
+                        self.configs[i + 1].provider.value,
+                    )
             except Exception as exc:
                 if not self._should_fallback(exc):
                     raise
@@ -649,11 +667,21 @@ def _create_chained_client(config: AIConfig) -> ChainedAIClient:
             raise ValueError(f"Unsupported AI provider in chain: {name}")
 
         defaults = AI_PROVIDER_DEFAULTS.get(provider, {})
-        base_url = config.base_url if provider == config.provider else defaults.get("base_url")
+        # P317：与生产主配置同一 provider 的链路入口，必须原样继承主配置
+        # 的 model / api_key_env / base_url——生产主站是 openai 兼容端点
+        # （bolt / LightVela 之类），枚举默认值（gpt-4 / OPENAI_API_KEY）
+        # 发到该端点上就是错的。其它链路仍取各自的枚举默认值，且主站的
+        # base_url 绝不泄漏给它们。
+        is_primary = provider == config.provider
+        base_url = config.base_url if is_primary else defaults.get("base_url")
         cfg = AIConfig(
             provider=provider,
-            model=defaults.get("model", config.model),
-            api_key_env=defaults.get("api_key_env", config.api_key_env),
+            model=config.model if is_primary else defaults.get("model", config.model),
+            api_key_env=(
+                config.api_key_env
+                if is_primary
+                else defaults.get("api_key_env", config.api_key_env)
+            ),
             base_url=base_url,
             temperature=config.temperature,
             max_tokens=config.max_tokens,
@@ -674,7 +702,9 @@ def _create_chained_client(config: AIConfig) -> ChainedAIClient:
         )
         chain_configs.append(cfg)
 
-    return ChainedAIClient(chain_configs)
+    return ChainedAIClient(
+        chain_configs, attempt_timeout=config.chain_attempt_timeout_sec
+    )
 
 
 def create_ai_client(config: AIConfig) -> AIClient:

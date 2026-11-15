@@ -45,6 +45,8 @@ WEIGHT = 0.15
 CAP = 5.0
 VIDEO_MIN_RECORDS = 10  # 视频路径冷启动门槛：30 天窗口内满 10 条视频记录即启动
 VIDEO_WINDOW_DAYS = 30  # 视频路径聚合窗口（固定，不跟 --window）
+# P317：日志应每天记——最新一行超过 2 天即告警（只喊出来，不阻塞跑雷达）。
+FEEDBACK_STALE_AFTER_DAYS = 2
 
 ARTICLE_MARKER = "## 历史反馈加权（v1.8 自动生成，勿手改）"
 VIDEO_MARKER = "## 视频反馈加权（v1.8 自动生成，勿手改）"
@@ -205,8 +207,13 @@ def strip_section(text, marker):
     return text
 
 
-def load_all_dates(log_path):
-    """整本日志覆盖的不同日期数（冷启动判断用，不只看窗口）。"""
+def load_all_dates(log_path, kinds=None):
+    """整本日志覆盖的不同日期数（冷启动判断用，不只看窗口）。
+
+    kinds 传入时只计该类记录（kind 缺失的老记录按公众号算）。
+    P317 纠正：公众号路径只计 article 行——旧版把 11-11 视频行的日期
+    也算进公众号覆盖，诊断的 5 天里有 1 天是视频的，实为 4 天。
+    """
     if not log_path.exists():
         return set()
     dates = set()
@@ -219,6 +226,8 @@ def load_all_dates(log_path):
                 rec = json.loads(line)
             except Exception:
                 continue
+            if kinds is not None and rec.get("kind", "article") not in kinds:
+                continue
             d = rec.get("date", "")
             try:
                 datetime.strptime(d, "%Y-%m-%d")
@@ -226,6 +235,36 @@ def load_all_dates(log_path):
             except Exception:
                 continue
     return dates
+
+
+def latest_log_date(log_path):
+    """整本日志最新一行的 date；日志缺失/无有效日期返回 None。"""
+    latest = None
+    if not log_path.exists():
+        return None
+    with open(log_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rec = json.loads(line)
+                d = datetime.strptime(rec.get("date", ""), "%Y-%m-%d").date()
+            except Exception:
+                continue
+            if latest is None or d > latest:
+                latest = d
+    return latest
+
+
+def missing_dates_since(last_date, today):
+    """last_date 之后、today 之前缺失的日期（最多列 10 个）。"""
+    if last_date is None:
+        return []
+    return [
+        (last_date + timedelta(days=i)).isoformat()
+        for i in range(1, (today - last_date).days)
+    ][:10]
 
 
 def main():
@@ -249,6 +288,20 @@ def main():
         r for r in load_recent(log_path, VIDEO_WINDOW_DAYS)
         if r.get("kind") == "video"
     ]
+    # P317：缺失告警——日志自 11-11 起再无新行，两条权重恒 0 却无人知晓。
+    # 只告警、不阻塞（返回码保持 0，雷达照常跑；真空窗由人补记，不由机器猜）。
+    _today = datetime.now().date()
+    _latest = latest_log_date(log_path)
+    if _latest is not None:
+        _gap = (_today - _latest).days
+        if _gap > FEEDBACK_STALE_AFTER_DAYS:
+            _missing = missing_dates_since(_latest, _today)
+            print(f"⚠ 反馈缺失告警：日志最新一行是 {_latest.isoformat()}，"
+                  f"距今天已 {_gap} 天（应每天记）。"
+                  f"缺失日期：{'、'.join(_missing) or '无'}。"
+                  "请用 tools/record_feedback.py 按发布日补记。")
+    elif not log_path.exists():
+        print("⚠ 反馈缺失告警：反馈日志不存在，请先记第一行。")
     if not records and not video_records:
         print(f"无反馈数据（{log_path} 缺失或窗口内为空），权重为 0，不改 prompt。")
         return 0
@@ -258,9 +311,10 @@ def main():
 
     article_section = None
     if article_records:
-        days_covered = len(load_all_dates(log_path))
+        days_covered = len(load_all_dates(log_path, kinds={"article"}))
         if days_covered < args.min_days:
             print(f"冷启动期：日志总覆盖仅 {days_covered} 天（需 {args.min_days} 天），"
+                  f"还差 {args.min_days - days_covered} 天（每天记 1 行以上，攒够即通），"
                   f"公众号权重为 0，不改公众号段。窗口内共 {len(article_records)} 条公众号记录。")
         else:
             tag_scores = aggregate(article_records)
@@ -276,6 +330,17 @@ def main():
         if len(video_records) < args.min_video_records:
             print(f"视频冷启动期：窗口内仅 {len(video_records)} 条视频记录"
                   f"（需 {args.min_video_records} 条），视频权重为 0，不改视频段。")
+            if len(video_records) == args.min_video_records - 1:
+                # P317：只差 1 条即通——把补 1 条的清单直接印出来，别让人再翻文档。
+                _logged = sorted({r.get("rec_id") for r in video_records
+                                  if r.get("rec_id")})
+                print("  只差 1 条即通：补 1 条视频记录即可启动——")
+                print(f"  已记 rec_id：{'、'.join(_logged) or '无'}；"
+                      "挑其中没有的、已发布的 1 集，发布日当 --date：")
+                print("  python tools/record_feedback.py --kind video --date <发布日>"
+                      " --rec-id REC-xx --title \"<标题>\" --plays N --completion X"
+                      " --publish-date <发布日> --as-of <指标口径日>")
+                print("  补完再跑本脚本验：视频段出现、告警消失才算通。")
         else:
             video_tag_scores = aggregate(video_records)
             video_section = build_video_section(video_tag_scores, VIDEO_WINDOW_DAYS,

@@ -26,8 +26,9 @@ def _load_tool_module(name):
 make_hotspots = _load_tool_module("make_hotspots")
 
 
-def _item(score, category, source, topics):
-    return (score, None, category, source, None, None, None, None, topics)
+def _item(score, category, source, topics, extra=None):
+    return (score, None, category, source, None, None, None, None, topics,
+            extra if extra is not None else {})
 
 
 # --- R8: drought-day fallback converges to the top band's first section ---

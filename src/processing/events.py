@@ -11,6 +11,18 @@ Calibration (2026-11-12, real 11-12 brief items 9/10, "离岸信托补税 1600 �
 combined similarity 0.247; unrelated items in the same brief score 0.0.
 The candidate threshold 0.10 is deliberately recall-oriented: it proposes
 the real pair with wide margin while the model disposes of false friends.
+
+P317 recheck (2026-11-14): the diagnosis quoted pair 6-9 at 0.099, just
+below the 0.10 threshold. Recomputed from the stored 11-14 brief text
+(title + rendered body) the same pair scores 0.148, above threshold, so
+the 0.099 figure — computed on unstored internal item texts — cannot be
+reproduced from repo artifacts. Threshold stays 0.10: it is a recall
+floor (the model disposes), not a verdict. Do not tighten it on one
+marginal pair; revisit only after event_group lands in hotspots and a
+few rounds of grouped data exist. The follow_up policy is likewise
+unchanged: unsure still means follow_up (keep separate), never a merge —
+tightening follow_up to near-identical titles would re-merge genuine
+follow-ups and lose the follow-up signal.
 """
 
 import re

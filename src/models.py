@@ -288,6 +288,10 @@ class AIConfig(BaseModel):
 
     provider: AIProvider
     provider_chain: Optional[str] = None
+    # P317：链式回退单次尝试超时（秒）。None = 不限（旧行为）。
+    # 供应商只慢不报错时（如 LightVela 并发下拖垮整轮），超时的尝试
+    # 直接走下一链路，不再吃掉整轮 60 分钟预算。
+    chain_attempt_timeout_sec: Optional[float] = Field(default=None, gt=0)
     model: str
     base_url: Optional[str] = None
     api_key_env: str
