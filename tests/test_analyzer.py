@@ -8,7 +8,14 @@ import pytest
 import src.ai.analyzer as analyzer_module
 from src.ai.analyzer import ContentAnalyzer
 from src.ai.prompting.analysis import analysis_system_prompt
-from src.models import ContentArtifact, ContentItem, SourceType
+from src.models import (
+    ClassificationResult,
+    ContentAnalysis,
+    ContentArtifact,
+    ContentItem,
+    ProcessingResult,
+    SourceType,
+)
 from src.processing import ProfileRegistry
 
 
@@ -487,3 +494,190 @@ def test_dual_eval_caps_apply_per_round_before_mean():
     assert analysis.score_rounds == [6.0, 8.0]
     assert analysis.score == 7.0
     assert analysis.dual_eval == "dual"
+
+
+# --- P318-2: title-level content must not ride "verified" to 7.0 ---
+# --- P318-10: subscore self-consistency ---
+# --- P318-12: batch failure-rate accounting ---
+
+
+def test_verified_short_content_is_forced_to_title_only():
+    """P318-2: 120 chars of content claiming verified is capped at 6 and
+    its evidence level is rewritten to title_only (hotlist items are
+    title + 1-2 desc lines, no extractor full text)."""
+    result = ContentAnalyzer._validate_analysis_response(
+        json.dumps(_base(9, evidence_level="verified")), content_chars=120
+    )[0]
+    assert result is not None
+    assert result.score == 6.0
+    assert result.evidence_level.value == "title_only"
+    assert result.cap_triggered == "标题级6分"
+    assert "120" in result.reason
+
+
+def test_verified_long_content_is_not_forced():
+    result = ContentAnalyzer._validate_analysis_response(
+        json.dumps(_base(9, evidence_level="verified")), content_chars=500
+    )[0]
+    assert result.score == 9
+    assert result.evidence_level.value == "verified"
+    assert result.cap_triggered is None
+
+
+def test_verified_content_at_threshold_boundary():
+    at = ContentAnalyzer._validate_analysis_response(
+        json.dumps(_base(9, evidence_level="verified")), content_chars=300
+    )[0]
+    assert at.score == 9
+    below = ContentAnalyzer._validate_analysis_response(
+        json.dumps(_base(9, evidence_level="verified")), content_chars=299
+    )[0]
+    assert below.score == 6.0
+    assert below.evidence_level.value == "title_only"
+
+
+def test_verified_unknown_length_is_not_forced():
+    """No length signal (old callers): keep the old behavior, do not guess."""
+    result = _validate(_base(9, evidence_level="verified"))
+    assert result.score == 9
+    assert result.evidence_level.value == "verified"
+
+
+def test_short_content_does_not_change_other_caps():
+    """unconfirmed short content keeps its own 7 cap, not title_only's 6."""
+    result = ContentAnalyzer._validate_analysis_response(
+        json.dumps(_base(8, evidence_level="unconfirmed")), content_chars=120
+    )[0]
+    assert result.score == 7.0
+    assert result.evidence_level.value == "unconfirmed"
+    assert result.cap_triggered == "未证实7分"
+
+
+def _full_video_subscores(**overrides):
+    subs = {"钩子张力": 4, "身份代入感": 2, "情绪冲突": 2, "可视化": 1,
+            "完播友好度": 1, "传播潜力": 2, "时效分": 0}
+    subs.update(overrides)
+    return subs
+
+
+def test_video_subscore_sum_mismatch_fails_validation():
+    """P318-10: full subscores summing to 5 against video_score 8 fail,
+    so _analyze_once routes the item to the repair round."""
+    result, failure = ContentAnalyzer._validate_analysis_response(
+        json.dumps(_base(7, evidence_level="verified", video_score=8,
+                         video_subscores=_full_video_subscores(
+                             钩子张力=1, 身份代入感=1, 情绪冲突=1,
+                             可视化=0, 完播友好度=0, 传播潜力=2, 时效分=0)))
+    )
+    assert result is None
+    assert "video_subscores" in failure
+
+
+def test_video_subscore_sum_match_passes_validation():
+    result = _validate(_base(
+        7, evidence_level="verified", video_score=12,
+        video_subscores=_full_video_subscores()))
+    assert result.video_score == 12
+
+
+def test_dimension_scores_all_zero_with_high_score_fails_validation():
+    """P318-10: five dims all 0 but score >= 7 is a direction contradiction."""
+    result, failure = ContentAnalyzer._validate_analysis_response(
+        json.dumps(_base(8, evidence_level="verified",
+                         dimension_scores={"证据": 0, "机制": 0, "决策": 0,
+                                           "张力": 0, "金句": 0}))
+    )
+    assert result is None
+    assert "五维" in failure
+
+
+def test_dimension_scores_all_zero_with_low_score_passes():
+    result = _validate(_base(
+        5, evidence_level="verified",
+        dimension_scores={"证据": 0, "机制": 0, "决策": 0, "张力": 0, "金句": 0}))
+    assert result.score == 5
+
+
+def test_analyze_batch_records_failure_rate(monkeypatch):
+    """P318-12: 2 failed of 10 items -> last_batch_failure_rate == 0.2."""
+    analyzer = ContentAnalyzer(SimpleNamespace(), PROFILES)
+    items = [_make_item(f"rss:test:fail-{i}") for i in range(10)]
+    for item in items:
+        item.processing = ProcessingResult(
+            classification=ClassificationResult(
+                profile="tech-news", method="source_override"
+            )
+        )
+    calls = {"n": 0}
+
+    async def flaky_analyze_item(item):
+        calls["n"] += 1
+        if calls["n"] <= 2:
+            raise RuntimeError("boom")
+        item.processing.analysis = ContentAnalysis(
+            score=7.0, reason="r", summary="s")
+
+    monkeypatch.setattr(analyzer, "_analyze_item", flaky_analyze_item)
+    asyncio.run(analyzer.analyze_batch(items))
+    assert analyzer.last_batch_failed == 2
+    assert analyzer.last_batch_failure_rate == pytest.approx(0.2)
+
+
+def test_analyze_batch_failure_warn_writes_step_summary(monkeypatch, tmp_path):
+    """P318-12: a >5% failure rate appends a warning to $GITHUB_STEP_SUMMARY."""
+    summary = tmp_path / "step_summary.md"
+    monkeypatch.setenv("GITHUB_STEP_SUMMARY", str(summary))
+    analyzer = ContentAnalyzer(SimpleNamespace(), PROFILES)
+    items = [_make_item(f"rss:test:fail-{i}") for i in range(10)]
+    for item in items:
+        item.processing = ProcessingResult(
+            classification=ClassificationResult(
+                profile="tech-news", method="source_override"
+            )
+        )
+
+    async def flaky_analyze_item(item):
+        if item.id.endswith("-0"):
+            raise RuntimeError("boom")
+        item.processing.analysis = ContentAnalysis(
+            score=7.0, reason="r", summary="s")
+
+    monkeypatch.setattr(analyzer, "_analyze_item", flaky_analyze_item)
+    asyncio.run(analyzer.analyze_batch(items))
+    assert analyzer.last_batch_failure_rate == pytest.approx(0.1)
+    assert "分析失败率告警" in summary.read_text(encoding="utf-8")
+
+
+def test_feedback_labels_and_opening_type_survive_validation():
+    """P318-13/P319-1: category_5/motifs/formulas/opening_type pass
+    validation and are kept on the analysis (they used to be dropped
+    by the model because the contract never carried them)."""
+    result = _validate(_base(
+        7.5, evidence_level="verified",
+        category_5=["做生意"], motifs=["既得利益", "贪怕"],
+        formulas=["数字冲击", "反直觉反转"], opening_type="热点"))
+    assert result.category_5 == ["做生意"]
+    assert result.motifs == ["既得利益", "贪怕"]
+    assert result.formulas == ["数字冲击", "反直觉反转"]
+    assert result.opening_type == "热点"
+
+
+def test_invalid_opening_type_fails_validation():
+    result, failure = ContentAnalyzer._validate_analysis_response(
+        json.dumps(_base(7, evidence_level="verified",
+                         opening_type="悬念")))
+    assert result is None
+    assert "opening_type" in failure
+
+
+def test_analysis_contract_lists_new_fields():
+    """P318-13/P319-1: the prompt contract actually asks for the fields."""
+    from src.processing import ProfileRegistry as _PR
+    from pathlib import Path as _Path
+    profiles = _PR.load(
+        _Path(__file__).resolve().parents[1] / "profiles", "tech-news")
+    prompt = analysis_system_prompt(profiles.get("tech-news"))
+    assert '"category_5"' in prompt
+    assert '"motifs"' in prompt
+    assert '"formulas"' in prompt
+    assert '"opening_type"' in prompt

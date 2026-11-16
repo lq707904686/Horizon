@@ -388,3 +388,81 @@ def test_create_chained_client_timeout_defaults_to_none():
     )
     chained = _create_chained_client(config)
     assert chained._attempt_timeout is None
+
+
+# --- P318-1: chained client exposes the primary config (concurrency) ---
+# --- P318-12: _should_fallback covers 404 / 500 / connection errors ---
+# --- P318-14: per-provider call + fallback counters ---
+
+
+def test_chained_client_exposes_primary_config():
+    """P318-1: .config is configs[0]; without it analyzer/enricher read
+    concurrency as 1 under a chain (11-16: 58m46s run, 74s from timeout)."""
+    cfg1 = _make_config(AIProvider.OPENAI)
+    cfg1.analysis_concurrency = 5
+    cfg2 = _make_config(AIProvider.DEEPSEEK)
+    chained = ChainedAIClient(
+        [cfg1, cfg2],
+        clients=[_DummyClient(result="ok"), _DummyClient(result="ok")],
+    )
+    assert chained.config is cfg1
+    assert chained.config.analysis_concurrency == 5
+
+
+def test_analyzer_concurrency_is_5_under_chained_client():
+    """P318-1: ContentAnalyzer._get_concurrency() == 5 under a chained
+    client built from a config with analysis_concurrency=5."""
+    from pathlib import Path
+
+    from src.ai.analyzer import ContentAnalyzer
+    from src.processing import ProfileRegistry
+
+    profiles = ProfileRegistry.load(
+        Path(__file__).resolve().parents[1] / "profiles", "tech-news"
+    )
+    cfg = _make_config(AIProvider.OPENAI)
+    cfg.analysis_concurrency = 5
+    chained = ChainedAIClient(
+        [cfg, _make_config(AIProvider.DEEPSEEK)],
+        clients=[_DummyClient(result="ok"), _DummyClient(result="ok")],
+    )
+    assert ContentAnalyzer(chained, profiles)._get_concurrency() == 5
+
+
+def test_fallback_count_and_per_provider_calls_are_recorded():
+    """P318-14: one 429 on the primary counts one fallback and one call
+    per provider; a clean run counts zero fallbacks."""
+    cfg1 = _make_config(AIProvider.OPENAI)
+    cfg2 = _make_config(AIProvider.OLLAMA)
+    chained = ChainedAIClient(
+        [cfg1, cfg2],
+        clients=[_DummyClient(exc=Exception("429 rate limit")),
+                 _DummyClient(result="fallback ok")],
+    )
+    assert asyncio.run(chained.complete("sys", "usr")) == "fallback ok"
+    assert chained.fallback_count == 1
+    assert chained.provider_call_counts == {"openai": 1, "ollama": 1}
+
+    chained2 = ChainedAIClient(
+        [cfg1, cfg2],
+        clients=[_DummyClient(result="ok"), _DummyClient(result="ok")],
+    )
+    asyncio.run(chained2.complete("sys", "usr"))
+    assert chained2.fallback_count == 0
+    assert chained2.provider_call_counts == {"openai": 1}
+
+
+@pytest.mark.parametrize(
+    "message", ["404 Not Found", "500 Internal Server Error",
+                "Connection refused", "connection reset by peer",
+                "request timed out"],
+)
+def test_should_fallback_on_404_500_and_connection_errors(message):
+    """P318-12: a misconfigured endpoint (404) or a dead connection must
+    fall back instead of dying in place."""
+    assert ChainedAIClient._should_fallback(Exception(message)) is True
+
+
+def test_should_not_fallback_on_plain_client_error():
+    assert ChainedAIClient._should_fallback(
+        Exception("400 bad request")) is False

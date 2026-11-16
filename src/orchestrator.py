@@ -1,6 +1,8 @@
 """Main orchestrator coordinating the entire workflow."""
 
 import asyncio
+import json
+import time
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -33,7 +35,7 @@ from .ai.summarizer import DailySummarizer
 from .ai.enricher import ContentEnricher, EnrichmentBatchResult
 from .ai.tokens import get_usage_snapshot
 from .processing import ProfileRegistry
-from .processing.events import propose_event_candidates
+from .processing.events import propose_event_candidates, text_similarity
 from .processing.tools import ToolRegistry
 
 
@@ -90,6 +92,8 @@ class BalancedDigestResult:
     group_counts: Dict[str, int] = field(default_factory=dict)
     group_limits: Dict[str, Optional[int]] = field(default_factory=dict)
     duplicate_categories: List[str] = field(default_factory=list)
+    # P319-3：栏目软配额换入换出的条数（0 = 未触发或无可换条目）。
+    rebalanced_count: int = 0
 
 
 @dataclass
@@ -112,6 +116,8 @@ class SourceFetchOutcome:
     status: Literal["success", "empty", "failure"]
     items: List[ContentItem] = field(default_factory=list)
     error: Optional[str] = None
+    # P318-6：单源抓取耗时（秒），进 fetch_report.json 供归因。
+    duration_sec: Optional[float] = None
 
     def to_dict(self) -> Dict[str, object]:
         result: Dict[str, object] = {
@@ -121,6 +127,8 @@ class SourceFetchOutcome:
         }
         if self.error is not None:
             result["error"] = self.error
+        if self.duration_sec is not None:
+            result["duration_sec"] = round(self.duration_sec, 2)
         return result
 
 
@@ -166,6 +174,78 @@ class FetchReport:
             "item_count": sum(len(outcome.items) for outcome in self.outcomes),
             "sources": [outcome.to_dict() for outcome in self.outcomes],
         }
+
+
+# --- P318-9: cross-run event memory (data/event_history.json) ---
+# Each entry: {title, summary, event_group, time_anchor, date (ISO UTC)}.
+# The 48h/24h decay rule used to be docstring-only ("no persistent event
+# store"); the store now exists. Scope is deliberately narrow: a new item
+# matching a 48h entry is tagged follow_up and loses 1 point — no merging.
+# The 24h weight-halving half of the rule is NOT implemented; both halves
+# currently cost the same 1 point (see cluster_events).
+EVENT_HISTORY_MAX_ENTRIES = 200
+EVENT_HISTORY_WINDOW_HOURS = 48
+EVENT_HISTORY_SIMILARITY = 0.10
+EVENT_HISTORY_FOLLOW_UP_PENALTY = 1.0
+
+
+def load_event_history(path) -> List[dict]:
+    """Tolerant read of the event-history file: missing/corrupt -> []."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return []
+    if not isinstance(data, dict):
+        return []
+    entries = data.get("events", [])
+    return [e for e in entries if isinstance(e, dict)]
+
+
+def save_event_history(path, events: List[dict]) -> None:
+    """Write the event-history file, keeping only the newest entries."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(
+            {"events": events[-EVENT_HISTORY_MAX_ENTRIES:]},
+            f, ensure_ascii=False, indent=2,
+        )
+        f.write("\n")
+
+
+def find_history_match(item: ContentItem, history: List[dict], now: datetime,
+                       *, window_hours: int = EVENT_HISTORY_WINDOW_HOURS,
+                       threshold: float = EVENT_HISTORY_SIMILARITY):
+    """Return the closest 48h history entry similar to ``item``, else None.
+
+    Similarity is the same character n-gram score the in-run proposer
+    uses (processing/events.text_similarity), threshold 0.10.
+    """
+    analysis = item.processing.analysis if item.processing else None
+    title = item.title or ""
+    body = (
+        (analysis.summary if analysis and analysis.summary else None)
+        or item.content
+        or ""
+    )
+    best = None
+    best_sim = 0.0
+    for entry in history:
+        try:
+            seen = datetime.fromisoformat(str(entry.get("date", "")))
+        except ValueError:
+            continue
+        if seen.tzinfo is None:
+            seen = seen.replace(tzinfo=timezone.utc)
+        age_hours = (now - seen).total_seconds() / 3600
+        if age_hours < 0 or age_hours > window_hours:
+            continue
+        sim = text_similarity(
+            title, body, entry.get("title") or "", entry.get("summary") or ""
+        )
+        if sim >= threshold and sim > best_sim:
+            best, best_sim = entry, sim
+    return best
 
 
 class HorizonOrchestrator:
@@ -224,6 +304,9 @@ class HorizonOrchestrator:
             else None
         )
         self.last_fetch_report: Optional[FetchReport] = None
+        # P318-14：本轮建过的 AI 客户端（分析/富化各一个链式客户端），
+        # run() 末尾据此汇总分 provider 调用/回退次数。
+        self._ai_clients: List = []
 
     async def run(self, force_hours: int = None) -> None:
         """Execute the complete workflow.
@@ -277,6 +360,8 @@ class HorizonOrchestrator:
 
             # 4. Analyze with AI
             analyzed_items = await self.analyze_items(merged_items)
+            # P318-6：漏斗的 analyzed 数补进 fetch_report.json。
+            self._update_fetch_report(analyzed=len(merged_items))
             self.console.print(
                 f"{self.icons['ai']} Analyzed {len(analyzed_items)} items with AI\n"
             )
@@ -381,6 +466,28 @@ class HorizonOrchestrator:
                 f"[bold green]{self.icons['success']} "
                 "Horizon completed successfully![/bold green]"
             )
+            # P318-14：回退链生产可见性——分 provider 调用/回退次数。
+            # 第一次真实回退即被看见（此前回退零生产证明）。
+            call_counts: Dict[str, int] = {}
+            fallback_total = 0
+            for _client in getattr(self, "_ai_clients", []) or []:
+                for _provider, _n in (
+                    getattr(_client, "provider_call_counts", None) or {}
+                ).items():
+                    call_counts[_provider] = call_counts.get(_provider, 0) + _n
+                fallback_total += getattr(_client, "fallback_count", 0) or 0
+            if call_counts:
+                calls_text = "、".join(
+                    f"{provider} {n} 次"
+                    for provider, n in sorted(call_counts.items())
+                )
+                fallback_text = (
+                    f"；回退 {fallback_total} 次" if fallback_total else "；无回退"
+                )
+                self.console.print(
+                    f"\n{self.icons['detail']} Provider 调用："
+                    f"{calls_text}{fallback_text}"
+                )
             usage = get_usage_snapshot()
             if usage.total_tokens > 0:
                 self.console.print(
@@ -422,6 +529,106 @@ class HorizonOrchestrator:
             hours = self.config.collection.time_window_hours
             since = datetime.now(timezone.utc) - timedelta(hours=hours)
         return since
+
+    def _remember_ai_client(self, client) -> None:
+        """P318-14：记下本轮建过的 AI 客户端，供 run() 末尾汇总调用量。
+        测试替身（无 __init__）也能调：缺 _ai_clients 时现建。"""
+        clients = getattr(self, "_ai_clients", None)
+        if clients is None:
+            clients = []
+            self._ai_clients = clients
+        clients.append(client)
+
+    def _event_history_path(self):
+        """P318-9：事件库路径（storage.data_dir 下）；无 storage 时为 None
+        （测试替身走这条，跨轮记忆静默跳过）。"""
+        storage = getattr(self, "storage", None)
+        data_dir = getattr(storage, "data_dir", None)
+        if data_dir is None:
+            return None
+        return Path(data_dir) / "event_history.json"
+
+    def _append_event_history(self, items: List[ContentItem]) -> None:
+        """P318-9：把本轮入选条目追加进事件库（标题 + 摘要 + event_group
+        + time_anchor + 日期）。同标题同日不重复记；无 storage 时跳过。"""
+        path = self._event_history_path()
+        if path is None:
+            return
+        try:
+            history = load_event_history(path)
+            today = datetime.now(timezone.utc)
+            seen_keys = {
+                (e.get("title"), str(e.get("date", ""))[:10]) for e in history
+            }
+            for item in items:
+                key = (item.title, today.strftime("%Y-%m-%d"))
+                if key in seen_keys:
+                    continue
+                seen_keys.add(key)
+                analysis = item.processing.analysis if item.processing else None
+                history.append({
+                    "title": item.title,
+                    "summary": (
+                        (analysis.summary if analysis and analysis.summary else None)
+                        or (item.content or "")[:500]
+                    ),
+                    "event_group": (item.metadata or {}).get("event_group"),
+                    "time_anchor": analysis.time_anchor if analysis else None,
+                    "date": today.isoformat(),
+                })
+            save_event_history(path, history)
+        except OSError as exc:
+            self.console.print(
+                f"[yellow]警告：事件库写失败 ({exc})，跨轮记忆本轮未留存[/yellow]"
+            )
+
+    def _save_fetch_report(self) -> None:
+        """P318-6：把 FetchReport 写 data/fetch_report.json（每源抓取量/
+        成功/失败/耗时），随 hotspots 一起提交——池子再缩水时 24 小时内
+        可定位到源。写失败只告警，不拦本轮。"""
+        report = getattr(self, "last_fetch_report", None)
+        if report is None:
+            return
+        storage = getattr(self, "storage", None)
+        data_dir = getattr(storage, "data_dir", None)
+        path = (
+            Path(data_dir) / "fetch_report.json"
+            if data_dir is not None
+            else Path("data/fetch_report.json")
+        )
+        try:
+            data = report.to_dict()
+            data["date"] = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+                f.write("\n")
+        except OSError as exc:
+            self.console.print(
+                f"[yellow]警告：fetch_report 写失败 ({exc})[/yellow]"
+            )
+
+    def _update_fetch_report(self, **extra) -> None:
+        """P318-6：给已落盘的 fetch_report.json 补键（如 analyzed），
+        文件不存在时跳过（不补写一份只有 analyzed 的空报告）。"""
+        storage = getattr(self, "storage", None)
+        data_dir = getattr(storage, "data_dir", None)
+        path = (
+            Path(data_dir) / "fetch_report.json"
+            if data_dir is not None
+            else Path("data/fetch_report.json")
+        )
+        try:
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
+            if not isinstance(data, dict):
+                return
+            data.update(extra)
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+                f.write("\n")
+        except (OSError, json.JSONDecodeError):
+            return
 
     async def fetch_all_sources(self, since: datetime) -> List[ContentItem]:
         """Fetch content from all configured sources.
@@ -504,6 +711,8 @@ class HorizonOrchestrator:
             # Fetch all concurrently
             outcomes = await asyncio.gather(*tasks)
             self.last_fetch_report = FetchReport(outcomes=list(outcomes))
+            # P318-6：抓取量与漏斗留存——FetchReport 只打印的日子结束了。
+            self._save_fetch_report()
 
             # Flatten successful and empty outcomes; failures remain in the report.
             all_items: List[ContentItem] = []
@@ -526,6 +735,7 @@ class HorizonOrchestrator:
             SourceFetchOutcome: Named fetch result and diagnostics
         """
         self.console.print(f"{self.icons['fetch']} Fetching from {name}...")
+        started = time.monotonic()
         try:
             items = await scraper.fetch(since)
         except Exception as exc:
@@ -535,6 +745,7 @@ class HorizonOrchestrator:
                 source_name=name,
                 status="failure",
                 error=error,
+                duration_sec=time.monotonic() - started,
             )
 
         self.console.print(f"   Found {len(items)} items from {name}")
@@ -551,6 +762,7 @@ class HorizonOrchestrator:
             source_name=name,
             status="success" if items else "empty",
             items=items,
+            duration_sec=time.monotonic() - started,
         )
 
     @staticmethod
@@ -655,14 +867,47 @@ class HorizonOrchestrator:
 
         Heat rule, in-run part: a merged same-event group survives as one
         item, so that event's heat is counted once, from one source. The
-        cross-run part (48h: one independent source per event; 24h: weight
-        halved) is NOT implemented here — there is no persistent event
-        store to compare a new run against (``src/processing/history.py``
-        is a read-only BM25 search over past digests). The ``event_group``
-        tags written here are the foundation a future event-history file
-        would key on; do not claim the decay rule until that store exists.
+        cross-run part is P318-9: new items are first compared against the
+        persistent event store (``data/event_history.json``) — a match
+        within 48h is tagged ``follow_up`` and loses 1 point. No merging
+        across runs (only marking + penalty); the 24h weight-halving half
+        of the decay rule is still not implemented (both halves cost the
+        same 1 point for now). The ``event_group`` tags written here are
+        what the history file keys on.
         """
+        # P318-9：跨轮事件记忆——先拿 48h 事件库比对：相似度 ≥0.10 的新条目
+        # 标 follow_up、分 −1（只标不合并；24h 内权重减半未做，与 48h 同策）。
+        # 无 storage（测试替身）时跳过，不拦本轮。
+        history_path = self._event_history_path()
+        history = (
+            load_event_history(history_path) if history_path is not None else []
+        )
+        if history:
+            now = datetime.now(timezone.utc)
+            for item in items:
+                match = find_history_match(item, history, now)
+                if match is None:
+                    continue
+                analysis = item.processing.analysis if item.processing else None
+                if analysis is not None and analysis.score is not None:
+                    analysis.score = max(
+                        analysis.score - EVENT_HISTORY_FOLLOW_UP_PENALTY, 0.0
+                    )
+                item.metadata["event_group"] = (
+                    match.get("event_group")
+                    or f"evt:history:{(match.get('title') or '')[:20]}"
+                )
+                item.metadata["event_relation"] = "follow_up"
+                item.metadata["event_history_match"] = match.get("title")
+                if log:
+                    self.console.print(
+                        "   [dim]event-history: "
+                        f"[{item.title[:40]}] 与 48h 内事件"
+                        f"「{(match.get('title') or '')[:40]}」相似，"
+                        "标 follow_up、分 −1[/dim]"
+                    )
         if len(items) <= 1:
+            self._append_event_history(items)
             return items
 
         from .ai.prompting.deduplication import EVENT_CLUSTER_SYSTEM, EVENT_CLUSTER_USER
@@ -670,6 +915,7 @@ class HorizonOrchestrator:
 
         groups = propose_event_candidates(items)
         if not groups:
+            self._append_event_history(items)
             return items
 
         lines = []
@@ -702,6 +948,7 @@ class HorizonOrchestrator:
                 self.console.print(
                     f"[yellow]  event-cluster: model verdict failed ({e}), keeping items[/yellow]"
                 )
+            self._append_event_history(items)
             return items
 
         verdict_by_group = {}
@@ -752,7 +999,9 @@ class HorizonOrchestrator:
                         f"   [dim]event-cluster: group {group} is a follow-up, kept with {event_id}[/dim]"
                     )
 
-        return [item for i, item in enumerate(items) if i not in drop_indices]
+        result = [item for i, item in enumerate(items) if i not in drop_indices]
+        self._append_event_history(result)
+        return result
 
     async def merge_topic_duplicates(
         self,
@@ -984,6 +1233,161 @@ class HorizonOrchestrator:
         score = item.processing.analysis.score
         return score is not None and score >= effective_threshold
 
+    @staticmethod
+    def _digest_group_key(item, category_to_group, default_group):
+        category = item.metadata.get("category")
+        return (
+            category_to_group.get(category, default_group)
+            if isinstance(category, str)
+            else default_group
+        )
+
+    @staticmethod
+    def _column_key(item: ContentItem):
+        """P319-3：栏目键——优先用分析契约的 category_5 首项（P318-13
+        起模型输出），其次用源配置的 metadata["category"]，再其次用
+        topic_category；三者皆无为 None（不参与配额计算）。注意：
+        renxing 的 metadata["category"] 是 feed 分类（热榜/商业/效率），
+        不是 5 真分类——5 栏口径只认 category_5。"""
+        analysis = item.processing.analysis if item.processing else None
+        cats = getattr(analysis, "category_5", None) if analysis else None
+        if cats:
+            return cats[0]
+        category = item.metadata.get("category")
+        if isinstance(category, str) and category:
+            return category
+        topic_category = (
+            getattr(analysis, "topic_category", None) if analysis else None
+        )
+        return topic_category or None
+
+    @staticmethod
+    def _video_score_for_rank(item: ContentItem) -> float:
+        """P319-3：顺延排序用的 video_score；缺失按 -1 计（排最后）。"""
+        analysis = item.processing.analysis if item.processing else None
+        score = getattr(analysis, "video_score", None) if analysis else None
+        return score if isinstance(score, (int, float)) else -1.0
+
+    @staticmethod
+    def _score_band(item: ContentItem):
+        """P319-3：同分档 = score 的整数档（7.x 与 7.y 同档）。"""
+        analysis = item.processing.analysis if item.processing else None
+        score = getattr(analysis, "score", None) if analysis else None
+        return int(score) if isinstance(score, (int, float)) else None
+
+    def _rebalance_columns(self, selected, unselected, group_key_fn, *, log=True):
+        """P319-3：栏目配额软 enforcement。
+
+        单栏入选占比 >60% 时，把超额条目（同栏内 video_score 最低者）
+        换成零入选栏目的同分档条目（video_score 最高者先补）。同分档
+        无可换条目时不换——digest 不缩水，这是“软”的含义。P318-9
+        配合：已入选事件的 follow_up 不得当凑数补位（同 event_group
+        的跟进条目不进补位池）。少于 5 条不触发（小样本下 60% 无意义）。
+        返回 (new_selected, swaps)。
+        """
+        if len(selected) < 5:
+            return selected, 0
+        selected = list(selected)
+        pool = list(unselected)
+        swaps = 0
+        while True:
+            keys = [self._column_key(item) for item, _ in selected]
+            named = [k for k in keys if k is not None]
+            if not named:
+                break
+            counts: Dict[str, int] = defaultdict(int)
+            for k in named:
+                counts[k] += 1
+            dominant, dominant_count = max(
+                counts.items(), key=lambda kv: kv[1]
+            )
+            if dominant_count <= 0.6 * len(selected):
+                break
+            excess = dominant_count - int(0.6 * len(selected))
+            if excess <= 0:
+                break
+            # 超额条目：同栏内 video_score 最低者先出。
+            dominant_positions = [
+                i for i, (item, _g) in enumerate(selected)
+                if self._column_key(item) == dominant
+            ]
+            dominant_positions.sort(
+                key=lambda i: (
+                    self._video_score_for_rank(selected[i][0]),
+                    -(selected[i][0].processing.analysis.score or 0)
+                    if selected[i][0].processing
+                    and selected[i][0].processing.analysis
+                    else 0,
+                )
+            )
+            selected_groups = {
+                (item.metadata or {}).get("event_group")
+                for item, _ in selected
+                if (item.metadata or {}).get("event_group")
+            }
+            swapped = False
+            for pos in dominant_positions:
+                if excess <= 0:
+                    break
+                out_item, _out_group = selected[pos]
+                band = self._score_band(out_item)
+                # 补位池：零入选栏目、同分档、非已入选事件的跟进。
+                candidates = []
+                for cand in pool:
+                    cand_key = self._column_key(cand)
+                    if cand_key is None or counts.get(cand_key, 0) != 0:
+                        continue
+                    if self._score_band(cand) != band:
+                        continue
+                    cand_group = (cand.metadata or {}).get("event_group")
+                    if (
+                        cand_group
+                        and cand_group in selected_groups
+                        and (cand.metadata or {}).get("event_relation")
+                        == "follow_up"
+                    ):
+                        continue
+                    candidates.append(cand)
+                if not candidates:
+                    continue
+                candidates.sort(
+                    key=lambda c: (
+                        -self._video_score_for_rank(c),
+                        -(c.processing.analysis.score or 0)
+                        if c.processing and c.processing.analysis
+                        else 0,
+                    )
+                )
+                in_item = candidates[0]
+                pool.remove(in_item)
+                pool.append(out_item)
+                selected[pos] = (in_item, group_key_fn(in_item))
+                # 计数随换入换出实时更新：补位栏不再是零入选栏，下一轮
+                # 不再从同一栏连续补位；换入条目的事件组也进已选集合。
+                counts[dominant] -= 1
+                counts[self._column_key(in_item)] = (
+                    counts.get(self._column_key(in_item), 0) + 1
+                )
+                in_group = (in_item.metadata or {}).get("event_group")
+                if in_group:
+                    selected_groups.add(in_group)
+                if log:
+                    self.console.print(
+                        f"      {self.icons['balance']} 栏目软配额："
+                        f"「{dominant}」超额，换出 {out_item.title[:24]}"
+                        f"（video {self._video_score_for_rank(out_item):g}）"
+                        f"，换入「{self._column_key(in_item)}」"
+                        f"{in_item.title[:24]}"
+                        f"（video {self._video_score_for_rank(in_item):g}，"
+                        f"同 {band} 分档）"
+                    )
+                swaps += 1
+                excess -= 1
+                swapped = True
+            if not swapped:
+                break
+        return selected, swaps
+
     def apply_balanced_digest(
         self,
         items: List[ContentItem],
@@ -1036,11 +1440,8 @@ class HorizonOrchestrator:
         default_group = digest.default_group
 
         for item in sorted_items:
-            category = item.metadata.get("category")
-            group_key = (
-                category_to_group.get(category, default_group)
-                if isinstance(category, str)
-                else default_group
+            group_key = self._digest_group_key(
+                item, category_to_group, default_group
             )
 
             if group_key in groups:
@@ -1056,6 +1457,31 @@ class HorizonOrchestrator:
 
         if max_items is not None:
             selected = selected[:max_items]
+
+        # P319-3：栏目配额软 enforcement——单栏 >60% 时超额按 video_score
+        # 顺延给零入选栏目同分档条目（P318-9 事件库配合：已入选事件的
+        # follow_up 不得当凑数补位）。未入选的候选即补位池。
+        selected_ids = {id(item) for item, _ in selected}
+        unselected = [it for it in sorted_items if id(it) not in selected_ids]
+        selected, rebalanced_count = self._rebalance_columns(
+            selected,
+            unselected,
+            lambda it: self._digest_group_key(
+                it, category_to_group, default_group
+            ),
+            log=log,
+        )
+        # 换入换出后按分数重排，保持 digest 的分数降序。
+        selected.sort(
+            key=lambda pair: (
+                pair[0].processing.analysis.score
+                if pair[0].processing
+                and pair[0].processing.analysis
+                and pair[0].processing.analysis.score is not None
+                else -1
+            ),
+            reverse=True,
+        )
 
         final_counts: Dict[str, int] = defaultdict(int)
         for _, group_key in selected:
@@ -1098,6 +1524,7 @@ class HorizonOrchestrator:
             group_counts=dict(final_counts),
             group_limits=group_limits,
             duplicate_categories=sorted(set(duplicate_categories)),
+            rebalanced_count=rebalanced_count,
         )
 
     async def _expand_twitter_discussion(self, items: List[ContentItem]) -> None:
@@ -1174,6 +1601,7 @@ class HorizonOrchestrator:
             f"{self.icons['enrich']} Enriching with background knowledge..."
         )
         ai_client = create_ai_client(self.config.ai)
+        self._remember_ai_client(ai_client)
         enricher = ContentEnricher(
             ai_client,
             self.profiles,
@@ -1210,6 +1638,7 @@ class HorizonOrchestrator:
         self.console.print(f"{self.icons['ai']} Analyzing content with AI...")
 
         ai_client = create_ai_client(self.config.ai)
+        self._remember_ai_client(ai_client)
         analyzer = ContentAnalyzer(ai_client, self.profiles, console=self.console)
 
         return await analyzer.analyze_batch(items)

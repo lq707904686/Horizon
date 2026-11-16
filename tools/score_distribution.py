@@ -24,6 +24,10 @@
                        只统计已进简报的条目，不是全池贡献；
                        P317：单位是条目，与 kept_source_shares
                        （话题）不同，见 per_source_unit 字段）
+  funnel               P318-6 漏斗：fetched（候选池总数）/ analyzed
+                       （取自 data/fetch_report.json，缺失为 null）/
+                       ge_5 / ge_7
+  opening_types        P319-1 开头类型分布（只计有“开头类型”行的条目）
 """
 
 import argparse
@@ -65,12 +69,14 @@ def _pool_total(md_path: str):
     return int(m.group(1)) if m else None
 
 
-def build_distribution(scored, md_path=None, date=None):
+def build_distribution(scored, md_path=None, date=None, funnel=None):
     """从 extract_scored_topics 的结果生成一条分布记录。
 
     scored: [(score|None, video_score|None, category|None, source|None,
     url|None, cap|None, feasibility|None, feasibility_reason|None,
-    [topics]), ...]。无分条目不计入分布。
+    [topics]), ...]。无分条目不计入分布；有分无块的条目（P318-16）
+    计入 total/max/counts——它们是简报的正式条目，只是没产出话题。
+    funnel: {"analyzed": int}（取自 data/fetch_report.json，缺失为 None）。
     """
     if date is None:
         date = datetime.date.today().isoformat()
@@ -81,19 +87,38 @@ def build_distribution(scored, md_path=None, date=None):
     scores = [s for s, *_ in scored if s is not None]
     bands = {b: 0 for b in BANDS}
     per_source = {}
+    # P319-1：开头类型分布（有“开头类型：X”行的条目才计，无行不计入）。
+    opening_types = {}
     for score, _v, _c, source, _u, _cap, _feas, _feas_reason, _t, _extra in scored:
         if score is None:
             continue
         bands[_band(score)] += 1
         per_source[source or "unknown"] = per_source.get(source or "unknown", 0) + 1
+        opening = (_extra or {}).get("opening_type")
+        if opening:
+            opening_types[opening] = opening_types.get(opening, 0) + 1
+    count_ge_7 = sum(1 for s in scores if s >= 7.0)
+    count_ge_5 = sum(1 for s in scores if s >= 5.0)
     return {
         "date": date,
         "total_items": len(scores),
         "candidate_pool_total": _pool_total(md_path) if md_path else None,
         "max_score": max(scores) if scores else None,
-        "count_ge_7": sum(1 for s in scores if s >= 7.0),
-        "count_ge_5": sum(1 for s in scores if s >= 5.0),
+        "count_ge_7": count_ge_7,
+        "count_ge_5": count_ge_5,
         "bands": bands,
+        # P318-6：漏斗计数（抓取/分析/过 5.0/过 7.0）——“选题荒还是
+        # 标准收紧”至此有数可查。analyzed 缺失时为 None，不编数。
+        "funnel": {
+            "fetched": _pool_total(md_path) if md_path else None,
+            "analyzed": (funnel or {}).get("analyzed"),
+            "ge_5": count_ge_5,
+            "ge_7": count_ge_7,
+        },
+        # P319-1：开头类型分布（只计有该行的条目；全无行时为空 dict）。
+        "opening_types": dict(
+            sorted(opening_types.items(), key=lambda kv: -kv[1])
+        ),
         # P317：单位标注——per_source 按条目计；kept_source_shares 按话题计。
         "per_source_unit": "条目数（简报内带分条目，按条目计）",
         "per_source": dict(sorted(per_source.items(), key=lambda kv: -kv[1])),

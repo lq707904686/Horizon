@@ -500,6 +500,9 @@ class DailySummarizer:
             lines.append(f"五维：{dims}")
         if analysis and analysis.evidence_level is not None:
             lines.append(f"证据等级：{analysis.evidence_level.value}")
+        # P319-1：开头类型进简报，供 make_hotspots.py 原样抽进 sets 与分布。
+        if analysis and analysis.opening_type:
+            lines.append(f"开头类型：{analysis.opening_type}")
         if analysis and analysis.cap_triggered:
             # 传闻口径单独成行：被封顶条目的 video_score 再高也只能按
             # 传闻/待核实拍，make_hotspots.py 据此写 rumor_stance 字段。

@@ -583,6 +583,14 @@ class ChainedAIClient(AIClient):
         attempt_timeout: Optional[float] = None,
     ):
         self.configs = configs
+        # P318-1：链式客户端也要暴露主站配置——analyzer/enricher 的并发
+        # 取值读 ``.config``，没有它链式下并发恒为 1（11-16 运行 58m46s、
+        # 距 60 分钟超时只剩 74 秒的根因）。主站配置即 configs[0]。
+        self.config = configs[0] if configs else None
+        # P318-14：分 provider 调用/回退计数，供 run() 末尾打印回退链
+        # 的生产可见性（此前回退零生产证明）。
+        self.provider_call_counts: Dict[str, int] = {}
+        self.fallback_count = 0
         self._client_factory = client_factory or _create_single_client
         self._client_cache: Dict[int, AIClient] = {}
         # P317：单次尝试超时（秒）。None = 不限（旧行为）。
@@ -606,6 +614,10 @@ class ChainedAIClient(AIClient):
     ) -> str:
         last_error: Optional[Exception] = None
         for i in range(len(self.configs)):
+            provider_name = self.configs[i].provider.value
+            self.provider_call_counts[provider_name] = (
+                self.provider_call_counts.get(provider_name, 0) + 1
+            )
             try:
                 client = self._get_client(i)
                 attempt = client.complete(system, user, temperature, max_tokens)
@@ -620,6 +632,7 @@ class ChainedAIClient(AIClient):
                 # P317：只慢不报错也算可回退——超时不吃掉整轮预算。
                 last_error = exc
                 if i < len(self.configs) - 1:
+                    self.fallback_count += 1
                     logger.warning(
                         "Provider %s timed out after %ss, falling back to %s...",
                         self.configs[i].provider.value,
@@ -631,6 +644,7 @@ class ChainedAIClient(AIClient):
                     raise
                 last_error = exc
                 if i < len(self.configs) - 1:
+                    self.fallback_count += 1
                     logger.warning(
                         "Provider %s failed (%s), falling back to %s...",
                         self.configs[i].provider.value, exc, self.configs[i + 1].provider.value,
@@ -645,7 +659,18 @@ class ChainedAIClient(AIClient):
             return True
         if "401" in msg or "403" in msg or "quota" in msg or "exceeded" in msg:
             return True
-        if "502" in msg or "503" in msg or "service unavailable" in msg:
+        if "500" in msg or "502" in msg or "503" in msg or "service unavailable" in msg:
+            return True
+        # P318-12：404（模型/端点配错）与连接类错误也应回退而非原地死——
+        # 配错的端点在主站上重试多少次都不会好，换一家才有机会。
+        if "404" in msg or "not found" in msg:
+            return True
+        if (
+            "connect" in msg
+            or "connection" in msg
+            or "timed out" in msg
+            or "timeout" in msg
+        ):
             return True
         if "empty response" in msg:
             return True

@@ -72,6 +72,9 @@ class EvidenceLevel(str, Enum):
 # analysis.md 三条封顶的取值名（cap_triggered 只允许这三个值或 null）。
 CAP_TRIGGERED_VALUES = ("标题级6分", "未证实7分", "纯观点6分")
 
+# P319-1：opening_type 的合法取值（与 prompting/analysis.py 契约一致）。
+OPENING_TYPES = ("热点", "反常识", "真实案例", "其他")
+
 
 class ContentAnalysis(BaseModel):
     """Profile-driven first-pass analysis.
@@ -117,6 +120,16 @@ class ContentAnalysis(BaseModel):
     # when one round failed and the surviving round was used alone.
     score_rounds: Optional[List[float]] = None
     dual_eval: Optional[str] = None
+    # P318-13：反馈标签进分析契约——category_5/motifs/formulas 由模型
+    # 输出直取，不再靠手工转录（load_feedback 的 D5 三元组输入侧）。
+    # 旧调用方（失败回退等）不填也照常工作。
+    category_5: List[str] = Field(default_factory=list)
+    motifs: List[str] = Field(default_factory=list)
+    formulas: List[str] = Field(default_factory=list)
+    # P319-1：开头类型（热点/反常识/真实案例/其他）——66.1% 开头规律
+    # 的度量口径。先只加字段+透传，不做模型分类的二次判断；分类一致率
+    # 须先在人工抽查上验准再谈纠偏。
+    opening_type: Optional[str] = None
 
     @field_validator("cap_triggered")
     @classmethod
@@ -130,6 +143,15 @@ class ContentAnalysis(BaseModel):
     def validate_dual_eval(cls, value: Optional[str]) -> Optional[str]:
         if value is not None and value not in {"dual", "single_eval"}:
             raise ValueError(f"dual_eval must be 'dual' or 'single_eval', got {value!r}")
+        return value
+
+    @field_validator("opening_type")
+    @classmethod
+    def validate_opening_type(cls, value: Optional[str]) -> Optional[str]:
+        if value is not None and value not in OPENING_TYPES:
+            raise ValueError(
+                f"opening_type must be one of {list(OPENING_TYPES)}, got {value!r}"
+            )
         return value
 
     @field_validator("score_rounds")

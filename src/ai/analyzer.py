@@ -2,6 +2,7 @@
 
 import asyncio
 import logging
+import os
 from typing import List, Optional
 from pydantic import ValidationError
 from rich.console import Console
@@ -15,9 +16,12 @@ from .classifier import ContentClassifier
 from .prompting.analysis import analysis_system_prompt, analysis_user_prompt
 from .utils import parse_json_response
 from .video_feasibility import assess_video_feasibility
-from ..models import ContentAnalysis, ContentItem
+from ..models import ContentAnalysis, ContentItem, EvidenceLevel
 from ..processing.content import select_content, split_content
 from ..processing.profiles import ProfileRegistry
+
+# P318-12：单轮分析失败率告警线（score=None 占比超此值即 WARN）。
+FAILURE_RATE_WARN = 0.05
 
 DEFAULT_THROTTLE_SEC = 0.0
 
@@ -34,6 +38,10 @@ class ContentAnalyzer:
         self.profiles = profiles
         self.classifier = ContentClassifier(ai_client, profiles)
         self.console = console or Console(stderr=True)
+        # P318-12：最近一轮 analyze_batch 的失败统计（失败 = 分析后
+        # score 仍为 None），供测试与 orchestrator 复核；跑批前为 None。
+        self.last_batch_failure_rate: Optional[float] = None
+        self.last_batch_failed: int = 0
 
     @staticmethod
     def _parse_json_response(response: str) -> Optional[dict]:
@@ -91,6 +99,38 @@ class ContentAnalyzer:
             ]
             analyzed_items = await asyncio.gather(*coros)
 
+        # P318-12：单条失败（超时/非回退错误/解析失败）此前记 score=None
+        # 静默丢弃，全轮失败率无人汇总。超线即醒目告警，不拦本轮。
+        failed = sum(
+            1
+            for item in analyzed_items
+            if not (
+                item.processing
+                and item.processing.analysis
+                and item.processing.analysis.score is not None
+            )
+        )
+        self.last_batch_failed = failed
+        self.last_batch_failure_rate = (
+            failed / len(analyzed_items) if analyzed_items else 0.0
+        )
+        if analyzed_items and self.last_batch_failure_rate > FAILURE_RATE_WARN:
+            message = (
+                f"分析失败率 {self.last_batch_failure_rate:.1%}（{failed}/"
+                f"{len(analyzed_items)} 条 score=None），超过 "
+                f"{FAILURE_RATE_WARN:.0%} 告警线——模型端可能在静默劣化"
+                f"（如超时丢弃），请查本轮日志"
+            )
+            logger.warning(message)
+            self.console.print(f"[yellow]⚠ {message}[/yellow]")
+            summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+            if summary_path:
+                try:
+                    with open(summary_path, "a", encoding="utf-8") as f:
+                        f.write(f"\n## 雷达分析失败率告警\n\n{message}\n")
+                except OSError:
+                    pass
+
         return analyzed_items
 
     @retry(
@@ -113,6 +153,9 @@ class ContentAnalyzer:
             profile.definition.content.analysis_max_chars,
             profile.definition.content.sampling,
         )
+        # P318-2：标题级封顶的输入——模型实际打分的文本长度。item.content
+        # 为空时传 None（无法判断长度，不强制降级）；只有短内容才强制。
+        content_chars = len(selected_content) if item.content else None
         content_section = f"Content: {selected_content}" if selected_content else ""
 
         # Prepare discussion section (comments, engagement)
@@ -163,8 +206,12 @@ class ContentAnalyzer:
         # so the two rounds are two samples from the same distribution,
         # not decorrelated runs. A single-round jitter is still visible
         # afterwards because both round scores are recorded.
-        first = await self._analyze_once(item, system_prompt, user_prompt)
-        second = await self._analyze_once(item, system_prompt, user_prompt)
+        first = await self._analyze_once(
+            item, system_prompt, user_prompt, content_chars=content_chars
+        )
+        second = await self._analyze_once(
+            item, system_prompt, user_prompt, content_chars=content_chars
+        )
         result = self._combine_dual_eval(first, second)
 
         if result is None:
@@ -227,6 +274,7 @@ class ContentAnalyzer:
         item: ContentItem,
         system_prompt: str,
         user_prompt: str,
+        content_chars: Optional[int] = None,
     ) -> Optional[ContentAnalysis]:
         """One scoring round: a single completion plus one repair attempt."""
         response = await self.client.complete(
@@ -234,7 +282,9 @@ class ContentAnalyzer:
             user=user_prompt,
         )
 
-        result, failure = self._validate_analysis_response(response)
+        result, failure = self._validate_analysis_response(
+            response, content_chars=content_chars
+        )
         if result is None:
             repair_response = await self.client.complete(
                 system=system_prompt,
@@ -245,7 +295,9 @@ class ContentAnalyzer:
                 ),
                 temperature=0,
             )
-            result, failure = self._validate_analysis_response(repair_response)
+            result, failure = self._validate_analysis_response(
+                repair_response, content_chars=content_chars
+            )
         return result
 
     # Hard score caps (analysis.md 三条封顶规则，终轮整改 2026-11-12).
@@ -265,6 +317,20 @@ class ContentAnalyzer:
         "opinion_only": "纯观点6分",
         "unconfirmed": "未证实7分",
     }
+    # P318-2：标题级信息封顶的正文长度阈值（字符数）。热榜条目只有标题 +
+    # 1～2 行 desc、无 extractor 全文，内容短于此值却自称 verified 的，
+    # 一律强制降为 title_only（封顶 6）。百度占 ≥7.0 的 64% 正是这么
+    # 来的。阈值按“模型实际打分的文本”计；拿不到长度时不强制。
+    TITLE_ONLY_MAX_CONTENT_CHARS = 300
+    # P318-10：子分自洽校验的键表——只有子分齐全时才能求和/判全零，
+    # 缺键的局部子分不参与校验（模型被允许省略判不了的分）。
+    VIDEO_SUBSCORE_KEYS = (
+        "钩子张力", "身份代入感", "情绪冲突", "可视化", "完播友好度",
+        "传播潜力", "时效分",
+    )
+    DIMENSION_KEYS = ("证据", "机制", "决策", "张力", "金句")
+    # video 子分之和与 video_score 的允许偏差。
+    SUBSCORE_TOLERANCE = 0.5
     # video_score at/above the filming line on a capped item: the footage must
     # be shot as hearsay, never as verified fact.
     RUMOR_NOTE = "传闻/待核实口径：只拍冲突本身，不坐实未证实数字"
@@ -273,6 +339,7 @@ class ContentAnalyzer:
     def _validate_analysis_response(
         cls,
         response: str,
+        content_chars: Optional[int] = None,
     ) -> tuple[Optional[ContentAnalysis], str]:
         parsed = cls._parse_json_response(response)
         if not isinstance(parsed, dict):
@@ -285,11 +352,60 @@ class ContentAnalyzer:
             return None, f"invalid field {location or '<root>'}: {first_error['type']}"
         if result.score is None:
             return None, "score is required by the analysis contract"
-        cls._apply_score_caps(result)
+        # P318-10：子分自洽校验——不一致记 repair 失败，走 repair 轮；
+        # repair 仍不一致则该条 score=None（丢弃）并计入失败率统计。
+        consistency_failure = cls._check_score_consistency(result)
+        if consistency_failure is not None:
+            return None, consistency_failure
+        cls._apply_score_caps(result, content_chars=content_chars)
         return result, ""
 
     @classmethod
-    def _apply_score_caps(cls, result: ContentAnalysis) -> None:
+    def _check_score_consistency(
+        cls, result: ContentAnalysis
+    ) -> Optional[str]:
+        """Check subscores against totals; return a failure reason or None.
+
+        Only full subscore sets are checked: a partial video_subscores
+        (model omitted unjudgeable dims) cannot be summed, and partial
+        dimension_scores cannot be called "all zero".
+        """
+        subs = result.video_subscores
+        if isinstance(subs, dict) and all(
+            k in subs for k in cls.VIDEO_SUBSCORE_KEYS
+        ):
+            try:
+                total = sum(float(subs[k]) for k in cls.VIDEO_SUBSCORE_KEYS)
+            except (TypeError, ValueError):
+                return "video_subscores 含非数字分"
+            if result.video_score is not None:
+                # 时效分可为 -1：子分和按 0 下限折算（模型把 video_score
+                # 截到 0-12 时，和为 -1 与 0 是一致的）。
+                if abs(max(total, 0.0) - result.video_score) > cls.SUBSCORE_TOLERANCE:
+                    return (
+                        f"video_subscores 之和 {total:g} 与 video_score "
+                        f"{result.video_score:g} 差超 {cls.SUBSCORE_TOLERANCE}"
+                    )
+        dims = result.dimension_scores
+        if isinstance(dims, dict) and all(
+            k in dims for k in cls.DIMENSION_KEYS
+        ):
+            try:
+                values = [float(dims[k]) for k in cls.DIMENSION_KEYS]
+            except (TypeError, ValueError):
+                return "dimension_scores 含非数字分"
+            if (
+                all(v == 0 for v in values)
+                and result.score is not None
+                and result.score >= 7
+            ):
+                return "五维全 0 但 score >= 7，子分与总分方向背离"
+        return None
+
+    @classmethod
+    def _apply_score_caps(
+        cls, result: ContentAnalysis, content_chars: Optional[int] = None
+    ) -> None:
         """Enforce the three hard caps on ``result`` in place.
 
         ``evidence_level`` is authoritative: a cap applies when it names one
@@ -297,6 +413,22 @@ class ContentAnalyzer:
         it so the two fields can never disagree. ``verified`` clears any cap
         the model may have set by mistake. ``video_score`` is never touched.
         """
+        # P318-2：标题级信息不许拿 verified 冲 7.0——内容短于阈值且
+        # 无全文的条目，verified 一律强制降为 title_only（封顶 6）。
+        # 证据维把“热搜排名与热度”算作可验证信源是百度占 ≥7.0 的 64%
+        # 的结构机制；prompt 服从性已被证明不可靠，所以这里改代码硬封顶。
+        # 注意：短期内 ≥7.0 数会进一步下滑（诚实地暴露供给荒，而非用
+        # 标题级凑数），须与 P318-6/11 的补源并行。
+        if (
+            content_chars is not None
+            and content_chars < cls.TITLE_ONLY_MAX_CONTENT_CHARS
+            and result.evidence_level == EvidenceLevel.VERIFIED
+        ):
+            result.evidence_level = EvidenceLevel.TITLE_ONLY
+            result.reason = (
+                f"{result.reason}（内容仅 {content_chars} 字、无全文，"
+                f"verified 降为标题级）"
+            )
         level = result.evidence_level.value if result.evidence_level else None
         if level == "verified":
             result.cap_triggered = None

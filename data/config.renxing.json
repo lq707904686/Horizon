@@ -43,7 +43,7 @@
       "language": "zh",
       "max_results": 60,
       "profile": "renxing",
-      "query": "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业 OR 民生 OR 维权 OR 消费 OR 欠薪",
+      "query": "搞钱 OR 商业 OR 消费 OR 做生意 OR 职场 OR 欠薪 OR 销售 OR 创业 OR 团队管理 OR 人性",
       "content_extractor": "trafilatura"
     },
     "hackernews": {

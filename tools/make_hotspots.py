@@ -96,7 +96,10 @@ _FEASIBILITY_RX = re.compile(r"·\s*(可视化可行|部分可行|不可行)(?:�
 # 5 真分类: 正文首个 "归属：做生意"（第一角度即主归属）。
 _CATEGORY_RX = re.compile(r"归属：\s*([^；\n，,]+)")
 # 来源: 正文 "rss · 36氪24小时热榜 · 11月8日 08:43" 一行。
-_SOURCE_RX = re.compile(r"^(?:rss|tophub|newsnow|google|百度|头条|rsshub)\s*·\s*([^\n·]+)", re.M)
+# P318-4：google_news 必须排在 google 之前——Google News 源类型值是
+# google_news，正则只列 google 时来源恒为 unknown（11-16 per_source 有
+# 1 条 unknown）。顺序不能乱：google 在前会先吞掉 "google" 前缀。
+_SOURCE_RX = re.compile(r"^(?:rss|tophub|newsnow|google_news|google|百度|头条|rsshub)\s*·\s*([^\n·]+)", re.M)
 _SCORE_EOL_RX = re.compile(r"(\d+(?:\.\d+)?)\s*/\s*10\s*$")
 _HEADING_RX = re.compile(r"^#{2,4}\s", re.M)
 
@@ -139,9 +142,21 @@ def _extract_video_feasibility(heading_line: str):
 
 
 def _extract_category(body: str):
-    """从正文首个“归属：X”取 5 真分类, 提不到返回 None。"""
+    """从正文首个“归属：X”取 5 真分类, 提不到返回 None。
+
+    P318-3：白名单校验——enrichment.md 模板原文「归属：5真分类之一」
+    被模型原样回吐，垃圾值已进生产 hotspots（11-16 第 3 条）。不在
+    COLUMNS_5 内的取值记 None 并 WARN，不让它污染栏目统计。
+    """
     m = _CATEGORY_RX.search(body)
-    return m.group(1).strip() if m else None
+    if not m:
+        return None
+    value = m.group(1).strip()
+    if value not in COLUMNS_5:
+        print(f"警告: 归属取值不在 5 真分类内，已丢弃：{value!r}",
+              file=sys.stderr)
+        return None
+    return value
 
 
 def _extract_source(body: str):
@@ -170,6 +185,9 @@ _DIMENSION_RX = re.compile(r"^五维：\s*(.+?)\s*$", re.M)
 _EVIDENCE_RX = re.compile(
     r"^证据等级：\s*(title_only|unconfirmed|opinion_only|verified)\s*$", re.M)
 _EVENT_GROUP_RX = re.compile(r"^事件组：\s*(evt:[^\s（]+)", re.M)
+# P319-1：开头类型（66.1% 开头规律的度量口径）。summarizer 渲染
+# “开头类型：热点/反常识/真实案例/其他”行，旧简报无此行为 None。
+_OPENING_RX = re.compile(r"^开头类型：\s*(热点|反常识|真实案例|其他)\s*$", re.M)
 _DIMENSION_NAMES = ("证据", "机制", "决策", "张力", "金句")
 
 
@@ -220,6 +238,14 @@ def _extract_event_group(body: str):
     return m.group(1) if m else None
 
 
+def _extract_opening_type(body: str):
+    """P319-1：从正文 `开头类型：X` 行取开头类型（热点/反常识/
+    真实案例/其他），未写返回 None。只加字段+透传，不做模型分类
+    的二次判断；分类一致率须先在人工抽查上验准再谈纠偏。"""
+    m = _OPENING_RX.search(body)
+    return m.group(1) if m else None
+
+
 def _norm(topic: str) -> str:
     """去重用归一化: 去空格与常见标点, 避免同一话题换个写法重复进。"""
     return re.sub(r"[\s·,，。！？!?:：、\-—_()\[\]\"\"''<>#*]", "", topic)
@@ -258,17 +284,24 @@ def extract_scored_topics(md_path):
     url|None, cap|None, feasibility|None, feasibility_reason|None,
     [topics], extra), ...], 每项对应简报里的一个条目。
     extra 是 P317 详情 dict：score_rounds / dual_eval / dimension_scores /
-    evidence_level / event_group（旧简报无对应行时值为 None）。"""
+    evidence_level / event_group（旧简报无对应行时值为 None）；P319-1
+    再加 opening_type。
+
+    P318-16：有分数无 hotspots 块的条目也返回（topics 为 []）——11-15
+    最高分 7.0 条目（德国汽车）正因无块而被分布统计漏掉，简报称 7.0、
+    提交物称 6.0 的口径打架根源就在这里。无分数又无块的 section
+    （分栏小标题等）仍跳过。"""
     with open(md_path, encoding="utf-8") as f:
         text = _unescape(f.read())
     scored = []
     for heading, body in _split_sections(text):
         topics = _block_topics(body)
-        if not topics:
+        score = _extract_score(heading)
+        if not topics and score is None:
             continue
         feasibility, feasibility_reason = _extract_video_feasibility(heading)
         score_rounds, dual_eval = _extract_dual_eval(body)
-        scored.append((_extract_score(heading), _extract_video_score(heading),
+        scored.append((score, _extract_video_score(heading),
                         _extract_category(body), _extract_source(body),
                         _extract_url(heading), _extract_cap(body),
                         feasibility, feasibility_reason, topics, {
@@ -277,12 +310,17 @@ def extract_scored_topics(md_path):
                             "dimension_scores": _extract_dimension_scores(body),
                             "evidence_level": _extract_evidence_level(body),
                             "event_group": _extract_event_group(body),
+                            "opening_type": _extract_opening_type(body),
                         }))
     return scored
 
 
 def legacy_extract(md_path):
-    """旧行为: 不分条目, 全量抽取 (仅当简报里完全没有可解析分数时回退用)。"""
+    """旧行为: 不分条目, 全量抽取。
+
+    P318-5：主流程已不再回退到它（无分数即 exit 1）。保留供人工恢复
+    时调用；任何自动流程调用它都是 bug。
+    """
     with open(md_path, encoding="utf-8") as f:
         text = _unescape(f.read())
     topics = []
@@ -361,6 +399,57 @@ def _read_history_records(path):
     return [r for r in records if isinstance(r, dict)]
 
 
+def _read_funnel(dist_path):
+    """P318-6：从 data/fetch_report.json 取本轮抓取漏斗的 analyzed 数。
+
+    文件缺失（旧跑 / 手动跑 / orchestrator 未写）时返回 None，分布
+    只记抓取与过线数，不编 analyzed。返回 {"analyzed": int} 或 None。
+    """
+    fetch_path = os.path.join(
+        os.path.dirname(os.path.abspath(dist_path)), "fetch_report.json"
+    )
+    try:
+        with open(fetch_path, encoding="utf-8") as f:
+            report = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return None
+    if not isinstance(report, dict):
+        return None
+    analyzed = report.get("analyzed")
+    return {"analyzed": analyzed} if isinstance(analyzed, int) else None
+
+
+def _write_step_summary_alerts(column_alerts, quota_record):
+    """P318-8：配额/栏目告警写 $GITHUB_STEP_SUMMARY（workflow 内可见）。
+
+    本地跑（无该变量）时只打印，不写盘；无告警时什么都不写。
+    """
+    if not column_alerts and not (
+        quota_record and quota_record.get("source_quota_warn")
+    ):
+        return
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        return
+    lines = ["## 雷达配额 / 栏目告警", ""]
+    for col in column_alerts:
+        lines.append(
+            f"- 栏目「{col}」连续 {COLUMN_ZERO_ALERT_DAYS} 日入选为 0，"
+            f"请按取材表补源（R5）"
+        )
+    if quota_record:
+        for src in quota_record.get("source_quota_warn", []):
+            lines.append(
+                f"- 来源「{src}」占比超 {SOURCE_QUOTA_WARN_PCT:.0%}"
+                f"（R4 目标：百度 <40%）"
+            )
+    try:
+        with open(summary_path, "a", encoding="utf-8") as f:
+            f.write("\n" + "\n".join(lines) + "\n")
+    except OSError:
+        pass
+
+
 def column_zero_alerts(records, days=COLUMN_ZERO_ALERT_DAYS, today=None):
     """栏目连续零入选告警：返回 [栏目, ...]。
 
@@ -409,6 +498,7 @@ def filter_topics(scored):
     score_rounds, dual_eval, dimension_scores, evidence_level,
     event_group, rumor_stance}（P317 新增的 6 个键：旧简报无对应行时为
     null；rumor_stance 只在被封顶时为 "传闻/待核实"，其余为 null）。
+    P319-1 再加 opening_type（旧简报无对应行时为 null）。
     video_score 为 None 表示 radar run 未输出，由助理按 rubric 补评。
     video_feasibility 为 None 表示该条未复核（旧简报无此字段 / 分析
     失败）；有值时为 可视化可行 / 部分可行 / 不可行，原因见
@@ -420,9 +510,13 @@ def filter_topics(scored):
     stats = {"kept_sections": 0, "dropped_sections": 0,
              "placeholder_dropped": 0, "fallback_score": None,
              "fallback_capped_sections": 0}
+    # P318-16：无 hotspots 块的条目（topics 为 []）不参与选话题——它们
+    # 只进分布统计（total/max/counts），不参与分档回退的 tier 计算。
+    # 否则 11-15 那种“7.0 条目无块”的日子会把回退线抬到 7.0，导致
+    # 有块的 6.0 条目全被丢弃、整轮空跑。
     with_score = [(s, v, c, src, u, cap, feas, feas_reason, t, e)
                   for s, v, c, src, u, cap, feas, feas_reason, t, e in scored
-                  if s is not None]
+                  if s is not None and t]
     if not with_score:
         return None, None, stats  # 调用方回退旧行为
 
@@ -485,6 +579,9 @@ def filter_topics(scored):
             "dimension_scores": extra.get("dimension_scores"),
             "evidence_level": extra.get("evidence_level"),
             "event_group": extra.get("event_group"),
+            # P319-1：开头类型进 sets（旧简报无对应行时为 null）——66.1%
+            # 开头规律从此可度量；分类本身只透传模型输出，不二次判断。
+            "opening_type": extra.get("opening_type"),
             # P317：传闻口径单独字段——被封顶（verified=false）的条目只能按
             # 传闻/待核实拍，不能只靠 video_reason 文字；未封顶为 null。
             "rumor_stance": "传闻/待核实" if cap is not None else None,
@@ -516,22 +613,15 @@ def main():
         scored = extract_scored_topics(latest)
         topics, sets, stats = filter_topics(scored)
         if topics is None:
-            # 简报里没有任何可解析的条目分数 (格式变了): 回退旧行为, 不静默丢数据
-            print("警告: 简报中未解析到任何条目分数, 回退为全量抽取 (请检查简报格式)",
-                  file=sys.stderr)
-            topics = legacy_extract(latest)
-            sets = [{"topic": t, "score": None, "video_score": None,
-                     "video_feasibility": None,
-                     "video_feasibility_reason": None,
-                     "category_5": None, "source": None, "source_url": None,
-                     "source_name": None, "verified": None,
-                     "cap_triggered": None,
-                     "score_rounds": None, "dual_eval": None,
-                     "dimension_scores": None, "evidence_level": None,
-                     "event_group": None, "rumor_stance": None} for t in topics]
-            # BUG-2 已修：回退时 min_score 不再改写为 0.0。
-            # 无分数可滤时 min_score 仍为 MIN_SCORE，fallback_score 保持 None，
-            # 下游以“topics 全量、min_score 7.0”识别这是一次格式回退。
+            # P318-5：简报里没有任何可解析的条目分数（格式变了）即失败，
+            # 不再回退全量抽取——2026-10-27 的 90 话题事故正是这条回退
+            # 路径（legacy_extract，无过滤、exit 0、min_score 仍写 7.0）
+            # 的复刻条件，只差一次简报格式漂移。格式变了就该失败（与空
+            # 硬门同级），触发 watchdog 补跑，而不是静默全量污染 hotspots。
+            # legacy_extract() 保留供人工恢复时调用，主流程不再用它。
+            print("错误：简报中未解析到任何条目分数（简报格式可能已变），"
+                  "拒绝回退全量抽取", file=sys.stderr)
+            return 1
         else:
             fallback_score = stats["fallback_score"]
             if fallback_score is not None:
@@ -631,7 +721,12 @@ def main():
             os.path.dirname(os.path.abspath(args.summaries)),
             "score_distribution.json",
         )
-        record = build_distribution(scored, md_path=latest if files else None)
+        # P318-6：漏斗的 analyzed 数取自 data/fetch_report.json（本轮
+        # orchestrator 写）；文件缺失时 funnel 只有抓取与过线数。
+        record = build_distribution(
+            scored, md_path=latest if files else None,
+            funnel=_read_funnel(dist_path),
+        )
         # ★ P315 R4/R5：配额与栏目统计随当日分布记录一并留存（该文件已由
         #   workflow 提交回仓库，栏目连续零入选告警靠它跨日比对，不另建文件）。
         if quota_record is not None:
@@ -639,19 +734,29 @@ def main():
             record["source_quota_warn"] = quota_record["source_quota_warn"]
         if column_record is not None:
             record["per_column"] = column_record
-        update_history(dist_path, record)
-        print(f"评分分布已更新 {dist_path}（{record['date']}，共 {record['total_items']} 条，"
-              f"最高 {record['max_score']}，≥7.0 有 {record['count_ge_7']} 条）")
+        # P318-8：栏目连续零入选告警进当日分布记录（column_zero_alerts），
+        # 并写 job summary。先算后写：keep-best 可能留旧记录，告警按
+        # 本轮视角算，不等落盘后再读。
+        column_alerts = []
         if column_record is not None:
             try:
                 _alert_day = datetime.date.fromisoformat(record["date"])
             except ValueError:
                 _alert_day = None
             if _alert_day is not None:
-                for _col in column_zero_alerts(
-                        _read_history_records(dist_path), today=_alert_day):
-                    print(f"栏目告警: {_col} 连续 {COLUMN_ZERO_ALERT_DAYS} 日入选为 0，"
-                          f"请按取材表补源（R5）")
+                column_alerts = column_zero_alerts(
+                    _read_history_records(dist_path) + [record],
+                    today=_alert_day,
+                )
+                if column_alerts:
+                    record["column_zero_alerts"] = column_alerts
+        update_history(dist_path, record)
+        print(f"评分分布已更新 {dist_path}（{record['date']}，共 {record['total_items']} 条，"
+              f"最高 {record['max_score']}，≥7.0 有 {record['count_ge_7']} 条）")
+        for _col in column_alerts:
+            print(f"栏目告警: {_col} 连续 {COLUMN_ZERO_ALERT_DAYS} 日入选为 0，"
+                  f"请按取材表补源（R5）")
+        _write_step_summary_alerts(column_alerts, quota_record)
     except Exception as exc:  # noqa: BLE001 - 分布是观测手段，不能拦主流程
         print(f"警告: 评分分布更新失败 ({exc})，hotspots.json 不受影响", file=sys.stderr)
 

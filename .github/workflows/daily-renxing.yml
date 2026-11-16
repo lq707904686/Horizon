@@ -58,8 +58,6 @@ jobs:
       - name: 运行爆款雷达
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-          LIGHTVELA_API_KEY: ${{ secrets.LIGHTVELA_API_KEY }}
-          RUNINFRA_API_KEY: ${{ secrets.RUNINFRA_API_KEY }}
           NVIDIA_BUILD_API_KEY: ${{ secrets.NVIDIA_BUILD_API_KEY }}
         run: uv run horizon --hours 24
 
@@ -94,6 +92,9 @@ jobs:
           git config user.name "renxing-radar"
           git config user.email "renxing-radar@users.noreply.github.com"
           git add hotspots.json data/score_distribution.json
+          # P318-6/7/9：抓取报告、热榜首见日、跨轮事件库随 hotspots 一起提交，
+          # 否则 runner 是一次性的、跨日状态全丢（文件不存在时跳过，不报错）。
+          for f in data/fetch_report.json data/hotlists_seen.json data/event_history.json; do [ -f "$f" ] && git add "$f"; done
           git diff --cached --quiet || git commit -m "🎯 每日爆款选题 $(date +'%Y-%m-%d')"
           git push
 

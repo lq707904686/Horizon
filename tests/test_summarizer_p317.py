@@ -30,7 +30,7 @@ def _run_async(coro):
 def _make_item(idx, title, *, score=7.5, score_rounds=None, dual_eval=None,
                dimension_scores=None, evidence_level=None,
                cap_triggered=None, video_score=None, event_group=None,
-               event_relation=None):
+               event_relation=None, opening_type=None):
     analysis = ContentAnalysis(
         score=score,
         reason="test",
@@ -42,6 +42,7 @@ def _make_item(idx, title, *, score=7.5, score_rounds=None, dual_eval=None,
         evidence_level=evidence_level,
         cap_triggered=cap_triggered,
         video_score=video_score,
+        opening_type=opening_type,
     )
     item = ContentItem(
         id=f"rss:item-{idx}",
@@ -165,3 +166,18 @@ def test_p317_no_new_lines_without_structured_fields():
     assert "证据等级：" not in result
     assert "视频口径：" not in result
     assert "事件组：" not in result
+
+
+def test_p319_opening_type_line_rendered():
+    """P319-1: opening_type renders as its own line for make_hotspots."""
+    item = _make_item(1, "热点开头条目", score=7.0, opening_type="热点")
+    result = _render([item])
+
+    assert "开头类型：热点" in result
+
+
+def test_p319_no_opening_type_line_without_field():
+    item = _make_item(1, "普通条目", score=7.0)
+    result = _render([item])
+
+    assert "开头类型：" not in result
