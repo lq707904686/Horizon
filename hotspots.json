@@ -5,29 +5,206 @@
     "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"
   ],
   "topics": [
-    "280 亿亏损的猪企",
-    "资本抢抓猪周期底部",
-    "通威介入天邦重整"
+    "内存涨价 7 倍不是 AI 锅",
+    "三大厂串通控价被法院盯上",
+    "国产存储价格杀穿国际市场",
+    "三年赚百万的陷阱",
+    "直销多层计酬违法",
+    "别把牌照当免死金牌",
+    "百亿美金涌入 AI4S",
+    "500 亿估值靠谁撑",
+    "中国 AI4S 验证成本低"
   ],
   "sets": [
     {
-      "topic": "280 亿亏损的猪企",
-      "score": 6.0,
-      "video_score": 5.0,
+      "topic": "内存涨价 7 倍不是 AI 锅",
+      "score": 8.0,
+      "video_score": 11.5,
       "video_feasibility": "可视化可行",
       "video_feasibility_reason": "文章数字 20 个，可落位模板 5 种",
       "category_5": "做生意",
       "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4906102.html?f=rss",
+      "source_url": "https://www.huxiu.com/article/4906284.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        8.0,
+        8.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null
+    },
+    {
+      "topic": "三大厂串通控价被法院盯上",
+      "score": 8.0,
+      "video_score": 11.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 20 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4906284.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        8.0,
+        8.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null
+    },
+    {
+      "topic": "国产存储价格杀穿国际市场",
+      "score": 8.0,
+      "video_score": 11.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 20 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4906284.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        8.0,
+        8.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null
+    },
+    {
+      "topic": "三年赚百万的陷阱",
+      "score": 8.0,
+      "video_score": 11.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 6 个，可落位模板 4 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4906176.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        8.0
+      ],
+      "dual_eval": "single_eval",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null
+    },
+    {
+      "topic": "直销多层计酬违法",
+      "score": 8.0,
+      "video_score": 11.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 6 个，可落位模板 4 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4906176.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        8.0
+      ],
+      "dual_eval": "single_eval",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null
+    },
+    {
+      "topic": "别把牌照当免死金牌",
+      "score": 8.0,
+      "video_score": 11.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 6 个，可落位模板 4 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4906176.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        8.0
+      ],
+      "dual_eval": "single_eval",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null
+    },
+    {
+      "topic": "百亿美金涌入 AI4S",
+      "score": 7.0,
+      "video_score": 8.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 40 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4906345.html?f=rss",
       "source_name": "虎嗅",
       "verified": false,
       "cap_triggered": "未证实7分",
       "score_rounds": [
-        6.0
+        7.0
       ],
       "dual_eval": "single_eval",
       "dimension_scores": {
-        "证据": 1.0,
+        "证据": 2.0,
         "机制": 2.0,
         "决策": 1.0,
         "张力": 1.0,
@@ -39,23 +216,23 @@
       "rumor_stance": "传闻/待核实"
     },
     {
-      "topic": "资本抢抓猪周期底部",
-      "score": 6.0,
-      "video_score": 5.0,
+      "topic": "500 亿估值靠谁撑",
+      "score": 7.0,
+      "video_score": 8.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 20 个，可落位模板 5 种",
+      "video_feasibility_reason": "文章数字 40 个，可落位模板 5 种",
       "category_5": "做生意",
       "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4906102.html?f=rss",
+      "source_url": "https://www.huxiu.com/article/4906345.html?f=rss",
       "source_name": "虎嗅",
       "verified": false,
       "cap_triggered": "未证实7分",
       "score_rounds": [
-        6.0
+        7.0
       ],
       "dual_eval": "single_eval",
       "dimension_scores": {
-        "证据": 1.0,
+        "证据": 2.0,
         "机制": 2.0,
         "决策": 1.0,
         "张力": 1.0,
@@ -67,23 +244,23 @@
       "rumor_stance": "传闻/待核实"
     },
     {
-      "topic": "通威介入天邦重整",
-      "score": 6.0,
-      "video_score": 5.0,
+      "topic": "中国 AI4S 验证成本低",
+      "score": 7.0,
+      "video_score": 8.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 20 个，可落位模板 5 种",
+      "video_feasibility_reason": "文章数字 40 个，可落位模板 5 种",
       "category_5": "做生意",
       "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4906102.html?f=rss",
+      "source_url": "https://www.huxiu.com/article/4906345.html?f=rss",
       "source_name": "虎嗅",
       "verified": false,
       "cap_triggered": "未证实7分",
       "score_rounds": [
-        6.0
+        7.0
       ],
       "dual_eval": "single_eval",
       "dimension_scores": {
-        "证据": 1.0,
+        "证据": 2.0,
         "机制": 2.0,
         "决策": 1.0,
         "张力": 1.0,
@@ -96,6 +273,6 @@
     }
   ],
   "min_score": 7.0,
-  "fallback_score": 6.0,
-  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。video_feasibility 为 null 表示未复核；“不可行”表示文章没有可上画面的数字，剧本无米下锅，选题会前先看这档。【回退】当日无 7.0 分以上条目，已按当日最高分档 6.0 分抽取（只取该档第 1 个条目、最多 3 个话题，低分凑数不再出简报）；min_score 仍为 7.0，不是 6.0，使用前请重点核实事实（干旱日规则）。verified=false 的条目被封顶（标题级/未证实/纯观点），只可按传闻/待核实口径使用。"
+  "fallback_score": null,
+  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。video_feasibility 为 null 表示未复核；“不可行”表示文章没有可上画面的数字，剧本无米下锅，选题会前先看这档。"
 }

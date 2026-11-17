@@ -228,37 +228,37 @@
     },
     {
       "date": "2026-11-17",
-      "total_items": 3,
-      "candidate_pool_total": 458,
-      "max_score": 6.0,
-      "count_ge_7": 0,
-      "count_ge_5": 3,
+      "total_items": 15,
+      "candidate_pool_total": 603,
+      "max_score": 8.0,
+      "count_ge_7": 3,
+      "count_ge_5": 15,
       "bands": {
         "below_5": 0,
-        "5.0-5.9": 1,
-        "6.0-6.9": 2,
-        "7.0-7.9": 0,
-        "8.0+": 0
+        "5.0-5.9": 0,
+        "6.0-6.9": 12,
+        "7.0-7.9": 1,
+        "8.0+": 2
       },
       "funnel": {
-        "fetched": 458,
-        "analyzed": 458,
-        "ge_5": 3,
-        "ge_7": 0
+        "fetched": 603,
+        "analyzed": 603,
+        "ge_5": 15,
+        "ge_7": 3
       },
       "opening_types": {
-        "热点": 2,
-        "真实案例": 1
+        "真实案例": 8,
+        "热点": 6,
+        "反常识": 1
       },
       "per_source_unit": "条目数（简报内带分条目，按条目计）",
       "per_source": {
-        "虎嗅": 2,
-        "36氪24小时热榜": 1
+        "虎嗅": 15
       },
       "kept_source_shares": [
         {
           "source": "虎嗅",
-          "count": 3,
+          "count": 9,
           "share": 1.0,
           "unit": "话题数（入选 hotspots 话题，按话题计）"
         }
@@ -268,7 +268,7 @@
       ],
       "per_column": {
         "看职场": {
-          "items": 1,
+          "items": 4,
           "ge_7": 0,
           "selected": 0
         },
@@ -278,9 +278,9 @@
           "selected": 0
         },
         "做生意": {
-          "items": 2,
-          "ge_7": 0,
-          "selected": 3
+          "items": 10,
+          "ge_7": 3,
+          "selected": 9
         },
         "做销售": {
           "items": 0,
@@ -288,7 +288,7 @@
           "selected": 0
         },
         "去创业": {
-          "items": 0,
+          "items": 1,
           "ge_7": 0,
           "selected": 0
         },

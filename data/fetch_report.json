@@ -2,23 +2,23 @@
   "status": "success",
   "attempted": 2,
   "successful": 2,
-  "empty": 1,
+  "empty": 0,
   "failed": 0,
-  "item_count": 458,
+  "item_count": 603,
   "sources": [
     {
       "source": "RSS Feeds",
       "status": "success",
-      "item_count": 458,
-      "duration_sec": 211.03
+      "item_count": 543,
+      "duration_sec": 1693.52
     },
     {
       "source": "Google News",
-      "status": "empty",
-      "item_count": 0,
-      "duration_sec": 0.52
+      "status": "success",
+      "item_count": 60,
+      "duration_sec": 10.2
     }
   ],
   "date": "2026-11-17",
-  "analyzed": 458
+  "analyzed": 603
 }
