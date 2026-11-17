@@ -1,0 +1,24 @@
+{
+  "status": "success",
+  "attempted": 2,
+  "successful": 2,
+  "empty": 1,
+  "failed": 0,
+  "item_count": 458,
+  "sources": [
+    {
+      "source": "RSS Feeds",
+      "status": "success",
+      "item_count": 458,
+      "duration_sec": 211.03
+    },
+    {
+      "source": "Google News",
+      "status": "empty",
+      "item_count": 0,
+      "duration_sec": 0.52
+    }
+  ],
+  "date": "2026-11-17",
+  "analyzed": 458
+}
