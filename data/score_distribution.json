@@ -303,6 +303,83 @@
         "做销售",
         "去创业"
       ]
+    },
+    {
+      "date": "2026-11-18",
+      "total_items": 3,
+      "candidate_pool_total": 505,
+      "max_score": 6.0,
+      "count_ge_7": 0,
+      "count_ge_5": 3,
+      "bands": {
+        "below_5": 0,
+        "5.0-5.9": 2,
+        "6.0-6.9": 1,
+        "7.0-7.9": 0,
+        "8.0+": 0
+      },
+      "funnel": {
+        "fetched": 505,
+        "analyzed": 505,
+        "ge_5": 3,
+        "ge_7": 0
+      },
+      "opening_types": {
+        "真实案例": 3
+      },
+      "per_source_unit": "条目数（简报内带分条目，按条目计）",
+      "per_source": {
+        "爱范儿": 2,
+        "贴吧搜索": 1
+      },
+      "kept_source_shares": [
+        {
+          "source": "贴吧搜索",
+          "count": 2,
+          "share": 1.0,
+          "unit": "话题数（入选 hotspots 话题，按话题计）"
+        }
+      ],
+      "source_quota_warn": [
+        "贴吧搜索"
+      ],
+      "per_column": {
+        "看职场": {
+          "items": 2,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "带队伍": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "做生意": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "做销售": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "去创业": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "其他": {
+          "items": 1,
+          "ge_7": 0,
+          "selected": 2
+        }
+      },
+      "column_zero_alerts": [
+        "带队伍",
+        "做销售",
+        "去创业"
+      ]
     }
   ]
 }

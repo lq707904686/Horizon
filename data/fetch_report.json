@@ -4,21 +4,21 @@
   "successful": 2,
   "empty": 0,
   "failed": 0,
-  "item_count": 603,
+  "item_count": 505,
   "sources": [
     {
       "source": "RSS Feeds",
       "status": "success",
-      "item_count": 543,
-      "duration_sec": 1693.52
+      "item_count": 445,
+      "duration_sec": 174.21
     },
     {
       "source": "Google News",
       "status": "success",
       "item_count": 60,
-      "duration_sec": 10.2
+      "duration_sec": 9.96
     }
   ],
   "date": "2026-11-17",
-  "analyzed": 603
+  "analyzed": 505
 }
