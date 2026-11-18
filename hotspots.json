@@ -5,26 +5,28 @@
     "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"
   ],
   "topics": [
-    "19 年感情骗 46 万",
-    "男友是女儿身被判七年"
+    "内存涨价 7 倍不是 AI 锅",
+    "三大厂串通控产被查",
+    "国产存储正掀桌"
   ],
   "sets": [
     {
-      "topic": "19 年感情骗 46 万",
-      "score": 6.0,
-      "video_score": 11.5,
+      "topic": "内存涨价 7 倍不是 AI 锅",
+      "score": 8.0,
+      "video_score": 12.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 4 个，可落位模板 4 种",
-      "category_5": null,
-      "source": "贴吧搜索",
-      "source_url": "https://tieba.baidu.com/p/11203942606?pid=154150753428#154150753428",
-      "source_name": "贴吧搜索",
-      "verified": false,
-      "cap_triggered": "标题级6分",
+      "video_feasibility_reason": "文章数字 20 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4073691017499523",
+      "source_name": "36氪24小时热榜",
+      "verified": true,
+      "cap_triggered": null,
       "score_rounds": [
-        6.0
+        9.0,
+        9.0
       ],
-      "dual_eval": "single_eval",
+      "dual_eval": "dual",
       "dimension_scores": {
         "证据": 2.0,
         "机制": 2.0,
@@ -32,27 +34,28 @@
         "张力": 2.0,
         "金句": 2.0
       },
-      "evidence_level": "title_only",
-      "event_group": null,
+      "evidence_level": "verified",
+      "event_group": "evt:history:三大厂内存涨价7倍的锅，AI不背了",
       "opening_type": "真实案例",
-      "rumor_stance": "传闻/待核实"
+      "rumor_stance": null
     },
     {
-      "topic": "男友是女儿身被判七年",
-      "score": 6.0,
-      "video_score": 11.5,
+      "topic": "三大厂串通控产被查",
+      "score": 8.0,
+      "video_score": 12.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 4 个，可落位模板 4 种",
-      "category_5": null,
-      "source": "贴吧搜索",
-      "source_url": "https://tieba.baidu.com/p/11203942606?pid=154150753428#154150753428",
-      "source_name": "贴吧搜索",
-      "verified": false,
-      "cap_triggered": "标题级6分",
+      "video_feasibility_reason": "文章数字 20 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4073691017499523",
+      "source_name": "36氪24小时热榜",
+      "verified": true,
+      "cap_triggered": null,
       "score_rounds": [
-        6.0
+        9.0,
+        9.0
       ],
-      "dual_eval": "single_eval",
+      "dual_eval": "dual",
       "dimension_scores": {
         "证据": 2.0,
         "机制": 2.0,
@@ -60,13 +63,42 @@
         "张力": 2.0,
         "金句": 2.0
       },
-      "evidence_level": "title_only",
-      "event_group": null,
+      "evidence_level": "verified",
+      "event_group": "evt:history:三大厂内存涨价7倍的锅，AI不背了",
       "opening_type": "真实案例",
-      "rumor_stance": "传闻/待核实"
+      "rumor_stance": null
+    },
+    {
+      "topic": "国产存储正掀桌",
+      "score": 8.0,
+      "video_score": 12.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 20 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4073691017499523",
+      "source_name": "36氪24小时热榜",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        9.0,
+        9.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": "evt:history:三大厂内存涨价7倍的锅，AI不背了",
+      "opening_type": "真实案例",
+      "rumor_stance": null
     }
   ],
   "min_score": 7.0,
-  "fallback_score": 6.0,
-  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。video_feasibility 为 null 表示未复核；“不可行”表示文章没有可上画面的数字，剧本无米下锅，选题会前先看这档。【回退】当日无 7.0 分以上条目，已按当日最高分档 6.0 分抽取（只取该档第 1 个条目、最多 3 个话题，低分凑数不再出简报）；min_score 仍为 7.0，不是 6.0，使用前请重点核实事实（干旱日规则）。verified=false 的条目被封顶（标题级/未证实/纯观点），只可按传闻/待核实口径使用。"
+  "fallback_score": null,
+  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。video_feasibility 为 null 表示未复核；“不可行”表示文章没有可上画面的数字，剧本无米下锅，选题会前先看这档。"
 }
