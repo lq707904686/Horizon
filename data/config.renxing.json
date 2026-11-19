@@ -1,22 +1,22 @@
 {
   "ai": {
-    "analysis_concurrency": 2,
-    "api_key_env": "NVIDIA_BUILD_API_KEY",
-    "base_url": "https://integrate.api.nvidia.com/v1",
+    "analysis_concurrency": 5,
+    "api_key_env": "LIGHTVELA_API_KEY",
+    "base_url": "https://token.lightvela.ai/v1",
     "chain_attempt_timeout_sec": 120,
-    "enrichment_concurrency": 2,
+    "enrichment_concurrency": 5,
     "languages": [
       "zh"
     ],
     "max_tokens": 8192,
-    "model": "nvidia/nemotron-3.5-bolt-e4b",
+    "model": "auto",
     "provider": "openai",
     "provider_chain": "openai,deepseek",
     "temperature": 0.3,
-    "throttle_sec": 2
+    "throttle_sec": 1
   },
   "collection": {
-    "time_window_hours": 24
+    "time_window_hours": 12
   },
   "digest": {
     "max_items": 15,
