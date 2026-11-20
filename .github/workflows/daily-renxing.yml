@@ -62,7 +62,7 @@ jobs:
           LIGHTVELA_API_KEY: ${{ secrets.LIGHTVELA_API_KEY }}
           RUNINFRA_API_KEY: ${{ secrets.RUNINFRA_API_KEY }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        run: uv run horizon --hours 12
+        run: uv run horizon --hours 24
 
       - name: 按北京时间重命名简报（Horizon 文件名用 UTC）
         # Horizon 内部用 UTC 定文件名与 front-matter 日期，TZ 环境变量改不了它；

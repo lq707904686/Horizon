@@ -16,7 +16,7 @@
     "throttle_sec": 1
   },
   "collection": {
-    "time_window_hours": 12
+    "time_window_hours": 24
   },
   "digest": {
     "max_items": 15,
