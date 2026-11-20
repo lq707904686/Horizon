@@ -1,22 +1,22 @@
 {
   "ai": {
     "analysis_concurrency": 5,
-    "api_key_env": "RUNINFRA_API_KEY",
-    "base_url": "https://runinfra.ai/v1",
+    "api_key_env": "LIGHTVELA_API_KEY",
+    "base_url": "https://token.lightvela.ai/v1",
     "chain_attempt_timeout_sec": 120,
     "enrichment_concurrency": 5,
     "languages": [
       "zh"
     ],
     "max_tokens": 8192,
-    "model": "glm-5-3-flash",
+    "model": "deepseek-v4-pro-202606",
     "provider": "openai",
     "provider_chain": "openai,deepseek",
     "temperature": 0.3,
     "throttle_sec": 1
   },
   "collection": {
-    "time_window_hours": 24
+    "time_window_hours": 12
   },
   "digest": {
     "max_items": 15,
