@@ -239,7 +239,7 @@
       "profile": "renxing"
     },
     "gdelt": {
-      "enabled": true,
+      "enabled": false,
       "query": "创业 OR 职场 OR 搞钱 OR 做生意 OR 销售",
       "mode": "ArtList",
       "max_records": 50,
