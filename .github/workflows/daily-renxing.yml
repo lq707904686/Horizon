@@ -9,7 +9,7 @@ on:
 jobs:
   daily-radar:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 240
     concurrency:
       group: renxing-daily
       cancel-in-progress: false

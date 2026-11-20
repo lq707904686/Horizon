@@ -3,7 +3,7 @@
     "analysis_concurrency": 10,
     "api_key_env": "LV_GATEWAY_KEY",
     "base_url": "https://lightvela-rotator.lq707904686.workers.dev/v1",
-    "chain_attempt_timeout_sec": 120,
+    "chain_attempt_timeout_sec": 180,
     "enrichment_concurrency": 5,
     "languages": [
       "zh"
