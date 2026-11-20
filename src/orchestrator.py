@@ -30,6 +30,7 @@ from .scrapers.ossinsight import OSSInsightScraper
 from .scrapers.gdelt import GDELTScraper
 from .scrapers.google_news import GoogleNewsScraper
 from .scrapers.bilibili import BilibiliScraper
+from .scrapers.youtube import YoutubeScraper
 from .ai.client import create_ai_client
 from .ai.analyzer import ContentAnalyzer
 from .ai.summarizer import DailySummarizer
@@ -713,6 +714,12 @@ class HorizonOrchestrator:
             if self.config.sources.bilibili and self.config.sources.bilibili.enabled:
                 bilibili_scraper = BilibiliScraper(self.config.sources.bilibili, client)
                 tasks.append(self._fetch_with_progress("Bilibili", bilibili_scraper, since))
+
+            # YouTube Data API v3 (official key-based API; no key -> []
+            # inside the scraper, other sources keep running)
+            if self.config.sources.youtube and self.config.sources.youtube.enabled:
+                youtube_scraper = YoutubeScraper(self.config.sources.youtube, client)
+                tasks.append(self._fetch_with_progress("YouTube", youtube_scraper, since))
 
             # Fetch all concurrently
             outcomes = await asyncio.gather(*tasks)

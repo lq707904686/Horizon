@@ -248,6 +248,14 @@
       "category": "新闻",
       "profile": "renxing"
     },
+    "youtube": {
+      "enabled": true,
+      "queries": ["看职场", "带队伍", "做生意", "做销售", "去创业"],
+      "max_results": 10,
+      "api_key_env": "YOUTUBE_API_KEY",
+      "category": "视频",
+      "profile": "renxing"
+    },
     "twitter": {
       "enabled": false
     }

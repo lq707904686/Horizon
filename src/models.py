@@ -21,6 +21,7 @@ class SourceType(str, Enum):
     GDELT = "gdelt"
     GOOGLE_NEWS = "google_news"
     BILIBILI = "bilibili"
+    YOUTUBE = "youtube"
 
 
 class SourceDefinition(NamedTuple):
@@ -43,6 +44,7 @@ SOURCE_REGISTRY = {
     SourceType.GDELT.value: SourceDefinition("gdelt"),
     SourceType.GOOGLE_NEWS.value: SourceDefinition("google_news"),
     SourceType.BILIBILI.value: SourceDefinition("bilibili"),
+    SourceType.YOUTUBE.value: SourceDefinition("youtube"),
 }
 
 ProfileRoute = Optional[Union[str, List[str]]]
@@ -592,6 +594,36 @@ class BilibiliConfig(BaseModel):
     profile: ProfileRoute = None
 
 
+class YoutubeConfig(BaseModel):
+    """YouTube Data API v3 video source configuration.
+
+    Official, key-based API (10,000 quota units/day on the free tier;
+    no card needed for the key). The key is read from the environment
+    at fetch time (``api_key_env``, default ``YOUTUBE_API_KEY``) and is
+    never written into the repo or the config.
+
+    Quota ledger per daily run (defaults: 5 queries x maxResults 10):
+    5 x search.list (100 units each) + 1 x videos.list (1 unit) =
+    501 units/day, about 5% of the daily quota. Each extra query adds
+    100 units.
+
+    Channel RSS is deliberately NOT used: ``youtube.com/robots.txt``
+    disallows ``/feeds/videos.xml`` (same standard that stopped the
+    Sogou probe and the Weibo ajax hotlist). ``chart=mostPopular`` +
+    ``regionCode=CN`` is also not used: YouTube is not available in
+    mainland China, so that combination yields nothing; keyword search
+    with ``order=date`` is the source.
+    """
+
+    enabled: bool = False
+    # The five renxing columns; one search.list call (100 units) each.
+    queries: List[str] = ["看职场", "带队伍", "做生意", "做销售", "去创业"]
+    max_results: int = 10  # per query; videos.list batches up to 50 ids
+    api_key_env: str = "YOUTUBE_API_KEY"
+    category: Optional[str] = None
+    profile: ProfileRoute = None
+
+
 class SourcesConfig(BaseModel):
     """All sources configuration."""
 
@@ -606,6 +638,7 @@ class SourcesConfig(BaseModel):
     gdelt: Optional[GDELTConfig] = None
     google_news: Optional[GoogleNewsConfig] = None
     bilibili: Optional[BilibiliConfig] = None
+    youtube: Optional[YoutubeConfig] = None
 
 
 class WebhookConfig(BaseModel):
