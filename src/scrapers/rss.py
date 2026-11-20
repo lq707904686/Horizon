@@ -18,6 +18,20 @@ from ..models import ContentItem, SourceType, RSSSourceConfig
 logger = logging.getLogger(__name__)
 
 
+def _media_views(entry: dict) -> Optional[int]:
+    """Read a play/view count from a feedparser entry, if present.
+
+    YouTube channel RSS exposes it as ``media:statistics`` views;
+    plain RSS/Atom feeds have no such field and return None.
+    """
+    stats = entry.get("media_statistics") or {}
+    raw = stats.get("views")
+    try:
+        return int(raw) if raw is not None else None
+    except (TypeError, ValueError):
+        return None
+
+
 class RSSScraper(BaseScraper):
     """Scraper for RSS/Atom feeds."""
 
@@ -125,6 +139,10 @@ class RSSScraper(BaseScraper):
                         "feed_name": source.name,
                         "category": source.category,
                         "tags": [tag.term for tag in entry.get("tags", [])],
+                        # YouTube channel RSS carries play counts as
+                        # media:statistics; feedparser exposes them here.
+                        # Plain RSS/Atom feeds have no such field.
+                        "view_count": _media_views(entry),
                     },
                 )
                 items.append(item)

@@ -20,6 +20,7 @@ class SourceType(str, Enum):
     OSSINSIGHT = "ossinsight"
     GDELT = "gdelt"
     GOOGLE_NEWS = "google_news"
+    BILIBILI = "bilibili"
 
 
 class SourceDefinition(NamedTuple):
@@ -41,6 +42,7 @@ SOURCE_REGISTRY = {
     SourceType.OSSINSIGHT.value: SourceDefinition("ossinsight"),
     SourceType.GDELT.value: SourceDefinition("gdelt"),
     SourceType.GOOGLE_NEWS.value: SourceDefinition("google_news"),
+    SourceType.BILIBILI.value: SourceDefinition("bilibili"),
 }
 
 ProfileRoute = Optional[Union[str, List[str]]]
@@ -568,6 +570,28 @@ class GoogleNewsConfig(BaseModel):
     content_extractor: Optional[str] = None
 
 
+class BilibiliConfig(BaseModel):
+    """Bilibili ranking/popular video source configuration.
+
+    Pulls video candidates from the key-less Bilibili public APIs
+    (``/x/web-interface/ranking/v2`` per分区 + ``/x/web-interface/popular``).
+    No API key, no login. Verified 2026-11-20: ``popular`` yields 8/20
+    items inside 24 h and ranking rid=0 yields 4/100; rid=36/160/188
+    answer code 0 but froze 2025-04-02, so only rid=0 is on by default.
+    rid=201 （财经） answers code -400 and must NOT be configured.
+    Video metrics (view/like/duration) ride in ``ContentItem.metadata``;
+    no full-text extraction runs.
+    """
+
+    enabled: bool = False
+    rids: List[int] = [0]  # only rid=0 is fresh daily; 36/160/188 froze 2025-04-02
+    include_popular: bool = True
+    popular_page_size: int = 20
+    min_view: int = 0  # 0 = no view-count filter; ranking is heat-ordered
+    category: Optional[str] = None
+    profile: ProfileRoute = None
+
+
 class SourcesConfig(BaseModel):
     """All sources configuration."""
 
@@ -581,6 +605,7 @@ class SourcesConfig(BaseModel):
     ossinsight: OSSInsightConfig = Field(default_factory=OSSInsightConfig)
     gdelt: Optional[GDELTConfig] = None
     google_news: Optional[GoogleNewsConfig] = None
+    bilibili: Optional[BilibiliConfig] = None
 
 
 class WebhookConfig(BaseModel):

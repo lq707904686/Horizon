@@ -135,6 +135,28 @@
       {
         "category": "热榜",
         "enabled": true,
+        "name": "第一财经",
+        "profile": "renxing",
+        "url": "http://127.0.0.1:8123/yicai.xml"
+      },
+      {
+        "category": "热榜",
+        "enabled": true,
+        "name": "虎嗅网热文",
+        "profile": "renxing",
+        "url": "http://127.0.0.1:8123/huxiu_hot.xml"
+      },
+      {
+        "category": "商业",
+        "enabled": true,
+        "name": "36氪最新文章",
+        "profile": "renxing",
+        "url": "https://www.36kr.com/feed",
+        "content_extractor": "trafilatura"
+      },
+      {
+        "category": "热榜",
+        "enabled": true,
         "name": "贴吧搜索·裁员",
         "profile": "renxing",
         "url": "https://www.sinrowa.com/baidu/tieba/search/%E8%A3%81%E5%91%98?only_thread=1"
@@ -188,10 +210,43 @@
         "profile": "renxing",
         "url": "https://www.sinrowa.com/36kr/hot-list",
         "content_extractor": "trafilatura"
+      },
+      {
+        "category": "视频",
+        "enabled": false,
+        "name": "YouTube·躺平叔",
+        "profile": "renxing",
+        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCrLtQJG-ZNJeU08N0SNIJzw"
+      },
+      {
+        "category": "视频",
+        "enabled": false,
+        "name": "YouTube·老高與小茉",
+        "profile": "renxing",
+        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCMUnInmOkrWN4gof9KlhNmQ"
       }
     ],
     "telegram": {
       "enabled": false
+    },
+    "bilibili": {
+      "enabled": true,
+      "rids": [0],
+      "include_popular": true,
+      "popular_page_size": 20,
+      "min_view": 0,
+      "category": "视频",
+      "profile": "renxing"
+    },
+    "gdelt": {
+      "enabled": true,
+      "query": "创业 OR 职场 OR 搞钱 OR 做生意 OR 销售",
+      "mode": "ArtList",
+      "max_records": 50,
+      "timespan": "24h",
+      "language": "Chinese",
+      "category": "新闻",
+      "profile": "renxing"
     },
     "twitter": {
       "enabled": false

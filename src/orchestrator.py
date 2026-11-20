@@ -29,6 +29,7 @@ from .scrapers.openbb import OpenBBScraper
 from .scrapers.ossinsight import OSSInsightScraper
 from .scrapers.gdelt import GDELTScraper
 from .scrapers.google_news import GoogleNewsScraper
+from .scrapers.bilibili import BilibiliScraper
 from .ai.client import create_ai_client
 from .ai.analyzer import ContentAnalyzer
 from .ai.summarizer import DailySummarizer
@@ -707,6 +708,11 @@ class HorizonOrchestrator:
                     ExtractorRegistry(self.config.extractors),
                 )
                 tasks.append(self._fetch_with_progress("Google News", gn_scraper, since))
+
+            # Bilibili ranking/popular (key-less video lists, no extraction)
+            if self.config.sources.bilibili and self.config.sources.bilibili.enabled:
+                bilibili_scraper = BilibiliScraper(self.config.sources.bilibili, client)
+                tasks.append(self._fetch_with_progress("Bilibili", bilibili_scraper, since))
 
             # Fetch all concurrently
             outcomes = await asyncio.gather(*tasks)

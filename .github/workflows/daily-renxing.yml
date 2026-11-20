@@ -48,9 +48,9 @@ jobs:
           sleep 2
           curl -fsS -o /dev/null -w "baidu.xml: %{http_code}\n" http://127.0.0.1:8123/baidu.xml
           curl -fsS -o /dev/null -w "toutiao.xml: %{http_code}\n" http://127.0.0.1:8123/toutiao.xml
-          for f in weixin weibo douyin bilibili zhihu; do curl -fsS -o /dev/null -w "$f.xml: %{http_code}\n" http://127.0.0.1:8123/$f.xml; done
-          # BUG-1 根治：上面任一源 404/500 即失败退出；再验 7 个文件本地均非空
-          for f in baidu toutiao weixin weibo douyin bilibili zhihu; do test -s "data/hotlists/$f.xml" || { echo "热榜文件缺失或为空: $f.xml"; exit 1; }; done
+          for f in weixin weibo douyin bilibili zhihu yicai huxiu_hot; do curl -fsS -o /dev/null -w "$f.xml: %{http_code}\n" http://127.0.0.1:8123/$f.xml; done
+          # BUG-1 根治：上面任一源 404/500 即失败退出；再验 9 个文件本地均非空
+          for f in baidu toutiao weixin weibo douyin bilibili zhihu yicai huxiu_hot; do test -s "data/hotlists/$f.xml" || { echo "热榜文件缺失或为空: $f.xml"; exit 1; }; done
 
       - name: 加载历史反馈加权（v1.8 反馈闭环）
         run: python tools/load_feedback.py --window 14 --log data/feedback_log.jsonl --prompt profiles/renxing/analysis.md

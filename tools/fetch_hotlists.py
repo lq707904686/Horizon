@@ -150,6 +150,11 @@ TOPHUB_NODES = [
     ("DpQvNABoNE", "douyin", "douyin.xml", "抖音总榜"),
     ("74KvxwokxM", "bilibili", "bilibili.xml", "哔哩哔哩全站日榜"),
     ("mproPpoq6O", "zhihu", "zhihu.xml", "知乎热榜"),
+    # 2026-11-20 雷达线路扩容新增（实测：第一财经 10 条、虎嗅热文 15 条）：
+    # 雪球/华尔街见闻偏个股，与“排除股市个股”口径冲突，不接；
+    # tophub 36氪节点与 sinrowa 36氪热榜疑似同一上游，不重复接。
+    ("0MdKam4ow1", "yicai", "yicai.xml", "第一财经"),
+    ("5VaobgvAj1", "huxiu", "huxiu_hot.xml", "虎嗅网热文"),
 ]
 
 
