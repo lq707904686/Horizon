@@ -1,8 +1,8 @@
 {
   "ai": {
-    "analysis_concurrency": 5,
-    "api_key_env": "LIGHTVELA_API_KEY",
-    "base_url": "https://token.lightvela.ai/v1",
+    "analysis_concurrency": 10,
+    "api_key_env": "LV_GATEWAY_KEY",
+    "base_url": "https://lightvela-rotator.lq707904686.workers.dev/v1",
     "chain_attempt_timeout_sec": 120,
     "enrichment_concurrency": 5,
     "languages": [
@@ -16,7 +16,7 @@
     "throttle_sec": 1
   },
   "collection": {
-    "time_window_hours": 24
+    "time_window_hours": 12
   },
   "digest": {
     "max_items": 15,
