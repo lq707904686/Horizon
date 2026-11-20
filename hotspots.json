@@ -1,117 +1,27 @@
 {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "scope": "人性台账爆款选题雷达·每日选题 (Horizon renxing profile, 图文源)",
   "queries": [
     "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"
   ],
   "topics": [
-    "挂名法人离职难除名",
-    "宗馥莉心腹起诉娃哈哈",
-    "150 家公司挂名法人",
-    "机器人日租跌到 1800",
-    "月租 2 万 2 扛不住",
-    "7 月后机器人融资下滑",
-    "5300 人一夜暴富",
-    "行政岗期权赚 138 万",
-    "开盘买入当天亏 12.9%"
+    "欧盟 3 欧元关税",
+    "9.5 亿件小包裹消失",
+    "20 欧元商品收 12 欧元税",
+    "订单涨 7%利润跌 8.9%",
+    "平台开食堂商家变打工",
+    "外卖停战巨头抢后厨"
   ],
   "sets": [
     {
-      "topic": "挂名法人离职难除名",
-      "score": 7.25,
-      "video_score": 9.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 38 个，可落位模板 5 种",
-      "category_5": "看职场",
-      "source": "36氪24小时热榜",
-      "source_url": "https://www.36kr.com/p/4077339293242504",
-      "source_name": "36氪24小时热榜",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": "evt:rss:www.sinrowa.com_36kr_hot-list:b1cccea0e516ccdf",
-      "opening_type": "热点",
-      "rumor_stance": null
-    },
-    {
-      "topic": "宗馥莉心腹起诉娃哈哈",
-      "score": 7.25,
-      "video_score": 9.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 38 个，可落位模板 5 种",
-      "category_5": "看职场",
-      "source": "36氪24小时热榜",
-      "source_url": "https://www.36kr.com/p/4077339293242504",
-      "source_name": "36氪24小时热榜",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": "evt:rss:www.sinrowa.com_36kr_hot-list:b1cccea0e516ccdf",
-      "opening_type": "热点",
-      "rumor_stance": null
-    },
-    {
-      "topic": "150 家公司挂名法人",
-      "score": 7.25,
-      "video_score": 9.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 38 个，可落位模板 5 种",
-      "category_5": "看职场",
-      "source": "36氪24小时热榜",
-      "source_url": "https://www.36kr.com/p/4077339293242504",
-      "source_name": "36氪24小时热榜",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": "evt:rss:www.sinrowa.com_36kr_hot-list:b1cccea0e516ccdf",
-      "opening_type": "热点",
-      "rumor_stance": null
-    },
-    {
-      "topic": "机器人日租跌到 1800",
+      "topic": "欧盟 3 欧元关税",
       "score": 7.0,
-      "video_score": 8.0,
+      "video_score": 7.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 7 个，可落位模板 4 种",
-      "category_5": "去创业",
+      "video_feasibility_reason": "文章数字 10 个，可落位模板 5 种",
+      "category_5": "做生意",
       "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907053.html?f=rss",
+      "source_url": "https://www.huxiu.com/article/4907325.html?f=rss",
       "source_name": "虎嗅",
       "verified": true,
       "cap_triggered": null,
@@ -133,14 +43,14 @@
       "rumor_stance": null
     },
     {
-      "topic": "月租 2 万 2 扛不住",
+      "topic": "9.5 亿件小包裹消失",
       "score": 7.0,
-      "video_score": 8.0,
+      "video_score": 7.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 7 个，可落位模板 4 种",
-      "category_5": "去创业",
+      "video_feasibility_reason": "文章数字 10 个，可落位模板 5 种",
+      "category_5": "做生意",
       "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907053.html?f=rss",
+      "source_url": "https://www.huxiu.com/article/4907325.html?f=rss",
       "source_name": "虎嗅",
       "verified": true,
       "cap_triggered": null,
@@ -162,14 +72,14 @@
       "rumor_stance": null
     },
     {
-      "topic": "7 月后机器人融资下滑",
+      "topic": "20 欧元商品收 12 欧元税",
       "score": 7.0,
-      "video_score": 8.0,
+      "video_score": 7.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 7 个，可落位模板 4 种",
-      "category_5": "去创业",
+      "video_feasibility_reason": "文章数字 10 个，可落位模板 5 种",
+      "category_5": "做生意",
       "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907053.html?f=rss",
+      "source_url": "https://www.huxiu.com/article/4907325.html?f=rss",
       "source_name": "虎嗅",
       "verified": true,
       "cap_triggered": null,
@@ -191,15 +101,15 @@
       "rumor_stance": null
     },
     {
-      "topic": "5300 人一夜暴富",
+      "topic": "订单涨 7%利润跌 8.9%",
       "score": 7.0,
       "video_score": 8.5,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 55 个，可落位模板 5 种",
-      "category_5": "看职场",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907033.html?f=rss",
-      "source_name": "虎嗅",
+      "video_feasibility_reason": "文章数字 19 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4077469093467782",
+      "source_name": "36氪24小时热榜",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
@@ -215,20 +125,20 @@
         "金句": 2.0
       },
       "evidence_level": "verified",
-      "event_group": "evt:rss:www.sinrowa.com_36kr_hot-list:b1cccea0e516ccdf",
+      "event_group": null,
       "opening_type": "热点",
       "rumor_stance": null
     },
     {
-      "topic": "行政岗期权赚 138 万",
+      "topic": "平台开食堂商家变打工",
       "score": 7.0,
       "video_score": 8.5,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 55 个，可落位模板 5 种",
-      "category_5": "看职场",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907033.html?f=rss",
-      "source_name": "虎嗅",
+      "video_feasibility_reason": "文章数字 19 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4077469093467782",
+      "source_name": "36氪24小时热榜",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
@@ -244,20 +154,20 @@
         "金句": 2.0
       },
       "evidence_level": "verified",
-      "event_group": "evt:rss:www.sinrowa.com_36kr_hot-list:b1cccea0e516ccdf",
+      "event_group": null,
       "opening_type": "热点",
       "rumor_stance": null
     },
     {
-      "topic": "开盘买入当天亏 12.9%",
+      "topic": "外卖停战巨头抢后厨",
       "score": 7.0,
       "video_score": 8.5,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 55 个，可落位模板 5 种",
-      "category_5": "看职场",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907033.html?f=rss",
-      "source_name": "虎嗅",
+      "video_feasibility_reason": "文章数字 19 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4077469093467782",
+      "source_name": "36氪24小时热榜",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
@@ -273,7 +183,7 @@
         "金句": 2.0
       },
       "evidence_level": "verified",
-      "event_group": "evt:rss:www.sinrowa.com_36kr_hot-list:b1cccea0e516ccdf",
+      "event_group": null,
       "opening_type": "热点",
       "rumor_stance": null
     }
