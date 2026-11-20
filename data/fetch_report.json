@@ -1,24 +1,42 @@
 {
   "status": "success",
-  "attempted": 2,
-  "successful": 2,
-  "empty": 0,
+  "attempted": 5,
+  "successful": 5,
+  "empty": 2,
   "failed": 0,
-  "item_count": 388,
+  "item_count": 477,
   "sources": [
     {
       "source": "RSS Feeds",
       "status": "success",
-      "item_count": 328,
-      "duration_sec": 761.2
+      "item_count": 415,
+      "duration_sec": 855.09
+    },
+    {
+      "source": "GDELT",
+      "status": "empty",
+      "item_count": 0,
+      "duration_sec": 9.96
     },
     {
       "source": "Google News",
       "status": "success",
       "item_count": 60,
-      "duration_sec": 8.99
+      "duration_sec": 18.88
+    },
+    {
+      "source": "Bilibili",
+      "status": "success",
+      "item_count": 2,
+      "duration_sec": 1.79
+    },
+    {
+      "source": "YouTube",
+      "status": "empty",
+      "item_count": 0,
+      "duration_sec": 0.0
     }
   ],
-  "date": "2026-11-18",
-  "analyzed": 386
+  "date": "2026-11-20",
+  "analyzed": 477
 }

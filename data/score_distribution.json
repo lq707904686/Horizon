@@ -383,6 +383,91 @@
         "做销售",
         "去创业"
       ]
+    },
+    {
+      "date": "2026-11-20",
+      "total_items": 14,
+      "candidate_pool_total": 477,
+      "max_score": 7.25,
+      "count_ge_7": 3,
+      "count_ge_5": 14,
+      "bands": {
+        "below_5": 0,
+        "5.0-5.9": 2,
+        "6.0-6.9": 9,
+        "7.0-7.9": 3,
+        "8.0+": 0
+      },
+      "funnel": {
+        "fetched": 477,
+        "analyzed": 477,
+        "ge_5": 14,
+        "ge_7": 3
+      },
+      "opening_types": {
+        "热点": 9,
+        "其他": 2,
+        "真实案例": 2,
+        "反常识": 1
+      },
+      "per_source_unit": "条目数（简报内带分条目，按条目计）",
+      "per_source": {
+        "虎嗅": 8,
+        "贴吧搜索": 2,
+        "36氪24小时热榜": 1,
+        "头条热榜": 1,
+        "哔哩哔哩全站日榜": 1,
+        "知乎热榜": 1
+      },
+      "kept_source_shares": [
+        {
+          "source": "虎嗅",
+          "count": 6,
+          "share": 0.6667,
+          "unit": "话题数（入选 hotspots 话题，按话题计）"
+        },
+        {
+          "source": "36氪24小时热榜",
+          "count": 3,
+          "share": 0.3333,
+          "unit": "话题数（入选 hotspots 话题，按话题计）"
+        }
+      ],
+      "source_quota_warn": [
+        "虎嗅"
+      ],
+      "per_column": {
+        "看职场": {
+          "items": 5,
+          "ge_7": 2,
+          "selected": 6
+        },
+        "带队伍": {
+          "items": 2,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "做生意": {
+          "items": 4,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "做销售": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "去创业": {
+          "items": 2,
+          "ge_7": 1,
+          "selected": 3
+        },
+        "其他": {
+          "items": 1,
+          "ge_7": 0,
+          "selected": 0
+        }
+      }
     }
   ]
 }
