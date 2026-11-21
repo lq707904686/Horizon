@@ -4,25 +4,25 @@
   "successful": 4,
   "empty": 1,
   "failed": 0,
-  "item_count": 420,
+  "item_count": 371,
   "sources": [
     {
       "source": "RSS Feeds",
       "status": "success",
-      "item_count": 345,
-      "duration_sec": 419.22
+      "item_count": 298,
+      "duration_sec": 41.91
     },
     {
       "source": "Google News",
       "status": "success",
       "item_count": 60,
-      "duration_sec": 9.32
+      "duration_sec": 7.42
     },
     {
       "source": "Bilibili",
       "status": "success",
-      "item_count": 15,
-      "duration_sec": 1.27
+      "item_count": 13,
+      "duration_sec": 0.29
     },
     {
       "source": "YouTube",
@@ -32,5 +32,5 @@
     }
   ],
   "date": "2026-11-21",
-  "analyzed": 420
+  "analyzed": 371
 }

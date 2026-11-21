@@ -1,41 +1,38 @@
 {
-  "date": "2026-11-21",
+  "date": "2026-11-22",
   "scope": "人性台账爆款选题雷达·每日选题 (Horizon renxing profile, 图文源)",
   "queries": [
     "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"
   ],
   "topics": [
-    "户均 2.52 人卖三居",
-    "89 平三居火了",
-    "高得房率送面积陷阱",
-    "欠薪一年被迫离职",
-    "2 个月赔偿分期一年",
-    "社保断缴数月"
+    "马斯克要做亚马逊对手",
+    "AI 下单被平台封堵",
+    "授权 AI 动钱谁来兜底"
   ],
   "sets": [
     {
-      "topic": "户均 2.52 人卖三居",
-      "score": 7.0,
-      "video_score": 7.5,
+      "topic": "马斯克要做亚马逊对手",
+      "score": 6.5,
+      "video_score": 7.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 81 个，可落位模板 5 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907335.html?f=rss",
-      "source_name": "虎嗅",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 3 种",
+      "category_5": "去创业",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4078984565003138",
+      "source_name": "36氪24小时热榜",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
-        7.0,
+        6.0,
         7.0
       ],
       "dual_eval": "dual",
       "dimension_scores": {
         "证据": 2.0,
         "机制": 2.0,
-        "决策": 2.0,
+        "决策": 1.0,
         "张力": 1.0,
-        "金句": 2.0
+        "金句": 1.0
       },
       "evidence_level": "verified",
       "event_group": null,
@@ -43,28 +40,28 @@
       "rumor_stance": null
     },
     {
-      "topic": "89 平三居火了",
-      "score": 7.0,
-      "video_score": 7.5,
+      "topic": "AI 下单被平台封堵",
+      "score": 6.5,
+      "video_score": 7.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 81 个，可落位模板 5 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907335.html?f=rss",
-      "source_name": "虎嗅",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 3 种",
+      "category_5": "去创业",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4078984565003138",
+      "source_name": "36氪24小时热榜",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
-        7.0,
+        6.0,
         7.0
       ],
       "dual_eval": "dual",
       "dimension_scores": {
         "证据": 2.0,
         "机制": 2.0,
-        "决策": 2.0,
+        "决策": 1.0,
         "张力": 1.0,
-        "金句": 2.0
+        "金句": 1.0
       },
       "evidence_level": "verified",
       "event_group": null,
@@ -72,123 +69,36 @@
       "rumor_stance": null
     },
     {
-      "topic": "高得房率送面积陷阱",
-      "score": 7.0,
-      "video_score": 7.5,
+      "topic": "授权 AI 动钱谁来兜底",
+      "score": 6.5,
+      "video_score": 7.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 81 个，可落位模板 5 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907335.html?f=rss",
-      "source_name": "虎嗅",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 3 种",
+      "category_5": "去创业",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4078984565003138",
+      "source_name": "36氪24小时热榜",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
-        7.0,
+        6.0,
         7.0
       ],
       "dual_eval": "dual",
       "dimension_scores": {
         "证据": 2.0,
         "机制": 2.0,
-        "决策": 2.0,
+        "决策": 1.0,
         "张力": 1.0,
-        "金句": 2.0
+        "金句": 1.0
       },
       "evidence_level": "verified",
       "event_group": null,
       "opening_type": "热点",
       "rumor_stance": null
-    },
-    {
-      "topic": "欠薪一年被迫离职",
-      "score": 7.0,
-      "video_score": 9.0,
-      "video_feasibility": "部分可行",
-      "video_feasibility_reason": "文章数字 1 个，可落位模板 0 种",
-      "category_5": "看职场",
-      "source": "贴吧搜索",
-      "source_url": "https://tieba.baidu.com/p/11213080858?pid=154161601103#154161601103",
-      "source_name": "贴吧搜索",
-      "verified": false,
-      "cap_triggered": "未证实7分",
-      "score_rounds": [
-        7.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 1.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "unconfirmed",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": "传闻/待核实"
-    },
-    {
-      "topic": "2 个月赔偿分期一年",
-      "score": 7.0,
-      "video_score": 9.0,
-      "video_feasibility": "部分可行",
-      "video_feasibility_reason": "文章数字 1 个，可落位模板 0 种",
-      "category_5": "看职场",
-      "source": "贴吧搜索",
-      "source_url": "https://tieba.baidu.com/p/11213080858?pid=154161601103#154161601103",
-      "source_name": "贴吧搜索",
-      "verified": false,
-      "cap_triggered": "未证实7分",
-      "score_rounds": [
-        7.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 1.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "unconfirmed",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": "传闻/待核实"
-    },
-    {
-      "topic": "社保断缴数月",
-      "score": 7.0,
-      "video_score": 9.0,
-      "video_feasibility": "部分可行",
-      "video_feasibility_reason": "文章数字 1 个，可落位模板 0 种",
-      "category_5": "看职场",
-      "source": "贴吧搜索",
-      "source_url": "https://tieba.baidu.com/p/11213080858?pid=154161601103#154161601103",
-      "source_name": "贴吧搜索",
-      "verified": false,
-      "cap_triggered": "未证实7分",
-      "score_rounds": [
-        7.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 1.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "unconfirmed",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": "传闻/待核实"
     }
   ],
   "min_score": 7.0,
-  "fallback_score": null,
-  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。video_feasibility 为 null 表示未复核；“不可行”表示文章没有可上画面的数字，剧本无米下锅，选题会前先看这档。"
+  "fallback_score": 6.5,
+  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。video_feasibility 为 null 表示未复核；“不可行”表示文章没有可上画面的数字，剧本无米下锅，选题会前先看这档。【回退】当日无 7.0 分以上条目，已按当日最高分档 6.5 分抽取（只取该档第 1 个条目、最多 3 个话题，低分凑数不再出简报）；min_score 仍为 7.0，不是 6.5，使用前请重点核实事实（干旱日规则）。verified=false 的条目被封顶（标题级/未证实/纯观点），只可按传闻/待核实口径使用。"
 }
