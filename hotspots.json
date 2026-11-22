@@ -5,21 +5,21 @@
     "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"
   ],
   "topics": [
-    "马斯克要做亚马逊对手",
-    "AI 下单被平台封堵",
-    "授权 AI 动钱谁来兜底"
+    "AI 验收谁签字",
+    "FDE 尾款 8 成难收",
+    "数据入表 38 亿缺签字"
   ],
   "sets": [
     {
-      "topic": "马斯克要做亚马逊对手",
+      "topic": "AI 验收谁签字",
       "score": 6.5,
-      "video_score": 7.0,
+      "video_score": 6.5,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 4 个，可落位模板 3 种",
+      "video_feasibility_reason": "文章数字 16 个，可落位模板 5 种",
       "category_5": "去创业",
-      "source": "36氪24小时热榜",
-      "source_url": "https://www.36kr.com/p/4078984565003138",
-      "source_name": "36氪24小时热榜",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4907433.html?f=rss",
+      "source_name": "虎嗅",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
@@ -32,7 +32,7 @@
         "机制": 2.0,
         "决策": 1.0,
         "张力": 1.0,
-        "金句": 1.0
+        "金句": 2.0
       },
       "evidence_level": "verified",
       "event_group": null,
@@ -40,15 +40,15 @@
       "rumor_stance": null
     },
     {
-      "topic": "AI 下单被平台封堵",
+      "topic": "FDE 尾款 8 成难收",
       "score": 6.5,
-      "video_score": 7.0,
+      "video_score": 6.5,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 4 个，可落位模板 3 种",
+      "video_feasibility_reason": "文章数字 16 个，可落位模板 5 种",
       "category_5": "去创业",
-      "source": "36氪24小时热榜",
-      "source_url": "https://www.36kr.com/p/4078984565003138",
-      "source_name": "36氪24小时热榜",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4907433.html?f=rss",
+      "source_name": "虎嗅",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
@@ -61,7 +61,7 @@
         "机制": 2.0,
         "决策": 1.0,
         "张力": 1.0,
-        "金句": 1.0
+        "金句": 2.0
       },
       "evidence_level": "verified",
       "event_group": null,
@@ -69,15 +69,15 @@
       "rumor_stance": null
     },
     {
-      "topic": "授权 AI 动钱谁来兜底",
+      "topic": "数据入表 38 亿缺签字",
       "score": 6.5,
-      "video_score": 7.0,
+      "video_score": 6.5,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 4 个，可落位模板 3 种",
+      "video_feasibility_reason": "文章数字 16 个，可落位模板 5 种",
       "category_5": "去创业",
-      "source": "36氪24小时热榜",
-      "source_url": "https://www.36kr.com/p/4078984565003138",
-      "source_name": "36氪24小时热榜",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4907433.html?f=rss",
+      "source_name": "虎嗅",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
@@ -90,7 +90,7 @@
         "机制": 2.0,
         "决策": 1.0,
         "张力": 1.0,
-        "金句": 1.0
+        "金句": 2.0
       },
       "evidence_level": "verified",
       "event_group": null,
