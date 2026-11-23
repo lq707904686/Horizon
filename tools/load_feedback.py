@@ -7,7 +7,11 @@ data/feedback_log.jsonl，按最近 N 天（默认 14 天）聚合各标签
 追加一段“历史反馈加权”到 runner 里的 profiles/renxing/analysis.md
 末尾（runner 每次是全新 checkout，追加只影响当次运行，不污染仓库）。
 
-冷启动保护：日志总覆盖天数不足 21 天时权重强制为 0，只打印提示、
+★ R-P0-2（2026-11-23 四线迭代 v4）：公众号路径启用条件改为“有实绩的记录 ≥30 条”
+（data/feedback_actuals.jsonl，tools/backfill_reads.py 写），启用后**只诊断不改分**：
+打印近 30 天 ≥7.0 vs <7.0 的实际中位阅读/播放；公众号加权段默认不注入 prompt，
+要注入须显式 --apply-weights（7.0 线、5.0 门槛都不动）。视频路径不变。
+旧口径（保留作参考）：日志总覆盖天数不足 21 天时权重强制为 0，只打印提示、
 不改 prompt；日志缺失/为空时同样不改 prompt、退出 0。
 （覆盖天数按整本日志算，不只看聚合窗口——窗口默认 14 天，
 若按窗口算冷启动永远过不了。）
@@ -44,6 +48,7 @@ from pathlib import Path
 WEIGHT = 0.15
 CAP = 5.0
 VIDEO_MIN_RECORDS = 10  # 视频路径冷启动门槛：30 天窗口内满 10 条视频记录即启动
+MIN_ACTUALS = 30  # R-P0-2：公众号路径启用门槛——有实绩（阅读/播放）的记录 ≥30 条
 VIDEO_WINDOW_DAYS = 30  # 视频路径聚合窗口（固定，不跟 --window）
 # P317：日志应每天记——最新一行超过 2 天即告警（只喊出来，不阻塞跑雷达）。
 FEEDBACK_STALE_AFTER_DAYS = 2
@@ -276,6 +281,12 @@ def main():
                     help="要追加的 prompt 文件")
     ap.add_argument("--min-days", type=int, default=21,
                     help="冷启动期：日志总覆盖天数不足此值时权重为 0（默认 21）")
+    ap.add_argument("--actuals", default="data/feedback_actuals.jsonl",
+                    help="R-P0-2 实绩文件（backfill_reads.py 写）")
+    ap.add_argument("--min-actuals", type=int, default=MIN_ACTUALS,
+                    help=f"R-P0-2 启用门槛：有实绩的记录不足此值时公众号路径不启用（默认 {MIN_ACTUALS}）")
+    ap.add_argument("--apply-weights", action="store_true",
+                    help="R-P0-2：启用后也把公众号加权段注入 prompt（默认只诊断不改分）")
     ap.add_argument("--min-video-records", type=int, default=VIDEO_MIN_RECORDS,
                     help="视频冷启动：窗口内视频记录不足此值时视频权重为 0"
                          f"（默认 {VIDEO_MIN_RECORDS}）")
@@ -310,20 +321,38 @@ def main():
     article_records = [r for r in records if r.get("kind", "article") != "video"]
 
     article_section = None
+    # ★ R-P0-2：启用条件 = 有实绩的记录 ≥ --min-actuals；启用后只诊断，默认不注入加权。
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import radar_v4 as _rv4
+        _actuals = _rv4.load_actuals(args.actuals)
+        _n_act = _rv4.count_with_metrics(_actuals)
+    except Exception as _e:  # noqa: BLE001 - 诊断不能拦主流程
+        print(f"⚠ 实绩文件读取失败（{_e}），按 0 条处理")
+        _rv4, _actuals, _n_act = None, [], 0
     if article_records:
-        days_covered = len(load_all_dates(log_path, kinds={"article"}))
-        if days_covered < args.min_days:
-            print(f"冷启动期：日志总覆盖仅 {days_covered} 天（需 {args.min_days} 天），"
-                  f"还差 {args.min_days - days_covered} 天（每天记 1 行以上，攒够即通），"
-                  f"公众号权重为 0，不改公众号段。窗口内共 {len(article_records)} 条公众号记录。")
-        else:
+        # 旧口径（日志覆盖天数）只作参考打印，不再决定启用与否。
+        _days_cov = len(load_all_dates(log_path, kinds={"article"}))
+        if _days_cov < args.min_days:
+            print(f"（旧口径参考）反馈日志总覆盖仅 {_days_cov} 天（旧门槛 {args.min_days} 天，"
+                  f"还差 {args.min_days - _days_cov} 天）；R-P0-2 起启用改看实绩记录条数。")
+    if _n_act < args.min_actuals:
+        print(f"冷启动期（R-P0-2）：有实绩的记录仅 {_n_act} 条（需 {args.min_actuals} 条），"
+              f"公众号权重为 0，不改公众号段。")
+    else:
+        print(f"R-P0-2 已启用（有实绩记录 {_n_act} 条 ≥ {args.min_actuals}）：只诊断不改分。")
+        print("  " + _rv4.diag_line(_rv4.diagnose(_actuals)))
+        if args.apply_weights and article_records:
+            days_covered = len(load_all_dates(log_path, kinds={"article"}))
             tag_scores = aggregate(article_records)
             article_section = build_section(tag_scores, args.window,
                                             len(article_records), days_covered)
-            print(f"已注入反馈加权：窗口 {args.window} 天，{len(article_records)} 条记录，"
-                  f"覆盖 {days_covered} 天，{len(tag_scores)} 个标签。")
+            print(f"已注入反馈加权（--apply-weights）：窗口 {args.window} 天，{len(article_records)} 条记录，"
+                  f"{len(tag_scores)} 个标签。")
             for tag, adj in sorted(tag_scores.items(), key=lambda x: -x[1]):
                 print(f"  {tag}: {adj:+.2f}")
+        else:
+            print("  公众号加权段不注入 prompt（默认只诊断；要注入须 --apply-weights）。")
 
     video_section = None
     if video_records:

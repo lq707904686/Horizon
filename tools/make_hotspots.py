@@ -706,6 +706,34 @@ def main():
         "fallback_score": fallback_score,
         "note": note,
     }
+    # ★ v4 迭代（2026-11-23）：R-P1-1 打标 / R-P1-2 同母题提示 / R-P0-2 实绩诊断。
+    #   只加新键、只写简报尾部诊断行，不改任何分数与过滤结果；失败只告警。
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import radar_v4 as _rv4
+        _data_dir = os.path.dirname(os.path.abspath(args.summaries))
+        _actuals = _rv4.load_actuals(os.path.join(_data_dir, "feedback_actuals.jsonl"))
+        _flog = _rv4.load_actuals(os.path.join(_data_dir, "feedback_log.jsonl"))
+        with open(latest, encoding="utf-8") as _f:
+            _md = _unescape(_f.read())
+        _rv4.annotate_sets(sets, _md, _actuals, _flog)
+        _n_act = _rv4.count_with_metrics(_actuals)
+        if _n_act >= 30:
+            _diag = _rv4.diagnose(_actuals)
+            data["feedback_diag"] = dict(_diag, line=_rv4.diag_line(_diag), actual_records=_n_act)
+            _lines = [_rv4.diag_line(_diag)]
+            _reps = [f"《{x['topic']}》{x['repeat_hint']}" for x in sets if x.get("repeat_hint")]
+            if _reps:
+                _lines.append("同母题提示（R-P1-2）：" + "；".join(_reps))
+            _posts = os.path.join(os.path.dirname(_data_dir), "docs", "_posts")
+            _hit = _rv4.append_brief_tail(_posts, today, _lines)
+            print(data["feedback_diag"]["line"] + (f"（已写入 {_hit} 尾部）" if _hit else "（当日简报文件不在，未写尾部）"))
+        else:
+            print(f"R-P0-2：有实绩记录 {_n_act} 条（<30），不出诊断行")
+        print("R-P1-1 打标：" + "、".join(f"{x['topic']}={x['topic_type']}/{x['video_fit']}" for x in sets))
+    except Exception as _exc:  # noqa: BLE001 - 打标与诊断是观测手段，不能拦主流程
+        print(f"警告: v4 打标/诊断失败 ({_exc})，hotspots 分数与过滤不受影响", file=sys.stderr)
+
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
         f.write("\n")
