@@ -5,84 +5,1055 @@
     "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"
   ],
   "topics": [
-    "巴西 2030 万人高风险负债",
-    "收入涨了利息先吞",
-    "信用卡循环贷年化 400%"
+    "切 1000 斤苹果只赔 6000",
+    "120 万粉“果农”翻车",
+    "误入果园通报惹众怒",
+    "女主播被索赔 10 万",
+    "保底一万变索赔 10 万",
+    "3880 万主播被合同收割",
+    "弹性工作制陷阱",
+    "高薪画饼不如兑现",
+    "6 成青年不满意所在城市",
+    "求职陪跑割应届生",
+    "花 1 万 2 买焦虑",
+    "4000 元陪跑货不对板",
+    "农民上楼物业费收不上",
+    "安置小区垃圾遍地无人管",
+    "拆迁补偿花完农民没退路",
+    "查之前会通知我",
+    "519 张捕鸟网",
+    "野保中心说没看到",
+    "营收 17 万净利 9.55 亿",
+    "市值涨 90%股价还跌 90%",
+    "现金 9054 万负债 8 亿",
+    "影石净利暴跌 94%",
+    "七成市场零利润",
+    "市值蒸发千亿，还在借钱打价格战",
+    "黄仁勋因撒谎被罢免",
+    "零跑后备厢被几箱啤酒压穿",
+    "PS5 Pro 贵到 1.6 万",
+    "9727 份调查：包容胜过落户补贴",
+    "36.1%因排外放弃定居",
+    "年轻人选城市先看排不排外"
   ],
   "sets": [
     {
-      "topic": "巴西 2030 万人高风险负债",
-      "score": 6.5,
-      "video_score": 6.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 41 个，可落位模板 5 种",
+      "topic": "切 1000 斤苹果只赔 6000",
+      "score": 8.25,
+      "video_score": 11.0,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 3 种",
       "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907558.html?f=rss",
-      "source_name": "虎嗅",
+      "source": "澎湃",
+      "source_url": "https://m.thepaper.cn/newsDetail_forward_34537047",
+      "source_name": "澎湃",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
-        7.0,
-        6.0
+        9.5,
+        7.0
       ],
       "dual_eval": "dual",
       "dimension_scores": {
         "证据": 2.0,
         "机制": 2.0,
         "决策": 2.0,
-        "张力": 1.0,
+        "张力": 1.5,
         "金句": 2.0
       },
       "evidence_level": "verified",
       "event_group": null,
       "opening_type": "热点",
-      "rumor_stance": null
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "高",
+      "motifs": [
+        "信任",
+        "止损"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 7.0,
+      "spread_parts": {
+        "person": 3.0,
+        "hook": 3.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
     },
     {
-      "topic": "收入涨了利息先吞",
-      "score": 6.5,
-      "video_score": 6.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 41 个，可落位模板 5 种",
+      "topic": "120 万粉“果农”翻车",
+      "score": 8.25,
+      "video_score": 11.0,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 3 种",
       "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907558.html?f=rss",
-      "source_name": "虎嗅",
+      "source": "澎湃",
+      "source_url": "https://m.thepaper.cn/newsDetail_forward_34537047",
+      "source_name": "澎湃",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
-        7.0,
-        6.0
+        9.5,
+        7.0
       ],
       "dual_eval": "dual",
       "dimension_scores": {
         "证据": 2.0,
         "机制": 2.0,
         "决策": 2.0,
-        "张力": 1.0,
+        "张力": 1.5,
         "金句": 2.0
       },
       "evidence_level": "verified",
       "event_group": null,
       "opening_type": "热点",
-      "rumor_stance": null
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "高",
+      "motifs": [
+        "信任",
+        "止损"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 7.0,
+      "spread_parts": {
+        "person": 3.0,
+        "hook": 3.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
     },
     {
-      "topic": "信用卡循环贷年化 400%",
-      "score": 6.5,
-      "video_score": 6.0,
+      "topic": "误入果园通报惹众怒",
+      "score": 8.25,
+      "video_score": 11.0,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 3 种",
+      "category_5": "做生意",
+      "source": "澎湃",
+      "source_url": "https://m.thepaper.cn/newsDetail_forward_34537047",
+      "source_name": "澎湃",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        9.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.5,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "热点",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "高",
+      "motifs": [
+        "信任",
+        "止损"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 7.0,
+      "spread_parts": {
+        "person": 3.0,
+        "hook": 3.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "女主播被索赔 10 万",
+      "score": 8.0,
+      "video_score": 11.5,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-22/10736027.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        8.0,
+        8.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "高",
+      "motifs": [
+        "信任",
+        "幸存者偏差",
+        "既得利益"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 9.0,
+      "spread_parts": {
+        "person": 3.0,
+        "hook": 3.0,
+        "family": 1.0,
+        "audience": 2.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "保底一万变索赔 10 万",
+      "score": 8.0,
+      "video_score": 11.5,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-22/10736027.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        8.0,
+        8.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "高",
+      "motifs": [
+        "信任",
+        "幸存者偏差",
+        "既得利益"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 9.0,
+      "spread_parts": {
+        "person": 3.0,
+        "hook": 3.0,
+        "family": 1.0,
+        "audience": 2.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "3880 万主播被合同收割",
+      "score": 8.0,
+      "video_score": 11.5,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-22/10736027.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        8.0,
+        8.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "高",
+      "motifs": [
+        "信任",
+        "幸存者偏差",
+        "既得利益"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 9.0,
+      "spread_parts": {
+        "person": 3.0,
+        "hook": 3.0,
+        "family": 1.0,
+        "audience": 2.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "弹性工作制陷阱",
+      "score": 7.5,
+      "video_score": 11.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 41 个，可落位模板 5 种",
+      "video_feasibility_reason": "文章数字 12 个，可落位模板 4 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/sh/2026/11-23/10736258.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.5
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "低",
+      "motifs": [
+        "信任",
+        "幸存者偏差",
+        "画饼"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 4.5,
+      "spread_parts": {
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 1.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "高薪画饼不如兑现",
+      "score": 7.5,
+      "video_score": 11.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 12 个，可落位模板 4 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/sh/2026/11-23/10736258.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.5
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "低",
+      "motifs": [
+        "信任",
+        "幸存者偏差",
+        "画饼"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 4.5,
+      "spread_parts": {
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 1.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "6 成青年不满意所在城市",
+      "score": 7.5,
+      "video_score": 11.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 12 个，可落位模板 4 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/sh/2026/11-23/10736258.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.5
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "中",
+      "motifs": [
+        "信任",
+        "幸存者偏差",
+        "画饼"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 4.5,
+      "spread_parts": {
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 1.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "求职陪跑割应届生",
+      "score": 7.25,
+      "video_score": 11.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 24 个，可落位模板 4 种",
       "category_5": "做生意",
       "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907558.html?f=rss",
+      "source_url": "https://www.huxiu.com/article/4907584.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.5,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "中",
+      "motifs": [
+        "信任",
+        "止损",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 3.5,
+      "spread_parts": {
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "花 1 万 2 买焦虑",
+      "score": 7.25,
+      "video_score": 11.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 24 个，可落位模板 4 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4907584.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.5,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "中",
+      "motifs": [
+        "信任",
+        "止损",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 3.5,
+      "spread_parts": {
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "4000 元陪跑货不对板",
+      "score": 7.25,
+      "video_score": 11.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 24 个，可落位模板 4 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4907584.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.5,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "中",
+      "motifs": [
+        "信任",
+        "止损",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 3.5,
+      "spread_parts": {
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "农民上楼物业费收不上",
+      "score": 7.25,
+      "video_score": 7.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 9 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/sh/2026/11-23/10736283.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 1.5,
+        "张力": 1.5,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "中",
+      "motifs": [
+        "分钱",
+        "止损",
+        "甩锅"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": true,
+      "tag_src": "rule-v5",
+      "spread_score": 9.0,
+      "spread_parts": {
+        "person": 3.0,
+        "hook": 2.0,
+        "family": 2.0,
+        "audience": 2.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "安置小区垃圾遍地无人管",
+      "score": 7.25,
+      "video_score": 7.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 9 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/sh/2026/11-23/10736283.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 1.5,
+        "张力": 1.5,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "中",
+      "motifs": [
+        "分钱",
+        "止损",
+        "甩锅"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 7.0,
+      "spread_parts": {
+        "person": 3.0,
+        "hook": 2.0,
+        "family": 1.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "拆迁补偿花完农民没退路",
+      "score": 7.25,
+      "video_score": 7.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 9 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/sh/2026/11-23/10736283.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 1.5,
+        "张力": 1.5,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "中",
+      "motifs": [
+        "分钱",
+        "止损",
+        "甩锅"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 8.0,
+      "spread_parts": {
+        "person": 3.0,
+        "hook": 2.0,
+        "family": 1.0,
+        "audience": 2.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "查之前会通知我",
+      "score": 7.25,
+      "video_score": 10.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "澎湃",
+      "source_url": "https://m.thepaper.cn/newsDetail_forward_34534280",
+      "source_name": "澎湃",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "其他",
+      "video_fit": "低",
+      "motifs": [
+        "分权/甩锅",
+        "圈子/既得利益",
+        "甩锅"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 0.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "519 张捕鸟网",
+      "score": 7.25,
+      "video_score": 10.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "澎湃",
+      "source_url": "https://m.thepaper.cn/newsDetail_forward_34534280",
+      "source_name": "澎湃",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "其他",
+      "video_fit": "中",
+      "motifs": [
+        "分权/甩锅",
+        "圈子/既得利益",
+        "甩锅"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 2.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "野保中心说没看到",
+      "score": 7.25,
+      "video_score": 10.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "澎湃",
+      "source_url": "https://m.thepaper.cn/newsDetail_forward_34534280",
+      "source_name": "澎湃",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "其他",
+      "video_fit": "低",
+      "motifs": [
+        "分权/甩锅",
+        "圈子/既得利益",
+        "甩锅"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 0.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "营收 17 万净利 9.55 亿",
+      "score": 7.0,
+      "video_score": 8.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 35 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4907624.html?f=rss",
       "source_name": "虎嗅",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
         7.0,
-        6.0
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "反常识",
+      "rumor_stance": null,
+      "topic_type": "公司/资本",
+      "video_fit": "低",
+      "motifs": [
+        "谈判",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": true,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "市值涨 90%股价还跌 90%",
+      "score": 7.0,
+      "video_score": 8.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 35 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4907624.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "反常识",
+      "rumor_stance": null,
+      "topic_type": "公司/资本",
+      "video_fit": "低",
+      "motifs": [
+        "谈判",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": true,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "现金 9054 万负债 8 亿",
+      "score": 7.0,
+      "video_score": 8.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 35 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4907624.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "反常识",
+      "rumor_stance": null,
+      "topic_type": "公司/资本",
+      "video_fit": "低",
+      "motifs": [
+        "谈判",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": true,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "影石净利暴跌 94%",
+      "score": 7.0,
+      "video_score": 7.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 70 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4907568.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
       ],
       "dual_eval": "dual",
       "dimension_scores": {
@@ -95,10 +1066,428 @@
       "evidence_level": "verified",
       "event_group": null,
       "opening_type": "热点",
-      "rumor_stance": null
+      "rumor_stance": null,
+      "topic_type": "公司/资本",
+      "video_fit": "低",
+      "motifs": [
+        "止损",
+        "画饼",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": true,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 2.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "七成市场零利润",
+      "score": 7.0,
+      "video_score": 7.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 70 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4907568.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "热点",
+      "rumor_stance": null,
+      "topic_type": "公司/资本",
+      "video_fit": "低",
+      "motifs": [
+        "止损",
+        "画饼",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": true,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 2.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "市值蒸发千亿，还在借钱打价格战",
+      "score": 7.0,
+      "video_score": 7.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 70 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4907568.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "热点",
+      "rumor_stance": null,
+      "topic_type": "公司/资本",
+      "video_fit": "低",
+      "motifs": [
+        "止损",
+        "画饼",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": true,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 3.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 2.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "黄仁勋因撒谎被罢免",
+      "score": 7.0,
+      "video_score": 8.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 15 个，可落位模板 5 种",
+      "category_5": "看职场",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4081573022552962",
+      "source_name": "36氪24小时热榜",
+      "verified": false,
+      "cap_triggered": "未证实7分",
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 1.0,
+        "机制": 2.0,
+        "决策": 1.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "unconfirmed",
+      "event_group": null,
+      "opening_type": "热点",
+      "rumor_stance": "传闻/待核实",
+      "topic_type": "公司/资本",
+      "video_fit": "低",
+      "motifs": [
+        "信任"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 0.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 0.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "零跑后备厢被几箱啤酒压穿",
+      "score": 7.0,
+      "video_score": 8.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 15 个，可落位模板 5 种",
+      "category_5": "看职场",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4081573022552962",
+      "source_name": "36氪24小时热榜",
+      "verified": false,
+      "cap_triggered": "未证实7分",
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 1.0,
+        "机制": 2.0,
+        "决策": 1.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "unconfirmed",
+      "event_group": null,
+      "opening_type": "热点",
+      "rumor_stance": "传闻/待核实",
+      "topic_type": "公司/资本",
+      "video_fit": "低",
+      "motifs": [
+        "信任"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 0.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 0.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "PS5 Pro 贵到 1.6 万",
+      "score": 7.0,
+      "video_score": 8.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 15 个，可落位模板 5 种",
+      "category_5": "看职场",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4081573022552962",
+      "source_name": "36氪24小时热榜",
+      "verified": false,
+      "cap_triggered": "未证实7分",
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 1.0,
+        "机制": 2.0,
+        "决策": 1.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "unconfirmed",
+      "event_group": null,
+      "opening_type": "热点",
+      "rumor_stance": "传闻/待核实",
+      "topic_type": "公司/资本",
+      "video_fit": "中",
+      "motifs": [
+        "信任"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "9727 份调查：包容胜过落户补贴",
+      "score": 7.0,
+      "video_score": 6.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 21 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/sh/2026/11-23/10736255.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "反常识",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "中",
+      "motifs": [
+        "分钱",
+        "圈子",
+        "止损"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 3.5,
+      "spread_parts": {
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 1.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "36.1%因排外放弃定居",
+      "score": 7.0,
+      "video_score": 6.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 21 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/sh/2026/11-23/10736255.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "反常识",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "中",
+      "motifs": [
+        "分钱",
+        "圈子",
+        "止损"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 3.5,
+      "spread_parts": {
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 1.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1"
+    },
+    {
+      "topic": "年轻人选城市先看排不排外",
+      "score": 7.0,
+      "video_score": 6.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 21 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/sh/2026/11-23/10736255.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "反常识",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "video_fit": "中",
+      "motifs": [
+        "分钱",
+        "圈子",
+        "止损"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 6.0,
+      "spread_parts": {
+        "person": 3.0,
+        "hook": 2.0,
+        "family": 1.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1"
     }
   ],
   "min_score": 7.0,
-  "fallback_score": 6.5,
-  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。video_feasibility 为 null 表示未复核；“不可行”表示文章没有可上画面的数字，剧本无米下锅，选题会前先看这档。【回退】当日无 7.0 分以上条目，已按当日最高分档 6.5 分抽取（只取该档第 1 个条目、最多 3 个话题，低分凑数不再出简报）；min_score 仍为 7.0，不是 6.5，使用前请重点核实事实（干旱日规则）。verified=false 的条目被封顶（标题级/未证实/纯观点），只可按传闻/待核实口径使用。"
+  "fallback_score": null,
+  "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。video_feasibility 为 null 表示未复核；“不可行”表示文章没有可上画面的数字，剧本无米下锅，选题会前先看这档。",
+  "feedback_diag": {
+    "window_days": 30,
+    "as_of": "2026-11-23",
+    "min_score": 7.0,
+    "article": {
+      "metric": "公众号阅读",
+      "n_ge7": 21,
+      "median_ge7": 2,
+      "n_lt7": 49,
+      "median_lt7": 3
+    },
+    "video": {
+      "metric": "视频号播放",
+      "n_ge7": 17,
+      "median_ge7": 777,
+      "n_lt7": 8,
+      "median_lt7": 763.0
+    },
+    "line": "实绩诊断（近 30 天，截至 2026-11-23，只诊断不改分）：公众号阅读中位 ≥7.0 2（21 条）vs <7.0 3（49 条）；视频号播放中位 ≥7.0 777（17 条）vs <7.0 763（8 条）",
+    "actual_records": 216
+  }
 }
