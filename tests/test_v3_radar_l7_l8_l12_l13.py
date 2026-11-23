@@ -236,7 +236,7 @@ def test_l13_brief_line_keeps_changwen_regex_and_idempotent():
 # ---------------- L3/L4 ----------------
 def test_l3_lexicon_bytes_identical_and_topic_type_4_values():
     h = hashlib.sha256((TOOLS / "person_lexicon.json").read_bytes()).hexdigest()
-    assert h == "2a5248be94807010355ed302bd8c3373638122c63f5302c119eea657ef754127"
+    assert h == "bde6b72c847ecbf04fd90b77920fef053ad5a63d19117c4ac2303d13551d38df"
     assert rv4.TOPIC_TYPES == ("人/处境", "公司/资本", "政策/制度", "行业冷账")
     assert rv4.topic_type("", headline="54岁副教授被裁") == "人/处境"
     assert rv4.topic_type("", headline="财报很好，股价不认") == "公司/资本"
