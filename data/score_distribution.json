@@ -729,6 +729,130 @@
         "带队伍",
         "做销售"
       ]
+    },
+    {
+      "date": "2026-11-24",
+      "total_items": 15,
+      "candidate_pool_total": 489,
+      "max_score": 7.5,
+      "count_ge_7": 4,
+      "count_ge_5": 15,
+      "bands": {
+        "below_5": 0,
+        "5.0-5.9": 3,
+        "6.0-6.9": 8,
+        "7.0-7.9": 4,
+        "8.0+": 0
+      },
+      "funnel": {
+        "fetched": 489,
+        "analyzed": 488,
+        "ge_5": 15,
+        "ge_7": 4
+      },
+      "opening_types": {
+        "热点": 8,
+        "真实案例": 5,
+        "反常识": 2
+      },
+      "per_source_unit": "条目数（简报内带分条目，按条目计）",
+      "per_source": {
+        "贴吧搜索": 4,
+        "36氪24小时热榜": 3,
+        "中新网": 2,
+        "头条热榜": 1,
+        "爱范儿": 1,
+        "虎嗅": 1,
+        "华龙网": 1,
+        "百度热搜": 1,
+        "澎湃": 1
+      },
+      "kept_source_shares": [
+        {
+          "source": "中新网",
+          "count": 3,
+          "share": 0.2727,
+          "unit": "话题数（入选 hotspots 话题，按话题计）"
+        },
+        {
+          "source": "爱范儿",
+          "count": 3,
+          "share": 0.2727,
+          "unit": "话题数（入选 hotspots 话题，按话题计）"
+        },
+        {
+          "source": "贴吧搜索",
+          "count": 3,
+          "share": 0.2727,
+          "unit": "话题数（入选 hotspots 话题，按话题计）"
+        },
+        {
+          "source": "头条热榜",
+          "count": 2,
+          "share": 0.1818,
+          "unit": "话题数（入选 hotspots 话题，按话题计）"
+        }
+      ],
+      "source_quota_warn": [],
+      "per_column": {
+        "看职场": {
+          "items": 9,
+          "ge_7": 2,
+          "selected": 5
+        },
+        "带队伍": {
+          "items": 1,
+          "ge_7": 1,
+          "selected": 3
+        },
+        "做生意": {
+          "items": 4,
+          "ge_7": 1,
+          "selected": 3
+        },
+        "做销售": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "去创业": {
+          "items": 0,
+          "ge_7": 0,
+          "selected": 0
+        },
+        "其他": {
+          "items": 1,
+          "ge_7": 0,
+          "selected": 0
+        }
+      },
+      "column_zero_alerts": [
+        "做销售"
+      ]
     }
-  ]
+  ],
+  "brief_runs": {
+    "2026-11-24": {
+      "log": [
+        {
+          "at": "2026-11-24T07:08:44",
+          "action": "first",
+          "new": {
+            "items": 15,
+            "ge7": 4,
+            "max": 7.5
+          },
+          "pub": null,
+          "published_source": "git:gh-pages（当天无已发布版）"
+        }
+      ],
+      "generations": 1,
+      "overwrites": 0,
+      "kept": 0,
+      "version": 1,
+      "final_ge7": 4,
+      "final_max": 7.5,
+      "rule": "≥7.0 条数更少且最高分不更高 → 不覆盖"
+    }
+  }
 }

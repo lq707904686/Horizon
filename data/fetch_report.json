@@ -4,25 +4,25 @@
   "successful": 4,
   "empty": 1,
   "failed": 0,
-  "item_count": 467,
+  "item_count": 489,
   "sources": [
     {
       "source": "RSS Feeds",
       "status": "success",
-      "item_count": 396,
-      "duration_sec": 592.86
+      "item_count": 421,
+      "duration_sec": 108.62
     },
     {
       "source": "Google News",
       "status": "success",
       "item_count": 60,
-      "duration_sec": 9.42
+      "duration_sec": 9.09
     },
     {
       "source": "Bilibili",
       "status": "success",
-      "item_count": 11,
-      "duration_sec": 0.96
+      "item_count": 8,
+      "duration_sec": 1.23
     },
     {
       "source": "YouTube",
@@ -32,5 +32,127 @@
     }
   ],
   "date": "2026-11-23",
-  "analyzed": 467
+  "fulltext_fill": {
+    "version": "fulltext-fill-v1",
+    "hotlist_short": 312,
+    "short_total": 412,
+    "filled_hotlist": 10,
+    "pool": 76,
+    "filled": 14,
+    "pairs": [
+      {
+        "hot": "黄仁勋：很荣幸回到英伟达",
+        "hot_src": "头条热榜",
+        "src": "澎湃·热闻",
+        "title": "黄仁勋回归，重任CEO！英伟达盘前暴涨超26%",
+        "title_cov": 0.444,
+        "body_cov": 0.556
+      },
+      {
+        "hot": "部委干部窃取百余份情报获死刑",
+        "hot_src": "头条热榜",
+        "src": "澎湃·热闻",
+        "title": "某部委机关干部被境外势力“俘获”，窃取我国百余份情报被判死刑",
+        "title_cov": 0.615,
+        "body_cov": 0.692
+      },
+      {
+        "hot": "055大驱首次向公众开放",
+        "hot_src": "头条热榜",
+        "src": "澎湃·热闻",
+        "title": "视频丨055大驱、歼-35等海军多型舰机将亮相中国航展",
+        "title_cov": 0.222,
+        "body_cov": 0.778
+      },
+      {
+        "hot": "黄仁勋复职原因",
+        "hot_src": "微博热搜榜",
+        "src": "36氪24小时热榜",
+        "title": "8点1氪丨黄仁勋遭董事会罢免主要原因曝光；零跑汽车回应“A10后备厢被几箱啤酒压穿底”；PS5 Pro涨至1.6万元",
+        "title_cov": 0.5,
+        "body_cov": 0.5
+      },
+      {
+        "hot": "黄仁勋恢复英伟达CEO职务",
+        "hot_src": "微博热搜榜",
+        "src": "爱范儿",
+        "title": "突发！黄仁勋恢复英伟达 CEO 职位，董事会全票通过",
+        "title_cov": 0.889,
+        "body_cov": 1.0
+      },
+      {
+        "hot": "黄仁勋回应重回英伟达",
+        "hot_src": "微博热搜榜",
+        "src": "虎嗅",
+        "title": "黄仁勋回来了，但英伟达多了几道规矩",
+        "title_cov": 0.625,
+        "body_cov": 0.625
+      },
+      {
+        "hot": "胡锡进谈英伟达盘前大涨28%",
+        "hot_src": "微博热搜榜",
+        "src": "爱范儿",
+        "title": "刚刚，黄仁勋重返英伟达！董事会全票通过，盘前大涨 30%",
+        "title_cov": 0.455,
+        "body_cov": 0.455
+      },
+      {
+        "hot": "怎么看 Nielsen 发布《黎曼猜想证明无效》的反驳论文？",
+        "hot_src": "知乎热榜",
+        "src": "少数派",
+        "title": "派早报：Anthropic 研究员宣称用 Claude 证明黎曼猜想",
+        "title_cov": 0.308,
+        "body_cov": 0.462
+      },
+      {
+        "hot": "90后数学家宣称与Claude证明黎曼猜想，百年数学难题迎来AI解法？",
+        "hot_src": "第一财经",
+        "src": "少数派",
+        "title": "派早报：Anthropic 研究员宣称用 Claude 证明黎曼猜想",
+        "title_cov": 0.333,
+        "body_cov": 0.524
+      },
+      {
+        "hot": "8点1氪丨黄仁勋遭董事会罢免主要原因曝光；零跑汽车回应“A10后备厢被几箱啤酒压穿底”；PS5 Pro涨至1.6万元",
+        "hot_src": "36氪最新文章",
+        "src": "36氪24小时热榜",
+        "title": "8点1氪丨黄仁勋遭董事会罢免主要原因曝光；零跑汽车回应“A10后备厢被几箱啤酒压穿底”；PS5 Pro涨至1.6万元",
+        "title_cov": 1.0,
+        "body_cov": 1.0
+      },
+      {
+        "hot": "英伟达董事会恢复黄仁勋总裁兼首席执行官职务",
+        "hot_src": "36氪最新文章",
+        "src": "爱范儿",
+        "title": "突发！黄仁勋恢复英伟达 CEO 职位，董事会全票通过",
+        "title_cov": 0.35,
+        "body_cov": 0.75
+      },
+      {
+        "hot": "美股大型科技股盘前普涨，英伟达涨超6%",
+        "hot_src": "36氪最新文章",
+        "src": "澎湃·热闻",
+        "title": "黄仁勋回归，重任CEO！英伟达盘前暴涨超26%",
+        "title_cov": 0.267,
+        "body_cov": 0.467
+      },
+      {
+        "hot": "关于最近ai证明黎曼猜想的吐槽",
+        "hot_src": "贴吧搜索·裁员",
+        "src": "澎湃·热闻",
+        "title": "“数学进入了一个新纪元”：丘成桐等三位数学家回应AI辅助证明黎曼猜想",
+        "title_cov": 0.5,
+        "body_cov": 0.583
+      },
+      {
+        "hot": "黄仁勋正式回归英伟达：恢复全部职务｜显卡日报11月24日",
+        "hot_src": "bilibili",
+        "src": "爱范儿",
+        "title": "刚刚，黄仁勋重返英伟达！董事会全票通过，盘前大涨 30%",
+        "title_cov": 0.211,
+        "body_cov": 0.526
+      }
+    ]
+  },
+  "analyzed": 488
 }
