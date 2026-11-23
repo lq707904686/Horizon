@@ -212,6 +212,30 @@
         "content_extractor": "trafilatura"
       },
       {
+        "category": "社会",
+        "enabled": true,
+        "name": "中新网·社会",
+        "profile": "renxing",
+        "url": "https://www.chinanews.com.cn/rss/society.xml",
+        "content_extractor": "trafilatura"
+      },
+      {
+        "category": "社会",
+        "enabled": true,
+        "name": "中新网·法治",
+        "profile": "renxing",
+        "url": "https://www.chinanews.com.cn/rss/fz.xml",
+        "content_extractor": "trafilatura"
+      },
+      {
+        "category": "社会",
+        "enabled": true,
+        "name": "澎湃·热闻",
+        "profile": "renxing",
+        "url": "https://www.sinrowa.com/thepaper/sidebar/hotNews",
+        "content_extractor": "trafilatura"
+      },
+      {
         "category": "视频",
         "enabled": false,
         "name": "YouTube·躺平叔",

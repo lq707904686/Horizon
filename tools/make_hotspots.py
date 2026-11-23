@@ -589,6 +589,15 @@ def filter_topics(scored):
     return topics, sets, stats
 
 
+def _rv4_legend():
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import spread_score as _sp
+        return _sp.LEGEND
+    except Exception:  # noqa: BLE001
+        return "传播分图例不可用"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--summaries", required=True, help="Horizon 简报目录 (data/summaries)")
@@ -722,6 +731,7 @@ def main():
             _diag = _rv4.diagnose(_actuals)
             data["feedback_diag"] = dict(_diag, line=_rv4.diag_line(_diag), actual_records=_n_act)
             _lines = [_rv4.diag_line(_diag)]
+            _lines.append(_rv4_legend())
             _reps = [f"《{x['topic']}》{x['repeat_hint']}" for x in sets if x.get("repeat_hint")]
             if _reps:
                 _lines.append("同母题提示（R-P1-2）：" + "；".join(_reps))
@@ -733,6 +743,23 @@ def main():
         print("R-P1-1 打标：" + "、".join(f"{x['topic']}={x['topic_type']}/{x['video_fit']}" for x in sets))
     except Exception as _exc:  # noqa: BLE001 - 打标与诊断是观测手段，不能拦主流程
         print(f"警告: v4 打标/诊断失败 ({_exc})，hotspots 分数与过滤不受影响", file=sys.stderr)
+
+    # ★ 传播分（2026-11-23 雷达迭代）：sets 加 spread_score/spread_parts/spread_src，
+    #   当日简报每条标题行与目录行加「📣 传播 X/10」。只并列展示，不参与 7.0/5.0 过滤
+    #   与排序（回测未达换主分门槛，见 data/backtest_spread_20261123.json）；失败只告警。
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import spread_score as _sp
+        if files:
+            with open(latest, encoding="utf-8") as _f:
+                _sp.annotate_sets(sets, _unescape(_f.read()))
+            _sp_posts = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(args.summaries))),
+                                     "docs", "_posts")
+            _sp_hit = _sp.annotate_brief_file(_sp_posts, today)
+            print("传播分：" + "、".join(f"{x['topic']}={x.get('spread_score')}" for x in sets)
+                  + (f"（已写入 {_sp_hit}）" if _sp_hit else "（当日简报文件不在，未写简报）"))
+    except Exception as _exc:  # noqa: BLE001 - 传播分是并列观测，不能拦主流程
+        print(f"警告: 传播分计算失败 ({_exc})，hotspots 分数与过滤不受影响", file=sys.stderr)
 
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)

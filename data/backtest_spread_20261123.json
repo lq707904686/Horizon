@@ -1,0 +1,160 @@
+{
+  "version": "spread-v1",
+  "as_of_actuals": "2026-11-22T22:19",
+  "split": "2026-10-29",
+  "cut_new": 6.0,
+  "cut_old": 7.0,
+  "groups": [
+    {
+      "group": "视频号播放·全期",
+      "n_all": 26,
+      "n_both": 25,
+      "rho_new_all": 0.29,
+      "rho_new": 0.316,
+      "rho_old": 0.09,
+      "delta": 0.226,
+      "delta_ci95": [
+        -0.426,
+        0.773
+      ],
+      "new_ge6": {
+        "n": 3,
+        "median": 1299
+      },
+      "new_lt6": {
+        "n": 23,
+        "median": 764
+      },
+      "old_ge7": {
+        "n": 17,
+        "median": 777
+      },
+      "old_lt7": {
+        "n": 8,
+        "median": 763.0
+      }
+    },
+    {
+      "group": "公众号贴图阅读·推荐期",
+      "n_all": 81,
+      "n_both": 25,
+      "rho_new_all": 0.226,
+      "rho_new": 0.152,
+      "rho_old": -0.092,
+      "delta": 0.244,
+      "delta_ci95": [
+        -0.322,
+        0.814
+      ],
+      "new_ge6": {
+        "n": 3,
+        "median": 40
+      },
+      "new_lt6": {
+        "n": 78,
+        "median": 6.5
+      },
+      "old_ge7": {
+        "n": 8,
+        "median": 7.5
+      },
+      "old_lt7": {
+        "n": 17,
+        "median": 33
+      }
+    },
+    {
+      "group": "公众号文章阅读·推荐期",
+      "n_all": 67,
+      "n_both": 19,
+      "rho_new_all": 0.138,
+      "rho_new": 0.061,
+      "rho_old": -0.074,
+      "delta": 0.135,
+      "delta_ci95": [
+        -0.61,
+        0.883
+      ],
+      "new_ge6": {
+        "n": 4,
+        "median": 3.0
+      },
+      "new_lt6": {
+        "n": 63,
+        "median": 2
+      },
+      "old_ge7": {
+        "n": 8,
+        "median": 2.0
+      },
+      "old_lt7": {
+        "n": 11,
+        "median": 3
+      }
+    },
+    {
+      "group": "公众号贴图阅读·归零后",
+      "n_all": 27,
+      "n_both": 25,
+      "rho_new_all": 0.14,
+      "rho_new": 0.155,
+      "rho_old": -0.03,
+      "delta": 0.185,
+      "delta_ci95": [
+        -0.471,
+        0.793
+      ],
+      "new_ge6": {
+        "n": 1,
+        "median": 5
+      },
+      "new_lt6": {
+        "n": 26,
+        "median": 1.5
+      },
+      "old_ge7": {
+        "n": 9,
+        "median": 2
+      },
+      "old_lt7": {
+        "n": 16,
+        "median": 2.0
+      }
+    },
+    {
+      "group": "公众号文章阅读·归零后",
+      "n_all": 15,
+      "n_both": 14,
+      "rho_new_all": -0.157,
+      "rho_new": -0.152,
+      "rho_old": -0.395,
+      "delta": 0.243,
+      "delta_ci95": [
+        -0.306,
+        0.781
+      ],
+      "new_ge6": {
+        "n": 1,
+        "median": 4
+      },
+      "new_lt6": {
+        "n": 14,
+        "median": 2.0
+      },
+      "old_ge7": {
+        "n": 8,
+        "median": 2.0
+      },
+      "old_lt7": {
+        "n": 6,
+        "median": 2.5
+      }
+    }
+  ],
+  "decision": {
+    "switch_main": false,
+    "rule": "视频号播放/推荐期贴图阅读 至少一个 Δρ 95% 下界>0，且另一个 Δρ≥0",
+    "video_sig": false,
+    "tietu_sig": false
+  }
+}
