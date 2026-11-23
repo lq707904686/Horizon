@@ -114,6 +114,24 @@ def video_fit(headline):
     return "高" if (p and n) else ("中" if (p or n) else "低")
 
 
+# v2 第八节（2026-11-23 用户「8 条全批」）：只打标、不改分。词表/判据与长文 iteration_v5、
+# 视频 v5_checks 完全一致（改一处须三仓同改）；字段名同名同义：finance_redline / share_family。
+FIN_TOPIC_RX = re.compile(r"(信贷|贷款|放贷|网贷|借贷|消费贷|小额贷|助贷|理财|投资建议|荐股|股价|估值|市值|涨停|跌停|炒股|"
+                          r"股票|基金|收益率|开盘价|发行价|P2P|存管银行|债券)")
+FIN_WEAK_RX = re.compile(r"(房贷|车贷|月供|利率|利息|首付|按揭|信用卡|分期|还款|逾期|借款|融资|蒸发|"
+                         r"[涨跌]了?(百分之|\d+(\.\d+)?\s*%)|加息|降息)")
+FAMILY_RX = re.compile(r"(防骗|骗局|诈骗|被骗|骗子|养老|养老金|退休|医保|社保|看病|住院|子女|就业|毕业生|父母|老人|"
+                       r"保健品|遗产|赡养|彩礼|租房|物业|孩子)")
+
+
+def finance_hits(title="", text=""):
+    th = FIN_TOPIC_RX.findall(title or "")
+    strong = FIN_TOPIC_RX.findall(text or "")
+    weak = [m.group(0) for m in FIN_WEAK_RX.finditer(text or "")]
+    fin = bool(th) or len(strong) >= 2 or len(strong) + len(weak) >= 4
+    return fin, sorted(set(th + strong + weak))
+
+
 _HEADING = re.compile(r"^###\s+\[(.+?)\]\((.+?)\)", re.M)
 
 
@@ -156,7 +174,8 @@ def repeat_hint(headline, motifs, recent_titles, recent_motifs):
 
 
 def annotate_sets(sets, md_text, actuals=None, feedback_log=None, today=None):
-    """原地给 sets 加 topic_type / video_fit / motifs / repeat_hint；不碰 score 等已有键。"""
+    """原地给 sets 加 topic_type / video_fit / motifs / repeat_hint / finance_redline / share_family；
+    不碰 score 等已有键（财经红线题 video_fit 记「低」，只是标签，不进分数）。"""
     today = today or date.today()
     secs = brief_sections(md_text)
     rt, rm = recent_published(actuals or [], feedback_log or [], today)
@@ -168,7 +187,12 @@ def annotate_sets(sets, md_text, actuals=None, feedback_log=None, today=None):
         s["video_fit"] = video_fit(headline + " " + (s.get("topic") or ""))
         s["motifs"] = mot
         s["repeat_hint"] = repeat_hint(headline, mot, rt, rm)
-        s["tag_src"] = "rule-v4"
+        # v2 A5/B4：财经红线 = 只可写文章、不可做视频；转给家人看 = 选题会每周 ≥2 条的候选池
+        s["finance_redline"] = finance_hits(headline + " " + (s.get("topic") or ""), body[:400])[0]
+        s["share_family"] = bool(FAMILY_RX.search(headline + " " + (s.get("topic") or "")))
+        if s["finance_redline"]:
+            s["video_fit"] = "低"
+        s["tag_src"] = "rule-v5"
     return sets
 
 
