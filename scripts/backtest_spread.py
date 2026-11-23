@@ -12,6 +12,10 @@
   - 权重事先固定、不调参；判据：视频号播放 / 推荐期贴图阅读 至少一个 Δρ 区间下界 >0，
     且另一个 Δρ 点估计不 <0，才换主分。否则只并列展示。
 用法：python scripts/backtest_spread.py [--out data/backtest_spread_20261123.json]
+v3 L13（2026-11-23）：--channel all|video|tietu。all = 原 spread_score（默认，结果与旧版逐字节一致）；
+  video = spread_video（人+开头）；tietu = spread_tietu（钱+家人），各 0–10，切分线同为 6。
+  分渠道时另报 rho_spread_v1（同组原传播分 ρ）作对照。判据不变，只并列展示。
+  --exclude-unstable：剔除 unstable=true 的实绩行（L12 48 小时口径，旧行无此字段视为稳定）。
 """
 import argparse
 import json
@@ -80,6 +84,8 @@ def group_stats(name, rows):
     out["delta"] = (None if out["rho_new"] is None or out["rho_old"] is None
                     else round(out["rho_new"] - out["rho_old"], 3))
     out["delta_ci95"] = boot_delta(both) if len(both) >= 8 else None
+    if CHANNEL != "all":
+        out["rho_spread_v1_all"] = spearman([r["v1"] for r in rows], [r["y"] for r in rows])
     hi = [r["y"] for r in rows if r["new"] >= CUT_NEW]
     lo = [r["y"] for r in rows if r["new"] < CUT_NEW]
     out["new_ge6"] = {"n": len(hi), "median": med(hi)}
@@ -91,6 +97,18 @@ def group_stats(name, rows):
     return out
 
 
+CHANNEL = "all"
+EXCLUDE_UNSTABLE = False
+
+
+def new_score(title):
+    if CHANNEL == "video":
+        return sp.channel_scores(title)[0]
+    if CHANNEL == "tietu":
+        return sp.channel_scores(title)[1]
+    return sp.spread_score(title)
+
+
 def load(path):
     rows = []
     for ln in open(path, encoding="utf-8"):
@@ -98,6 +116,8 @@ def load(path):
         if not ln:
             continue
         r = json.loads(ln)
+        if EXCLUDE_UNSTABLE and r.get("unstable") is True:
+            continue
         y = r.get("plays") if r.get("kind") == "video" else r.get("reads")
         if y is None:
             continue
@@ -106,7 +126,8 @@ def load(path):
             old = None
         rows.append({"date": r.get("date") or "", "type": r.get("type") or "视频",
                      "kind": r.get("kind"), "title": r.get("title") or "",
-                     "y": y, "old": old, "new": sp.spread_score(r.get("title") or "")})
+                     "y": y, "old": old, "new": new_score(r.get("title") or ""),
+                     "v1": sp.spread_score(r.get("title") or "")})
     return rows
 
 
@@ -127,7 +148,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--actuals", default=os.path.join(ROOT, "data/feedback_actuals.jsonl"))
     ap.add_argument("--out", default=None)
+    ap.add_argument("--channel", choices=("all", "video", "tietu"), default="all")
+    ap.add_argument("--exclude-unstable", action="store_true")
     a = ap.parse_args()
+    global CHANNEL, EXCLUDE_UNSTABLE
+    CHANNEL, EXCLUDE_UNSTABLE = a.channel, a.exclude_unstable
     rows = load(a.actuals)
     groups = [
         ("视频号播放·全期", [r for r in rows if r["kind"] == "video"]),
@@ -137,8 +162,12 @@ def main():
         ("公众号文章阅读·归零后", [r for r in rows if r["type"] == "文章" and r["date"] >= SPLIT]),
     ]
     res = [group_stats(n, g) for n, g in groups]
-    out = {"version": sp.VERSION, "as_of_actuals": "2026-11-22T22:19", "split": SPLIT,
+    out = {"version": sp.VERSION if CHANNEL == "all" else f"{sp.CHANNEL_VERSION}:{CHANNEL}",
+           "as_of_actuals": "2026-11-22T22:19", "split": SPLIT,
            "cut_new": CUT_NEW, "cut_old": CUT_OLD, "groups": res, "decision": decide(res)}
+    if CHANNEL != "all":
+        out["decision"]["note"] = ("分渠道分只并列展示（v3 L13）：switch_main 判据沿用主分口径作参考，"
+                                   "不据此换主分；要换须另立判据并经用户拍板")
     txt = json.dumps(out, ensure_ascii=False, indent=2)
     print(txt)
     if a.out:

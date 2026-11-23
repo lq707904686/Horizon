@@ -360,6 +360,9 @@ class HorizonOrchestrator:
                     f"→ {len(merged_items)} unique items\n"
                 )
 
+            # 3b. v3 L7：热榜短条目本地补同事件全文（零外网请求；失败只告警，不拦主流程）
+            self._fill_hotlist_fulltext(merged_items)
+
             # 4. Analyze with AI
             analyzed_items = await self.analyze_items(merged_items)
             # P318-6：漏斗的 analyzed 数补进 fetch_report.json。
@@ -801,6 +804,25 @@ class HorizonOrchestrator:
         if meta.get("domain"):
             return meta["domain"]
         return item.author or "unknown"
+
+    def _fill_hotlist_fulltext(self, items) -> None:
+        """v3 L7：热榜条目正文 <300 字时，用当天已抓到的全文条目（中新网/澎湃/36氪…）补同事件全文。
+
+        封顶规则（P318-2）不变；只是让同一事件按全文打分。结果写进 fetch_report.json 的
+        fulltext_fill 键（只加键）。任何异常只打警告。
+        """
+        try:
+            from .processing.fulltext_fill import fill_hotlist_fulltext
+            stats = fill_hotlist_fulltext(items)
+            self.console.print(
+                f"[cyan]L7 热榜补全文：短条目 {stats['short_total']} 条（热榜 {stats['hotlist_short']}），"
+                f"全文池 {stats['pool']} 条，匹配补上 {stats['filled']} 条（热榜 {stats['filled_hotlist']}）[/cyan]"
+            )
+            for pair in stats["pairs"][:20]:
+                self.console.print(f"  · {pair['hot']} ← [{pair['src']}] {pair['title']}")
+            self._update_fetch_report(fulltext_fill={k: v for k, v in stats.items()})
+        except Exception as exc:  # noqa: BLE001
+            self.console.print(f"[yellow]警告: L7 热榜补全文失败（{exc}），按原正文打分[/yellow]")
 
     def merge_cross_source_duplicates(self, items: List[ContentItem]) -> List[ContentItem]:
         """Merge items that point to the same URL from different sources.

@@ -598,6 +598,61 @@ def _rv4_legend():
         return "传播分图例不可用"
 
 
+def _posts_dir_for(summaries_dir):
+    """docs/_posts 与 data/summaries 的对应关系（与 v4/传播分两步同口径）。"""
+    return os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(summaries_dir))),
+                        "docs", "_posts")
+
+
+def _brief_guard_pre(latest, summaries_dir, day):
+    """★ v3 L8：同日多次生成时，与当天已发布版比较，更差则不覆盖。
+
+    返回 (本轮实际使用的简报路径, decision|None, 已发布版来源说明)。任何异常返回 (latest, None, 原因)，
+    主流程按改前行为继续（只告警）。可用环境变量 HORIZON_BRIEF_GUARD=off 关闭。
+    """
+    if os.environ.get("HORIZON_BRIEF_GUARD", "").lower() in ("off", "0", "false"):
+        return latest, None, "已关闭（HORIZON_BRIEF_GUARD=off）"
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import brief_guard as _bg
+    posts = _posts_dir_for(summaries_dir)
+    repo_dir = os.path.dirname(os.path.dirname(posts))
+    is_repo = os.path.isdir(os.path.join(repo_dir, ".git"))
+    # 外网兜底只在 GitHub Actions 里开（本地/测试不碰线上 gh-pages）
+    on_ci = os.environ.get("GITHUB_ACTIONS") == "true"
+    if not is_repo and not on_ci:
+        pub_text, src = None, "非 git 仓库且不在 CI，跳过取已发布版"
+    else:
+        pub_text, src = _bg.fetch_published(day, repo_dir, allow_http=on_ci)
+    with open(latest, encoding="utf-8") as _f:
+        new_text = _f.read()
+    new_stats = _bg.stats_of(new_text, extract_scored_topics)
+    d = _bg.decide(new_stats, pub_text, extract_scored_topics)
+    # 已确认当天发布状态（拿到已发布版，或 git 成功且当天确无已发布版）才按“当天最终版”写分布；
+    # 取不到已发布版时保持 P317 keep-best，不让一次取失败的晚跑把好记录顶掉。
+    d["pub_known"] = pub_text is not None or src == "git:gh-pages（当天无已发布版）"
+    print(f"L8 简报版本守护：已发布版来源 {src}；本轮 {new_stats}；已发布 {d['pub']}；判定 {d['action']}"
+          f"（判据：≥7.0 条数更少且最高分不更高 → 不覆盖）")
+    if d["action"] != "keep":
+        return latest, d, src
+    # 更差：把已发布版写回当日 docs/_posts（部署后内容不变），并以它为本轮简报重算 hotspots
+    os.makedirs(posts, exist_ok=True)
+    post_path = os.path.join(posts, f"{day}-summary-zh.md")
+    with open(post_path, "w", encoding="utf-8") as _f:
+        _f.write(_bg.strip_footer(pub_text))
+    return post_path, d, src
+
+
+def _brief_guard_post(summaries_dir, day, d, src, dist_path):
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import brief_guard as _bg
+    post = os.path.join(_posts_dir_for(summaries_dir), f"{day}-summary-zh.md")
+    sha = os.environ.get("GITHUB_SHA")
+    hit = _bg.write_footer(post, day, d, commit=sha)
+    _bg.log_run(dist_path, day, d, src, datetime.datetime.now().isoformat(timespec="seconds"))
+    print(f"L8 简报版本行：v{d['version']}｜第 {d['gen']} 次生成｜覆盖 {d['overwrites']}｜拦下 {d['kept']}"
+          + (f"（已写入 {hit}）" if hit else "（当日简报文件不在，未写版本行）"))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--summaries", required=True, help="Horizon 简报目录 (data/summaries)")
@@ -610,6 +665,7 @@ def main():
     min_score = MIN_SCORE
     fallback_score = None
     scored = []
+    guard_decision, guard_src = None, None  # v3 L8
     column_record = None  # P315 R5：五栏目分流统计（仅正常过滤分支产出）
     quota_record = None   # P315 R4：入选话题来源占比 + 超线告警清单
     if not files:
@@ -619,6 +675,14 @@ def main():
     else:
         latest = files[-1]
         print(f"读取最新简报: {latest}")
+        try:
+            latest, guard_decision, guard_src = _brief_guard_pre(
+                latest, args.summaries, datetime.date.today().isoformat())
+            if guard_decision is not None and guard_decision["action"] == "keep":
+                print(f"L8：本轮简报更差，沿用当天已发布版 {latest}")
+        except Exception as _exc:  # noqa: BLE001 - 守护失败按改前行为覆盖
+            guard_decision, guard_src = None, f"异常 {type(_exc).__name__}"
+            print(f"警告: L8 简报版本守护失败 ({_exc})，按改前行为继续", file=sys.stderr)
         scored = extract_scored_topics(latest)
         topics, sets, stats = filter_topics(scored)
         if topics is None:
@@ -805,7 +869,9 @@ def main():
                 )
                 if column_alerts:
                     record["column_zero_alerts"] = column_alerts
-        update_history(dist_path, record)
+        # v3 L8：守护判定过的当日记录 = 当天最终版，直接写（不再按 keep-best 取最好）
+        update_history(dist_path, record,
+                       final=bool(guard_decision and guard_decision.get("pub_known")))
         print(f"评分分布已更新 {dist_path}（{record['date']}，共 {record['total_items']} 条，"
               f"最高 {record['max_score']}，≥7.0 有 {record['count_ge_7']} 条）")
         for _col in column_alerts:
@@ -814,6 +880,15 @@ def main():
         _write_step_summary_alerts(column_alerts, quota_record)
     except Exception as exc:  # noqa: BLE001 - 分布是观测手段，不能拦主流程
         print(f"警告: 评分分布更新失败 ({exc})，hotspots.json 不受影响", file=sys.stderr)
+
+    # ★ v3 L8：简报底部版本行 + score_distribution.brief_runs 日志（最后一步，失败只告警）
+    if guard_decision is not None:
+        try:
+            _bg_dist = os.path.join(os.path.dirname(os.path.abspath(args.summaries)),
+                                    "score_distribution.json")
+            _brief_guard_post(args.summaries, today, guard_decision, guard_src, _bg_dist)
+        except Exception as _exc:  # noqa: BLE001
+            print(f"警告: L8 简报版本行写入失败 ({_exc})，hotspots 不受影响", file=sys.stderr)
 
     return 0
 

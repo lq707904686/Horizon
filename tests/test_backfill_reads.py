@@ -66,10 +66,16 @@ def test_backfill_matched_and_unmatched(tmp_path):
     v = [r for r in rows if r["kind"] == "video"][0]
     assert v["eid"] == "2928" and v["plays"] == 777 and v["completion_pct"] == 9.65 and v["avg_watch_s"] == 19.51
     assert v["date"] == "2026-11-22" and v["followers"] == 2
-    # 合并：同 key 新 as_of 覆盖，其他 key 保留；重跑不重复
+    # 合并：重跑不重复。v3 L12（48 小时口径）：as_of 2026-11-22 时 11-20 那条已满 2 天 → 稳定、冻结，
+    #   不再被 11-23 的导出覆盖；11-21/11-22 两条未稳 → 被新 as_of 覆盖。
+    assert by["一个仓里根本没有的标题完全对不上"]["unstable"] is False and hit["unstable"] is True
     assert bf.main(args[:-4] + ["--as-of", "2026-11-23T08:00", "--repo", str(tmp_path)]) == 0
     rows2 = [json.loads(x) for x in out.read_text(encoding="utf-8").splitlines()]
-    assert len(rows2) == len(rows) and all(r["as_of"] == "2026-11-23T08:00" for r in rows2)
+    by2 = {r["key"]: r for r in rows2}
+    assert len(rows2) == len(rows)
+    for r in rows:
+        exp = "2026-11-22T22:19" if r["unstable"] is False else "2026-11-23T08:00"
+        assert by2[r["key"]]["as_of"] == exp
 
 
 def test_diagnose_medians():
@@ -89,7 +95,9 @@ def test_diagnose_medians():
 def test_tags_and_repeat_hint():
     assert rv4.topic_type("", headline="农民工称被国企克扣工资：发工资凭运气") == "人/处境"
     assert rv4.topic_type("", headline="Anthropic 2 万亿 IPO 造富") == "公司/资本"
-    assert rv4.topic_type("", headline="户均 2.52 人，开发商却在卖三居") == "其他"
+    # v3 L3/L4：topic_type 扩为 4 值，旧「其他」兜底改为「行业冷账」；旧口径留在 topic_type_legacy
+    assert rv4.topic_type("", headline="户均 2.52 人，开发商却在卖三居") == "行业冷账"
+    assert rv4.topic_type_legacy("", headline="户均 2.52 人，开发商却在卖三居") == "其他"
     assert rv4.video_fit("54 岁副教授，两个聘期没达标") == "高"
     assert rv4.video_fit("新能源汽车们进入华容道") == "低"
     h = rv4.repeat_hint("x", ["止损"], [], ["止损", "止损", "止损"])

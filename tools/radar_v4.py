@@ -34,6 +34,15 @@ PERSON_RX = re.compile(r"(\d+\s*岁|男子|女子|老人|大爷|大妈|阿姨|�
                        r"心腹|维权|离职|被裁|欠薪|起诉|挂名|富二代|病人|农民工|求职者|年轻人|中年人|打工|\d+\s*户|一家|全家)")
 DIGIT_RX = re.compile(r"\d|[一二三四五六七八九十两百千万亿]{2,}")
 
+# v3 L3：统一人物词表（tools/person_lexicon.json）。加载失败只回落旧 PERSON_RX，不拦主流程。
+try:
+    import person_lexicon as _pl
+except Exception:  # noqa: BLE001
+    try:
+        from tools import person_lexicon as _pl
+    except Exception:  # noqa: BLE001
+        _pl = None
+
 
 def _strip(t):
     return "".join(c for c in (t or "") if c not in _NUM and not c.isspace()
@@ -67,7 +76,7 @@ def diagnose(actuals, today=None, days=DIAG_DAYS):
     lo = (today - timedelta(days=days)).isoformat()
     out = {"window_days": days, "as_of": today.isoformat(), "min_score": MIN_SCORE}
     for kind, metric, label in (("article", "reads", "公众号阅读"), ("video", "plays", "视频号播放")):
-        rs = [r for r in actuals if r.get("kind") == kind and lo <= (r.get("date") or "") <= today.isoformat()
+        rs = [r for r in actuals if r.get("kind") == kind and r.get("unstable") is not True and lo <= (r.get("date") or "") <= today.isoformat()
               and r.get("radar_score") is not None and r.get(metric) is not None]
         hi = [r[metric] for r in rs if r["radar_score"] >= MIN_SCORE]
         lw = [r[metric] for r in rs if r["radar_score"] < MIN_SCORE]
@@ -92,9 +101,8 @@ def diag_line(d):
 
 
 # ---------------- 打标 ----------------
-def topic_type(text, headline=None):
-    """标题优先：标题里有具体的人 → 人/处境；标题里是公司/资本 → 公司/资本；
-    标题判不出再看正文前 400 字；都没有 → 其他。"""
+def topic_type_legacy(text, headline=None):
+    """v4 旧口径（3 值：人/处境｜公司/资本｜其他，旧 PERSON_RX）。保留供兼容对照，写进 sets.topic_type_legacy。"""
     h = headline if headline is not None else (text or "")[:40]
     if PERSON_RX.search(h):
         return "人/处境"
@@ -108,9 +116,38 @@ def topic_type(text, headline=None):
     return "其他"
 
 
+# v3 L3/L4（2026-11-23）：topic_type 扩为 4 值（docs/field_spec.md）：
+#   人/处境｜公司/资本｜政策/制度｜行业冷账；人物判定改读 tools/person_lexicon.json（三仓字节一致）。
+#   老值兼容：「人/处境」「公司/资本」语义不变；旧的「其他」拆进 政策/制度 与 行业冷账（兜底）。
+TOPIC_TYPES = ("人/处境", "公司/资本", "政策/制度", "行业冷账")
+TOPIC_TYPE_SRC = "tt4-v1"
+POLICY_RX = re.compile(r"(政策|新规|新政|规定|条例|法规|立法|修法|法律|国务院|发改委|部委|监管|管理局|通知|意见稿|"
+                       r"征求意见|办法|实施细则|出台|国家标准|制度|改革|补贴|医保局|人社部|教育部|住建部|央行|降准|"
+                       r"降息|个税|限购|试点|户籍|延迟退休|法院|判决|裁定|司法解释)")
+
+
+def _has_person(text):
+    return _pl.has_person(text) if _pl is not None else bool(PERSON_RX.search(text or ""))
+
+
+def topic_type(text, headline=None):
+    """标题优先：标题里有具体的人（person_lexicon）→ 人/处境；公司/资本 → 公司/资本；政策/制度词 → 政策/制度；
+    标题判不出再按同序看正文前 400 字；都没有 → 行业冷账（兜底）。"""
+    h = headline if headline is not None else (text or "")[:40]
+    t = (text or "")[:400]
+    for seg in (h, t):
+        if _has_person(seg):
+            return "人/处境"
+        if CAPITAL_RX.search(seg):
+            return "公司/资本"
+        if POLICY_RX.search(seg):
+            return "政策/制度"
+    return "行业冷账"
+
+
 def video_fit(headline):
     h = headline or ""
-    p, n = bool(PERSON_RX.search(h)), bool(DIGIT_RX.search(h))
+    p, n = _has_person(h), bool(DIGIT_RX.search(h))
     return "高" if (p and n) else ("中" if (p or n) else "低")
 
 
@@ -184,6 +221,8 @@ def annotate_sets(sets, md_text, actuals=None, feedback_log=None, today=None):
         text = headline + " " + (s.get("topic") or "") + " " + body[:400]
         mot = motifs_of(body)
         s["topic_type"] = topic_type(body[:400], headline=headline + " " + (s.get("topic") or ""))
+        s["topic_type_legacy"] = topic_type_legacy(body[:400], headline=headline + " " + (s.get("topic") or ""))
+        s["topic_type_src"] = TOPIC_TYPE_SRC
         s["video_fit"] = video_fit(headline + " " + (s.get("topic") or ""))
         s["motifs"] = mot
         s["repeat_hint"] = repeat_hint(headline, mot, rt, rm)

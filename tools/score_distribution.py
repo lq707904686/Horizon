@@ -134,7 +134,7 @@ def _record_quality(record):
     )
 
 
-def update_history(path, record):
+def update_history(path, record, final=False):
     """把 record 按 date 去重追加进 path（{"records": [...]}，按日期排序）。
 
     P317：保留当日最佳——同日已有记录且不比新记录差时，不覆盖。
@@ -151,7 +151,10 @@ def update_history(path, record):
     records = history.get("records", []) if isinstance(history, dict) else []
     records = [r for r in records if isinstance(r, dict)]
     existing = [r for r in records if r.get("date") == record["date"]]
-    if existing and _record_quality(existing[0]) >= _record_quality(record):
+    # v3 L8：final=True（make_hotspots 简报守护已判定当天最终版）→ 当日记录按最终版写，
+    #   不再 keep-best；更差的补跑已在守护层被拦下并换回已发布版，所以这里写的就是最终版。
+    #   final=False（默认、CLI）保持 P317 keep-best 行为不变。
+    if not final and existing and _record_quality(existing[0]) >= _record_quality(record):
         return path
     records = [r for r in records if r.get("date") != record["date"]]
     records.append(record)

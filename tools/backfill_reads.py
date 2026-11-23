@@ -14,6 +14,14 @@
 雷达分优先取条目台账 score（radar_score_src=台账）；对不上条目时再用 gh-pages 简报标题相似 ≥0.6
 （radar_score_src=简报，取发布前 14 天内最相似一条）。对不上的写 unmatched 列表，不丢。
 
+v3 L12（2026-11-23）统一「发布后 48 小时」口径（只对新写入的行；旧行一字不动）：
+  - 新行带 window="发布后48小时"、obs_lag_days（as_of 日期 − 发布日期）、unstable、as_of；
+  - unstable=true：发布日期落在 as_of 的最后 2 天内（as_of 当天与前一天）——还没到 48 小时，数会涨；
+  - 合并规则：旧行（无 window 字段）不覆盖、不改；新口径行一旦稳定（unstable=false）即冻结，
+    之后的导出不再覆盖（导出是累计值，冻结最早一次稳定观测最接近 48 小时口径）；
+    未稳行可被更新的 as_of 覆盖。obs_lag_days 越大，离 48 小时口径越远，分析时可据此筛。
+  - 诊断（radar_v4.diagnose）与回测（--exclude-unstable）剔除 unstable=true 的行。
+
 用法：
   python tools/backfill_reads.py --as-of 2026-11-22T22:19            # 默认路径，见 DEFAULTS
   python tools/backfill_reads.py --dry-run                           # 只打印统计
@@ -41,6 +49,24 @@ DEFAULTS = {
 }
 SIM = 0.6
 RADAR_LOOKBACK_DAYS = 14
+WINDOW_LABEL = "发布后48小时"
+UNSTABLE_DAYS = 2
+
+
+def stamp_window(rec, as_of):
+    """L12：给新行打 48 小时口径字段。日期解析失败时 unstable=None（未知），不猜。"""
+    rec["window"] = WINDOW_LABEL
+    try:
+        a = date.fromisoformat(str(as_of)[:10])
+        d = date.fromisoformat(str(rec.get("date") or "")[:10])
+    except Exception:
+        rec["obs_lag_days"] = None
+        rec["unstable"] = None
+        return rec
+    lag = (a - d).days
+    rec["obs_lag_days"] = lag
+    rec["unstable"] = lag < UNSTABLE_DAYS
+    return rec
 _NUM = set("0123456789一二三四五六七八九十两百千万亿.%．")
 BRIEF_RX = re.compile(r"^(\d+)\. \[(.+?)\]\(#item-renxing-\d+\) ⭐️ ([\d.]+)/10", re.M)
 
@@ -233,7 +259,7 @@ def wx_records(wx_csv, ch_csv, registry, idx, items, as_of):
         if entry:
             rec["round"] = entry["round"]
         _radar(rec, entry, title, d, items)
-        out.append(rec)
+        out.append(stamp_window(rec, as_of))
     return out
 
 
@@ -261,12 +287,13 @@ def sph_records(sph_csv, idx, items, as_of):
         else:
             rec.setdefault("unmatched", []).append("eid")
         _radar(rec, entry, title, d, items)
-        out.append(rec)
+        out.append(stamp_window(rec, as_of))
     return out
 
 
 def merge(path, new):
-    """按 key 合并：同 key 取 as_of 较新的一条；文件里其他 key 原样保留。"""
+    """按 key 合并（L12）：旧行（无 window 字段）原样保留不覆盖；新口径行已稳定则冻结；
+    未稳行取 as_of 较新的一条；文件里其他 key 原样保留。返回 (rows, added, updated)。"""
     old = {}
     if os.path.isfile(path):
         for ln in open(path, encoding="utf-8"):
@@ -283,6 +310,10 @@ def merge(path, new):
         if o is None:
             added += 1
             old[r["key"]] = r
+        elif "window" not in o:
+            continue  # L12：旧行不动
+        elif o.get("unstable") is False:
+            continue  # L12：已稳定的 48 小时口径行冻结
         elif (r.get("as_of") or "") >= (o.get("as_of") or ""):
             updated += 1
             old[r["key"]] = r
