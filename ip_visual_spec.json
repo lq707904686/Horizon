@@ -1,7 +1,7 @@
 {
  "schema": 1,
  "name": "人性台账 · 大可 IP 视觉宪法（机器可读）",
- "version": "1.1.0",
+ "version": "1.2.0",
  "updated": "2026-11-24",
  "doc": "renxing-changwen-peitu-v3.3/references/IP视觉宪法_v1.md",
  "precedence": "用户最新拍板 > 最新定版脚本 > 旧文档；本文件与宪法 md 冲突时以本文件数值为准，改值须同步三仓字节一致",
@@ -236,7 +236,12 @@
    "hash_fallback"
   ],
   "max_cards": 8,
-  "intro_card_last": "大可介绍卡_贴图末页 1080×1440（仅贴图末页）",
+  "intro_card_last": "作废（2026-11-24 用户：贴图最后那张带二维码的不要）——贴图不拼介绍卡",
+  "first_card_sub": "左滑看这本账怎么算。",
+  "title_punct_squeeze": {"chars": "，、。；：！？", "advance_em": 0.5, "line_end": false},
+  "ai_badge_target_ratio": 0.051,
+  "newspic_desc": {"structure": ["事实≤2段", "每张金句+一句理由", "大可说", "评论区问题", "话题行"], "para_max": 90, "body_max": 420, "generator": "pipeline/newspic_text.py"},
+  "tags": {"min": 5, "max": 6, "first": "#人性台账#", "scope": ["长文文末", "图片消息", "视频号"]},
   "hatching_hf_block": 2.5,
   "hatching_hf_warn": 2.0,
   "subtitle": {
@@ -419,10 +424,10 @@
   "font_px": {
    "body": 16,
    "head": 17.5,
-   "head_num": 11,
-   "summary_title": 11.5,
+   "head_num": 12,
+   "summary_title": 12,
    "summary_body": 14,
-   "ai_notice": 10.5,
+   "ai_notice": 12,
    "cta": 13.5
   },
   "body_lh": 1.9,
@@ -438,7 +443,7 @@
    "capsule": "人性台账 · 持续拆透人性",
    "capsule_bg": "#1A1610",
    "capsule_fg": "#C9A227",
-   "capsule_px": 10,
+   "capsule_px": 12,
    "capsule_padding": [
     3,
     8
@@ -555,6 +560,7 @@
   "note": "同一篇 封面/插图/贴图 的勾线质感指标（卫衣内部高频）极差超阈值 = 风格不统一"
  },
  "changelog": [
+  "1.2.0 2026-11-24：贴图去末页二维码介绍卡、描述短段落、话题 5–6 个（用户 19:17）；首卡副标翻页引导句、主标标点挤压、首卡角标 5.1%+Bold；长文辅助小字下限 12px；插图纸底门禁同步 #F7F1E5",
   "1.1.0 2026-11-24：落地主助理 11 项裁决（用户 2026-11-23 22:33 授权「草稿前按最优规划执行」）——插图纸底统一 #F7F1E5、封面/插图右下 AI 小角标、大可直视镜头、R/X 恰好 2 个、视频金/封面金按 v1.2、正文不排标题、交互页只认账本主题、封面胸像固定为用户指定角色（08:56 拍板，覆盖审判脸）、多色点缀作废、主标固定 2 行禁拆词；补各介质细则与作废清单",
   "1.0.0 2026-11-24：首版"
  ],
