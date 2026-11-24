@@ -1,7 +1,7 @@
 {
  "schema": 1,
  "name": "人性台账 · 大可 IP 视觉宪法（机器可读）",
- "version": "1.0.0",
+ "version": "1.1.0",
  "updated": "2026-11-24",
  "doc": "renxing-changwen-peitu-v3.3/references/IP视觉宪法_v1.md",
  "precedence": "用户最新拍板 > 最新定版脚本 > 旧文档；本文件与宪法 md 冲突时以本文件数值为准，改值须同步三仓字节一致",
@@ -12,14 +12,31 @@
    "戴眼镜",
    "灰白发成熟男性不年轻化",
    "黑卫衣",
-   "胸口左 R 右 X 金字母清晰可读",
-   "deadpan 冷峻不笑",
+   "胸口左 R 右 X 金字母恰好 2 个、清晰可读",
+   "贴图/插图：deadpan 冷峻不笑（审判脸）；长文封面神情以固定角色图为准",
+   "直视镜头（dake-ip.md:33）",
    "大可承担一个贴合该句的动作"
   ],
   "rule_action": "去掉大可金句仍成立 = 不合格",
-  "rx_min_letter_h_px_in_tietu_box": 32,
   "rx_warn_letter_h_px_in_tietu_box": 38,
-  "rx_min_gold_px_in_tietu_box": 600
+  "rx_min_gold_px_in_tietu_box": 600,
+  "gaze": "直视镜头（身体可侧转，脸与眼神朝镜头）；「不看镜头」作废（2026-11-24 v1.1 裁决 4）",
+  "rx": {
+   "count": 2,
+   "order": "左 R 右 X",
+   "rule": "硬性恰好 2 个；只能取到 1 个 = 须在审计表（audit_letters --exceptions）记显式例外",
+   "exceptions": [
+    "会销题材不出 RX（换「账」或留白），显式例外"
+   ]
+  },
+  "faces": {
+   "cover": "固定角色图 assets/dake_cover_fixed.png（用户 2026-11-24 08:56「我们的封面是固定这个角色的」；神情以该图为准，带笑合规）",
+   "cover_head_spare": "assets/dake_cover_head.png（同角色头像特写，名片/头像位备用）",
+   "tietu_and_inserts": "审判脸 deadpan 不笑（规则不变）",
+   "intro_card": "迎接脸 assets/dake_cutout.png",
+   "fallback": "cover_trio 缺固定角色图 → BLOCK（退出 2）；--fig 指定审判脸/旧 dake_cutout → BLOCK；不再回退"
+  },
+  "line": "全批统一 3px 干净闭合勾线；禁 halftone 网点、铅笔排线、素描、水彩、写实摄影"
  },
  "palette": {
   "tietu": {
@@ -28,13 +45,25 @@
    "gold": "#B8932A",
    "gold_deep": "#87681A",
    "sub": "#5C5546",
-   "label": "#8A8270"
+   "label": "#8A8270",
+   "paper_edge": [
+    "#E4D9BE",
+    "#CDBE9B"
+   ],
+   "badge_ink": "#3C301E",
+   "badge_pill": "#F7F0E1"
   },
   "cover": {
    "paper": "#FBF7EC",
    "ink": "#1A1610",
    "gold": "#B8932A",
-   "label": "#5C5546"
+   "label": "#5C5546",
+   "spine_light_golds": [
+    "#F5EDD8",
+    "#E3D4AE",
+    "#FBF8F0",
+    "#F3ECDB"
+   ]
   },
   "article": {
    "paper": "#F7F1E5",
@@ -44,36 +73,86 @@
    "gold_deep": "#87681A",
    "black_gold": "#C9A227",
    "sub": "#5C5546",
-   "label": "#8A8270"
+   "label": "#8A8270",
+   "summary_body": "#2A261F",
+   "ai_notice": "#665F50",
+   "gold_alpha": {
+    "summary_bg": 0.07,
+    "divider": 0.32,
+    "head_line": 0.45,
+    "avatar_border": 0.55
+   },
+   "forbidden": [
+    "#B8932A",
+    "#FBF7EC@底色"
+   ]
   },
   "insert": {
-   "paper": "#F2EEE6"
+   "paper": "#F7F1E5",
+   "rule": "= 长文纸底；图库/生图插图一律先跑 blend_paper --apply（增益对齐+16px 羽化）再过门；门禁口径与 check_render 相同：外圈 10px 中位色对 #F7F1E5 加权 ΔE ≤2",
+   "tol_dE": 2.0
   },
   "video": {
-   "paper": "#F2EEE6",
+   "wall": "#F2EEE6",
+   "wall_light": "#FAF6EC",
    "ink": "#1A1A1A",
-   "gold": "#B8860B",
-   "cover_title_gold": "#7A4D05",
-   "seal": "#966006",
-   "subtitle_gold": "#FFD700"
+   "gold": "#B8932A",
+   "gold_deep_text": "#87681A",
+   "chip": "#D9B76A",
+   "highlight_text": "#7A4D05",
+   "seal_gold": "#966006",
+   "sub_grey": "#5A5246",
+   "cover_v12": {
+    "bg_radial": [
+     "#F7EDD5",
+     "#F2E3C5",
+     "#D8C8A9"
+    ],
+    "frame": "#BD7900",
+    "avatar_frame": "#C58100",
+    "title_gold": "#966006",
+    "title_ink": "#000000",
+    "sign": "#6E4B0A",
+    "seal_and_lines": "#966006",
+    "source": "~/workspace/user/files/cover_spec_final.html v1.2（用户 2026-11-05 定稿）",
+    "note": "代码曾用 #7A4D05 作封面标题金，注释自写「待用户在 v5 定稿时确认」、全库无确认记录 → 回到 v1.2 #966006（v1.1 裁决 6）"
+   }
   },
   "deprecated": {
    "#8C6E1C": "§O 作废",
    "#5E5748": "§O 作废",
-   "#B8860B@长文/贴图": "dake_color.py 旧值，仅视频线沿用",
-   "#F2EEE6@长文正文": "dake-heijin 老样式，长文改账本 #F7F1E5"
+   "#B8860B": "dake_color.py 旧金，全线作废（视频改 #B8932A/#87681A/#D9B76A）",
+   "#FFD700": "视频字幕亮金，ASS 字幕 2026-11-07 已废",
+   "#B22222": "视频 drop_stamp 红，不在 v1.2 色表 → 作废（改 #966006）",
+   "#F5EFE3": "旧「插图底原图自带」口径，作废 → #F7F1E5",
+   "#F2EEE6@插图": "作废 → #F7F1E5（#F2EEE6 只留视频墙与贴图底图关中间值）",
+   "#F2EEE6@长文正文": "dake-heijin 老样式，长文改账本 #F7F1E5",
+   "#C0392B/#3A5A78/#4E8A5B": "生图提示词红/蓝/绿点缀（ACCENT_BY_TAG），作废，只金色",
+   "朱红印章": "视频 RX 朱红印章作废 → 金色 RX 圆章 rx-seal-gold.png（#966006）"
   },
   "paper_tol": 6,
   "offpalette_sat_block_pct": 3.0,
   "offpalette_sat_warn_pct": 1.0
  },
  "fonts": {
-  "cjk": "思源宋体 NotoSerifSC 900（贴图/封面）；长文 HTML 只写 serif",
+  "cjk": "思源宋体 NotoSerifSC 900（贴图/封面/插图线）；长文 HTML 内联 style 只写 serif",
   "latin_num": "Georgia Bold（Georgia,serif）",
   "forbidden": [
-   "黑体做标题",
-   "带引号字体名进内联 style"
-  ]
+   {
+    "rule": "黑体做标题",
+    "scope": "图文线（贴图/长文封面/长文正文/插图/介绍卡）",
+    "exempt": [
+     "视频封面标题 Noto Sans SC Black 900（v1.2 §04）",
+     "视频板内姓名 站酷高端黑",
+     "合规 AI 角标（无衬线）"
+    ]
+   },
+   {
+    "rule": "带引号字体名进内联 style",
+    "scope": "长文 HTML"
+   }
+  ],
+  "sandbox_substitute": "沙盒无 Georgia：数字字形回退 DejaVu Serif Bold / Noto Serif；门禁对字体只 WARN（字形差异不 BLOCK），用户 Windows 生产机以 Georgia 为准"
  },
  "tietu": {
   "size": [
@@ -94,23 +173,54 @@
    "y": 950,
    "size": 80,
    "lh": 1.26,
-   "line2_color": "gold"
+   "line2_color": "gold",
+   "max_lines": 2,
+   "min_lines": 2,
+   "size_range": [
+    60,
+    80
+   ],
+   "line2_stroke": "0.5px 错位重绘",
+   "break_order": "tier1 标点后 > tier2 词边界 > tier3（虚词位 WARN；词内/数字内 BLOCK）",
+   "forbid_tier3_in_word": true,
+   "no_fallback_halving": true,
+   "end_punct": "主标副标都以 。？！… 收尾；问号只给真疑问句"
   },
   "ledger": {
    "line_y": 1240,
    "base_y": 1350,
-   "col3": "gold_deep"
+   "col3": "gold_deep",
+   "line_w": 1.4,
+   "label_y": 1256,
+   "label_size": 17,
+   "label_color": "label",
+   "col12": "ink",
+   "col3_hex": "#87681A",
+   "fonts": "纯 ASCII 数字 Georgia 72/64/30/24；含中文 ≤44 宋 700"
   },
   "seal": {
    "xy": [
     84,
     72
    ],
-   "size": 89
+   "size": 89,
+   "outer": "3px 金",
+   "inner": "1px 50% 金（内缩 10px）",
+   "glyph": "「账」38px 宋 900，不旋转"
   },
   "column_name": {
-   "size": 44,
-   "x": 200
+   "x": 200,
+   "size_start": 44,
+   "ratio_to_seal_ink": 0.467,
+   "ratio_range": [
+    0.38,
+    0.55
+   ],
+   "ink_max_w": 560,
+   "weight": 700,
+   "tracking_em": 0.1,
+   "ink_center_y": 116.5,
+   "note": "字号按比值反解，不写死 44"
   },
   "ai_badge_first_card": {
    "box": [
@@ -128,14 +238,35 @@
   "max_cards": 8,
   "intro_card_last": "大可介绍卡_贴图末页 1080×1440（仅贴图末页）",
   "hatching_hf_block": 2.5,
-  "hatching_hf_warn": 2.0
+  "hatching_hf_warn": 2.0,
+  "subtitle": {
+   "y": 1360,
+   "size": 26,
+   "color": "sub",
+   "bottom_reserve_y": 1396
+  },
+  "b_tier": {
+   "title_y": 1000,
+   "subtitle_y": 1318,
+   "subtitle_size": 30
+  },
+  "forbidden": [
+   "色块",
+   "账页横线",
+   "双线",
+   "多色",
+   "旋转",
+   "改 logo"
+  ],
+  "count_rule": "≤8 张、全部 S 级；张数 = 04 卡数",
+  "xiaolvshu_first_card": "小绿书首卡钩子标题 ≤16 字规则不适用主线（主线首卡金句仍须判断句 Q1）"
  },
  "cover": {
   "size": [
    900,
    383
   ],
-  "route": "cover_trio.py 程序化七元素（07_摘要账 存在时；run_round cover 阶段）",
+  "route": "cover_trio.py 程序化七元素 + 右下 AI 角标（每篇都由 gen_ledger07 生成 07_摘要账，裁决 C5）",
   "safe_x": [
    258.5,
    641.5
@@ -170,7 +301,64 @@
    "AI 动作图整幅当封面（无数字、无印章）"
   ],
   "min_gold_num_px": 1500,
-  "min_seal_gold_px": 120
+  "min_seal_gold_px": 120,
+  "column_name": {
+   "x": 347,
+   "y": 40,
+   "size": 18,
+   "weight": 700,
+   "tracking_em": 0.16
+  },
+  "num_size_range": [
+   72,
+   117
+  ],
+  "label": {
+   "x": 285,
+   "y": 180,
+   "size": 16,
+   "tracking_em": 0.24
+  },
+  "gold_line_h": 3.0,
+  "line": {
+   "x": 285,
+   "y": 234,
+   "size": 19,
+   "lines": 2,
+   "lh": 1.5,
+   "max_cjk": 14
+  },
+  "figure_face": "固定角色 assets/dake_cover_fixed.png（不重绘、不改脸）",
+  "figure_h": 430,
+  "spine": {
+   "bind_x": 29,
+   "holes": 3,
+   "glyph_size": 88,
+   "spine_x": 250
+  },
+  "trio_rule": "封面数字 = 长文结论 = 贴图账目，阿拉伯数字",
+  "ai_badge": {
+   "corner": "右下",
+   "margin_ratio": 0.04,
+   "min_ink_ratio": 0.05,
+   "note": "cover_trio 先抹素材自带灰字水印，再画规范角标"
+  },
+  "fixed_figure": {
+   "path": "assets/dake_cover_fixed.png",
+   "sha256": "caa913e9dd25f5066b749fd21b0d800332f824c5fad385747849022ccdc88ed2",
+   "source": "workspace/user/media_library/image/20261019055931_266_2.png",
+   "source_sha256": "7182940381c3b1e3cd56daba7ca134010b4f765bf29a19d29c7ce18e73929f00",
+   "derive": "白底按外轮廓 flood-fill 抠透明（内部白色保留）、裁 (98,128,1649,1720) 到胸像；未改脸未重绘",
+   "head_spare": {
+    "path": "assets/dake_cover_head.png",
+    "sha256": "3df803406431995c5dc3eaefabe30635424255afedc382b015777a7f9110d112",
+    "source": "workspace/user/media_library/image/20261019055930_265_2.png",
+    "source_sha256": "bdfba1980f251b61d0b3d6a97f28a65fe1af0d858cf8b47eacba0b628da67112"
+   },
+   "geometry": "显示高 430、头顶 y8、下方出血",
+   "min_match": 0.85,
+   "ruling": "用户 2026-11-24 08:56 拍板，覆盖 v1.1 裁决 9（审判脸）"
+  }
  },
  "insert": {
   "size": [
@@ -181,18 +369,26 @@
   "anchor": "第1节末/第2节末/末节末（_paiban_v1 part_img）",
   "frame": "无边框无底色",
   "style_same_as": "tietu",
-  "offpalette_sat_block_pct": 2.0
+  "offpalette_sat_block_pct": 2.0,
+  "paper": "#F7F1E5",
+  "blend_first": "blend_paper.py --apply [--badge]",
+  "ai_badge": {
+   "corner": "右下",
+   "margin_ratio": 0.04,
+   "min_ink_ratio": 0.05
+  },
+  "library_gate": "illus 1920×1280，原始纸底 Δ≤22（blend 前）"
  },
  "article_html": {
-  "renderer": "_paiban_v1.render_ledger_html（账本九段）；无 07_摘要账.json 不许回退 md_to_wx_html → BLOCK",
+  "renderer": "_paiban_v1.render_ledger_html（账本九段）；无 07_摘要账.json → BLOCK（不许回退 md_to_wx_html / dake-heijin）；交互页 build_interactive_paiban 默认 zhangben，推送只认账本主题，其余 22 个主题只预览",
   "container_bg": "#F7F1E5",
   "required": [
    "masthead:人性台账 + 双线 border-top:2px",
-   "summary:本 篇 讲",
-   "heads:01-0N 3-5 个",
+   "summary:本 篇 讲（恰好 3 条）",
+   "heads:01-0N 3-5 个（h2 或 h3 都计）",
    "inserts:3",
    "name_card:64px 圆头像 + 大可 + 人性台账 · 持续拆透人性",
-   "ai_notice"
+   "ai_notice:逐字"
   ],
   "forbidden": [
    "!important",
@@ -200,10 +396,58 @@
    "1080×640 横版介绍卡进正文",
    "docx 文档导入",
    "插图 border/圆角",
-   "封面进正文"
+   "封面进正文",
+   "正文排标题",
+   "#B8932A（贴图金）",
+   "#FBF7EC 作底",
+   "写什么/引导语/二维码块"
   ],
   "heads_min": 3,
-  "heads_max": 5
+  "heads_max": 5,
+  "title_in_body": false,
+  "order": [
+   "masthead",
+   "summary",
+   "heads+body",
+   "inserts@1/2/末节末",
+   "question_card",
+   "name_card",
+   "ai_notice"
+  ],
+  "font_px": {
+   "body": 16,
+   "head": 17.5,
+   "head_num": 11,
+   "summary_title": 11.5,
+   "summary_body": 14,
+   "ai_notice": 10.5,
+   "cta": 13.5
+  },
+  "body_lh": 1.9,
+  "name_card": {
+   "avatar_px": 64,
+   "avatar_border": "1px rgba(176,138,40,.55)",
+   "name": "大可",
+   "name_px": 18,
+   "name_tracking_em": 0.06,
+   "tagline": "看透人性，只讲大实话",
+   "tagline_px": 12,
+   "tagline_color": "#5C5546",
+   "capsule": "人性台账 · 持续拆透人性",
+   "capsule_bg": "#1A1610",
+   "capsule_fg": "#C9A227",
+   "capsule_px": 10,
+   "capsule_padding": [
+    3,
+    8
+   ],
+   "frame": "上 2px / 下 1px 墨线，padding 15/13"
+  },
+  "ai_notice": "本文由 AI 辅助创作，大可审校。长文配图由 AI 生成。",
+  "summary_items": 3,
+  "max_chars": 20000,
+  "ai_notice_unreviewed": "本文由 AI 辅助创作。长文配图由 AI 生成。",
+  "ai_notice_rule": "标准文案逐字；055 轮起人工改写未确认（07.notice 恰为不带审校的那句）用 ai_notice_unreviewed（用户 2026-11-23 v3 L15）"
  },
  "quote": {
   "must": "判断句（下结论/给规律/给动作），不是叙事句（复述发生了什么）",
@@ -246,7 +490,8 @@
    "可他",
    "一年就"
   ],
-  "wrap": "jieba 词边界断行，禁拆词；行首禁则 ，。、；：？！）」』】》”’…—；最多 3 行"
+  "wrap": "贴图主标固定 2 行（tier 规则见 tietu.title）；长文封面一句话 ≤2 行按像素宽；jieba 词边界，禁拆词；行首禁则 ，。、；：？！）」』】》”’…—",
+  "wrap_max_lines": 2
  },
  "video": {
   "repo": "shipin-workflow",
@@ -257,16 +502,66 @@
   ],
   "fps": 30,
   "max_s": 60,
-  "cover": "两行标题无任何标点（2026-11-13）；不放「大可算账 第N期」（2026-11-23 18:07）",
-  "ai_badge": "只留右下每帧小角标 pill（right 984 / bottom 1824）；片头左上大角标作废（2026-11-23 18:07）",
+  "cover": {
+   "spec": "cover_spec_final.html v1.2（2026-11-05 定稿）",
+   "title_font": "Noto Sans SC Black 900（行 1 金色短语 Bold 700）",
+   "title_px": 100,
+   "title_px_8plus": 88,
+   "line_tops": [
+    913,
+    1051
+   ],
+   "tracking": 16,
+   "title_gold": "#966006",
+   "no_punct": true,
+   "no_series_no": "不放「大可算账 第N期」（2026-11-23 18:07）",
+   "sign": "大可 · 深度解读 30px #6E4B0A 基线 y1762",
+   "frame_outer": [
+    56,
+    56,
+    1027,
+    1866
+   ],
+   "frame_inner": [
+    76,
+    76,
+    1004,
+    1844
+   ],
+   "seal": [
+    540,
+    1660,
+    104
+   ]
+  },
+  "ai_badge": "只留右下每帧小角标 pill「AI生成」30px（right 984 / bottom 1824）；片头左上大角标作废、v1.2 §06 内页角标方案 A (920,180) 作废（2026-11-23 18:07）；发布包不得出现「左上大角标」",
   "gates": [
    "qc_gate V7 封面无标点",
    "A1 右下角标",
-   "tests/test_v5_iteration.py t_badge_pixels / t_cover_no_series"
-  ]
+   "tests/test_v5_iteration.py t_badge_pixels / t_cover_no_series",
+   "check_ip_visual --video（最小模块：1080×1920 / 30fps / 封面无标点无期号 / 发布包无「左上大角标」）"
+  ],
+  "min_s": 45,
+  "loudness": "-14 LUFS，TP≤-1",
+  "rx": "金色 RX 圆章 rx-seal-gold.png（#966006）；朱红印章作废",
+  "no_own_voice": "视频不加用户本人声音（2026-11-23 17:52 用户定）——配音只用 TTS 合成声，REC-69 起检查",
+  "follow_line": "关注大可，每天一个看透人性的真相",
+  "aigc_meta": "MP4 metadata 带 AIGC"
  },
  "consistency": {
   "hf_spread_block": 2.5,
   "note": "同一篇 封面/插图/贴图 的勾线质感指标（卫衣内部高频）极差超阈值 = 风格不统一"
+ },
+ "changelog": [
+  "1.1.0 2026-11-24：落地主助理 11 项裁决（用户 2026-11-23 22:33 授权「草稿前按最优规划执行」）——插图纸底统一 #F7F1E5、封面/插图右下 AI 小角标、大可直视镜头、R/X 恰好 2 个、视频金/封面金按 v1.2、正文不排标题、交互页只认账本主题、封面胸像固定为用户指定角色（08:56 拍板，覆盖审判脸）、多色点缀作废、主标固定 2 行禁拆词；补各介质细则与作废清单",
+  "1.0.0 2026-11-24：首版"
+ ],
+ "checker_rules": {
+  "tietu": "T1–T10 + T11 栏目名/印章墨高比 + T12 账目第三栏深金",
+  "cover": "C1–C6 + C7 右下 AI 角标 + C8 胸像=固定角色（结构相似度 ≥0.85）",
+  "insert": "I1–I4 + I5 右下 AI 角标 + I6 纸底 #F7F1E5 ΔE≤2（同 check_render）",
+  "html": "H1–H13 + H14 字号（正文 16 / 小标题 17.5）+ H15 反向禁色 + H16 正文不排标题；H9 AI 声明逐字",
+  "video": "V1 尺寸 V2 30fps V3 封面无标点 V4 无期号 V5 发布包无左上大角标",
+  "font": "F1 Georgia 缺失只 WARN"
  }
 }
