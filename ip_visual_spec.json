@@ -241,14 +241,14 @@
   "hatching_hf_warn": 2.0,
   "subtitle": {
    "y": 1360,
-   "size": 26,
+   "size": 34,
    "color": "sub",
-   "bottom_reserve_y": 1396
+   "bottom_reserve_y": 1404
   },
   "b_tier": {
    "title_y": 1000,
-   "subtitle_y": 1318,
-   "subtitle_size": 30
+   "subtitle_y": 1310,
+   "subtitle_size": 40
   },
   "forbidden": [
    "色块",
@@ -329,7 +329,7 @@
    "max_cjk": 14
   },
   "figure_face": "固定角色 assets/dake_cover_fixed.png（不重绘、不改脸）",
-  "figure_h": 430,
+  "figure_h": 350,
   "spine": {
    "bind_x": 29,
    "holes": 3,
@@ -345,6 +345,8 @@
   },
   "fixed_figure": {
    "path": "assets/dake_cover_fixed.png",
+   "top_pad": 33,
+   "head_right_max": 641,
    "sha256": "caa913e9dd25f5066b749fd21b0d800332f824c5fad385747849022ccdc88ed2",
    "source": "workspace/user/media_library/image/20261019055931_266_2.png",
    "source_sha256": "7182940381c3b1e3cd56daba7ca134010b4f765bf29a19d29c7ce18e73929f00",
