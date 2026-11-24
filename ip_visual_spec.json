@@ -1,0 +1,272 @@
+{
+ "schema": 1,
+ "name": "人性台账 · 大可 IP 视觉宪法（机器可读）",
+ "version": "1.0.0",
+ "updated": "2026-11-24",
+ "doc": "renxing-changwen-peitu-v3.3/references/IP视觉宪法_v1.md",
+ "precedence": "用户最新拍板 > 最新定版脚本 > 旧文档；本文件与宪法 md 冲突时以本文件数值为准，改值须同步三仓字节一致",
+ "character": {
+  "identity_ref": "renxing-changwen-peitu-v3.3/assets/dake_face_ref.png（单张 FACE-ONLY，SKILL v3.4.0 起）",
+  "style": "半写实 + 干净闭合黑勾线 + 扁平上色（脸部肤色平涂），禁铅笔排线/素描/水彩/写实摄影",
+  "must": [
+   "戴眼镜",
+   "灰白发成熟男性不年轻化",
+   "黑卫衣",
+   "胸口左 R 右 X 金字母清晰可读",
+   "deadpan 冷峻不笑",
+   "大可承担一个贴合该句的动作"
+  ],
+  "rule_action": "去掉大可金句仍成立 = 不合格",
+  "rx_min_letter_h_px_in_tietu_box": 32,
+  "rx_warn_letter_h_px_in_tietu_box": 38,
+  "rx_min_gold_px_in_tietu_box": 600
+ },
+ "palette": {
+  "tietu": {
+   "paper": "#FBF7EC",
+   "ink": "#1A1610",
+   "gold": "#B8932A",
+   "gold_deep": "#87681A",
+   "sub": "#5C5546",
+   "label": "#8A8270"
+  },
+  "cover": {
+   "paper": "#FBF7EC",
+   "ink": "#1A1610",
+   "gold": "#B8932A",
+   "label": "#5C5546"
+  },
+  "article": {
+   "paper": "#F7F1E5",
+   "body": "#26221C",
+   "ink": "#1A1610",
+   "gold": "#B08A28",
+   "gold_deep": "#87681A",
+   "black_gold": "#C9A227",
+   "sub": "#5C5546",
+   "label": "#8A8270"
+  },
+  "insert": {
+   "paper": "#F2EEE6"
+  },
+  "video": {
+   "paper": "#F2EEE6",
+   "ink": "#1A1A1A",
+   "gold": "#B8860B",
+   "cover_title_gold": "#7A4D05",
+   "seal": "#966006",
+   "subtitle_gold": "#FFD700"
+  },
+  "deprecated": {
+   "#8C6E1C": "§O 作废",
+   "#5E5748": "§O 作废",
+   "#B8860B@长文/贴图": "dake_color.py 旧值，仅视频线沿用",
+   "#F2EEE6@长文正文": "dake-heijin 老样式，长文改账本 #F7F1E5"
+  },
+  "paper_tol": 6,
+  "offpalette_sat_block_pct": 3.0,
+  "offpalette_sat_warn_pct": 1.0
+ },
+ "fonts": {
+  "cjk": "思源宋体 NotoSerifSC 900（贴图/封面）；长文 HTML 只写 serif",
+  "latin_num": "Georgia Bold（Georgia,serif）",
+  "forbidden": [
+   "黑体做标题",
+   "带引号字体名进内联 style"
+  ]
+ },
+ "tietu": {
+  "size": [
+   1080,
+   1440
+  ],
+  "renderer": "press_spec_v9.py（FROZEN，原样调用）",
+  "margin": 84,
+  "figure_box": [
+   265,
+   194,
+   815,
+   900
+  ],
+  "paper_edge_y": 900,
+  "title": {
+   "x": 84,
+   "y": 950,
+   "size": 80,
+   "lh": 1.26,
+   "line2_color": "gold"
+  },
+  "ledger": {
+   "line_y": 1240,
+   "base_y": 1350,
+   "col3": "gold_deep"
+  },
+  "seal": {
+   "xy": [
+    84,
+    72
+   ],
+   "size": 89
+  },
+  "column_name": {
+   "size": 44,
+   "x": 200
+  },
+  "ai_badge_first_card": {
+   "box": [
+    783,
+    75,
+    996,
+    156
+   ],
+   "min_ink_ratio": 0.05,
+   "side_json": "_ai_badge.json"
+  },
+  "bg_how_forbidden": [
+   "hash_fallback"
+  ],
+  "max_cards": 8,
+  "intro_card_last": "大可介绍卡_贴图末页 1080×1440（仅贴图末页）",
+  "hatching_hf_block": 2.5,
+  "hatching_hf_warn": 2.0
+ },
+ "cover": {
+  "size": [
+   900,
+   383
+  ],
+  "route": "cover_trio.py 程序化七元素（07_摘要账 存在时；run_round cover 阶段）",
+  "safe_x": [
+   258.5,
+   641.5
+  ],
+  "seal": [
+   279,
+   31,
+   59
+  ],
+  "num": {
+   "x": 279,
+   "y": 103,
+   "max_size": 117,
+   "font": "Georgia Bold",
+   "color": "gold"
+  },
+  "label_y": 180,
+  "gold_line": [
+   285,
+   213,
+   38
+  ],
+  "line_y": 234,
+  "figure_x": [
+   504,
+   641
+  ],
+  "left_wing": "IP 书脊（竖排「大」「可」骑金线 + dake），淡金背景级",
+  "forbidden": [
+   "贴图首卡/底图裁切兜底",
+   "从正文插图盲取",
+   "AI 动作图整幅当封面（无数字、无印章）"
+  ],
+  "min_gold_num_px": 1500,
+  "min_seal_gold_px": 120
+ },
+ "insert": {
+  "size": [
+   900,
+   600
+  ],
+  "count": 3,
+  "anchor": "第1节末/第2节末/末节末（_paiban_v1 part_img）",
+  "frame": "无边框无底色",
+  "style_same_as": "tietu",
+  "offpalette_sat_block_pct": 2.0
+ },
+ "article_html": {
+  "renderer": "_paiban_v1.render_ledger_html（账本九段）；无 07_摘要账.json 不许回退 md_to_wx_html → BLOCK",
+  "container_bg": "#F7F1E5",
+  "required": [
+   "masthead:人性台账 + 双线 border-top:2px",
+   "summary:本 篇 讲",
+   "heads:01-0N 3-5 个",
+   "inserts:3",
+   "name_card:64px 圆头像 + 大可 + 人性台账 · 持续拆透人性",
+   "ai_notice"
+  ],
+  "forbidden": [
+   "!important",
+   "48px 名片",
+   "1080×640 横版介绍卡进正文",
+   "docx 文档导入",
+   "插图 border/圆角",
+   "封面进正文"
+  ],
+  "heads_min": 3,
+  "heads_max": 5
+ },
+ "quote": {
+  "must": "判断句（下结论/给规律/给动作），不是叙事句（复述发生了什么）",
+  "judge_markers": [
+   "是",
+   "不是",
+   "才",
+   "越",
+   "只会",
+   "只能",
+   "就",
+   "先",
+   "别",
+   "不会",
+   "多半",
+   "看",
+   "得",
+   "要",
+   "该",
+   "等于",
+   "不如",
+   "比",
+   "靠",
+   "怕",
+   "最"
+  ],
+  "narrative_markers": [
+   "了",
+   "天后",
+   "这次",
+   "那次",
+   "当时",
+   "后来",
+   "反倒",
+   "却",
+   "被",
+   "她",
+   "他们",
+   "可她",
+   "可他",
+   "一年就"
+  ],
+  "wrap": "jieba 词边界断行，禁拆词；行首禁则 ，。、；：？！）」』】》”’…—；最多 3 行"
+ },
+ "video": {
+  "repo": "shipin-workflow",
+  "style": "东方石膏微缩浮雕（voidJan，2026-11-05 用户拍板）",
+  "size": [
+   1080,
+   1920
+  ],
+  "fps": 30,
+  "max_s": 60,
+  "cover": "两行标题无任何标点（2026-11-13）；不放「大可算账 第N期」（2026-11-23 18:07）",
+  "ai_badge": "只留右下每帧小角标 pill（right 984 / bottom 1824）；片头左上大角标作废（2026-11-23 18:07）",
+  "gates": [
+   "qc_gate V7 封面无标点",
+   "A1 右下角标",
+   "tests/test_v5_iteration.py t_badge_pixels / t_cover_no_series"
+  ]
+ },
+ "consistency": {
+  "hf_spread_block": 2.5,
+  "note": "同一篇 封面/插图/贴图 的勾线质感指标（卫衣内部高频）极差超阈值 = 风格不统一"
+ }
+}
