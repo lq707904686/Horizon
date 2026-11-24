@@ -101,11 +101,35 @@ def test_category_whitelist_keeps_valid_value(tmp_path):
     assert scored[0][2] == "做生意"
 
 
+def test_category_stops_at_full_stop(tmp_path):
+    """2026-11-24 简报第 11 条：「归属：做生意。母题：……」句号分隔也要取到「做生意」。"""
+    md = tmp_path / "brief.md"
+    md.write_text(_brief_md(
+        heading="### [条目](https://example.com/a) ⭐️ 7.0/10",
+        body_lines=["角度：执法也算账；归属：做生意。母题：止损。决策：先算", "",
+                    "rss · 虎嗅 · 11月14日 08:43"]),
+        encoding="utf-8")
+    scored = make_hotspots.extract_scored_topics(str(md))
+    assert scored[0][2] == "做生意"
+
+
+def test_category_whitelist_keeps_guorizi(tmp_path):
+    """2026-11-24：第 6 栏「过日子」必须被白名单接住（长文仓 2026-11-07 起 6 栏）。"""
+    md = tmp_path / "brief.md"
+    md.write_text(_brief_md(
+        heading="### [条目](https://example.com/a) ⭐️ 7.0/10",
+        body_lines=["归属：过日子", "",
+                    "rss · 虎嗅 · 11月14日 08:43"]),
+        encoding="utf-8")
+    scored = make_hotspots.extract_scored_topics(str(md))
+    assert scored[0][2] == "过日子"
+
+
 def test_enrichment_template_has_no_bare_placeholder():
     text = (REPO_ROOT / "profiles" / "renxing" / "enrichment.md").read_text(
         encoding="utf-8")
     assert "归属：5真分类之一；" not in text
-    assert "归属：<5真分类之一，看职场/带队伍/做生意/做销售/去创业>" in text
+    assert "归属：<6真分类之一，看职场/带队伍/做生意/做销售/去创业/过日子>" in text
 
 
 # --- P318-4 ---

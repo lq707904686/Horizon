@@ -65,7 +65,7 @@ MAX_PER_ITEM = 3     # 每个条目最多保留的选题数 (取块内前 N 行)
 #   R8：干旱日回退只取最高分档第 1 个条目（其余同档条目计入
 #       fallback_capped_sections），话题数仍受 MAX_PER_ITEM 约束，最多 3 条。
 SOURCE_QUOTA_WARN_PCT = 0.40  # 单源占比告警线（入选话题 / ≥7.0 条目任一超线即 WARN）
-COLUMNS_5 = ("看职场", "带队伍", "做生意", "做销售", "去创业")
+COLUMNS_5 = ("看职场", "带队伍", "做生意", "做销售", "去创业", "过日子")   # ★2026-11-24：长文仓 2026-11-07 起 6 栏，雷达漏了过日子（名字沿用 COLUMNS_5 保兼容）
 COLUMN_ZERO_ALERT_DAYS = 3    # 某栏目连续多日（默认 3 日，含当日）入选为 0 即告警
 
 HOTSPOTS_RX = re.compile(r"```hotspots\s*\n(.*?)```", re.S)
@@ -94,7 +94,7 @@ _VIDEO_SCORE_RX = re.compile(r"🎬\uFE0F?\s*(\d+(?:\.\d+)?)\s*/\s*12")
 # 为 None（旧简报无此字段时就是这样）。
 _FEASIBILITY_RX = re.compile(r"·\s*(可视化可行|部分可行|不可行)(?:（(\d+)数/(\d+)模板）)?")
 # 5 真分类: 正文首个 "归属：做生意"（第一角度即主归属）。
-_CATEGORY_RX = re.compile(r"归属：\s*([^；\n，,]+)")
+_CATEGORY_RX = re.compile(r"归属：\s*([^；;。\n，,]+)")   # ★2026-11-24：加句号/半角分号（「归属：做生意。」曾被吞成长串）
 # 来源: 正文 "rss · 36氪24小时热榜 · 11月8日 08:43" 一行。
 # P318-4：google_news 必须排在 google 之前——Google News 源类型值是
 # google_news，正则只列 google 时来源恒为 unknown（11-16 per_source 有
@@ -153,7 +153,7 @@ def _extract_category(body: str):
         return None
     value = m.group(1).strip()
     if value not in COLUMNS_5:
-        print(f"警告: 归属取值不在 5 真分类内，已丢弃：{value!r}",
+        print(f"警告: 归属取值不在 6 真分类内，已丢弃：{value!r}",
               file=sys.stderr)
         return None
     return value

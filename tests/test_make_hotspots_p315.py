@@ -164,4 +164,4 @@ def test_column_zero_alerts_selected_day_breaks_only_that_column():
     alerts = make_hotspots.column_zero_alerts(
         records, today=datetime.date(2026, 11, 14))
     assert "带队伍" not in alerts
-    assert alerts == ["看职场", "做生意", "做销售", "去创业"]
+    assert alerts == ["看职场", "做生意", "做销售", "去创业", "过日子"]   # 2026-11-24 起 6 栏
