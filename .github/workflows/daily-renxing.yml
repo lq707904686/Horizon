@@ -100,7 +100,15 @@ jobs:
           # 否则 runner 是一次性的、跨日状态全丢（文件不存在时跳过，不报错）。
           for f in data/fetch_report.json data/hotlists_seen.json data/event_history.json; do [ -f "$f" ] && git add "$f"; done
           git diff --cached --quiet || git commit -m "🎯 每日爆款选题 $(date +'%Y-%m-%d')"
-          git push
+          # 2026-11-25 通查：雷达一跑 1–4 小时，期间 main 常被同步提交推进（11-24 14:51 那次
+          # 延迟定时跑跑完 3h48m 后 push 被 rejected (fetch first)，hotspots 与 gh-pages 简报全丢）。
+          # 先 rebase 到最新 main 再推，最多 3 次；rebase 冲突即失败（不覆盖别人的提交）。
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            git rebase --abort 2>/dev/null || true
+            [ "$i" = 3 ] && { echo "push 3 次失败"; exit 1; }
+            sleep 10
+          done
 
       - name: Set current date as environment variable
         run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
