@@ -1,7 +1,7 @@
 {
  "schema": 1,
  "name": "人性台账 · 大可 IP 视觉宪法（机器可读）",
- "version": "1.2.0",
+ "version": "1.2.1",
  "updated": "2026-11-24",
  "doc": "renxing-changwen-peitu-v3.3/references/IP视觉宪法_v1.md",
  "precedence": "用户最新拍板 > 最新定版脚本 > 旧文档；本文件与宪法 md 冲突时以本文件数值为准，改值须同步三仓字节一致",
@@ -222,16 +222,8 @@
    "ink_center_y": 116.5,
    "note": "字号按比值反解，不写死 44"
   },
-  "ai_badge_first_card": {
-   "box": [
-    783,
-    75,
-    996,
-    156
-   ],
-   "min_ink_ratio": 0.05,
-   "side_json": "_ai_badge.json"
-  },
+  "ai_badge_first_card": "作废（2026-11-24 20:31 用户：AI生成图标小一点放到右下角，和视频内的一样）——改见 ai_badge_tietu",
+  "ai_badge_tietu": {"position": "右下角，每张卡都有", "style": "视频同款：深色半透明圆角药丸 rgba(26,22,16,175) + 浅色字 #F5EFE0「AI 生成」，Noto Sans SC Black", "box_b": [760, 1301, 996, 1385], "right": 996, "center_y": 1343, "a_fallback": "A 档账目卡底部放不下时紧凑药丸中心 y1396；仍压内容 = BLOCK", "font_px": 55, "ink_px": 56, "target_ink_ratio": 0.051, "min_ink_ratio": 0.05, "video_ref": {"font_px": 30, "ink_px": 32, "ink_ratio": 0.0296, "pill_h": 46, "pad_x": 16, "radius": 12}, "note": "视频那枚 2.96% 低于 GB 45438-2025 5.2 e) 图片文字高度≥最短边 5%，贴图按 5% 下限放大，其余比例同视频", "side_json": "_ai_badge.json", "gate": "check_ip_visual T8（查完屏蔽，后续 T12/打分不把药丸当账目栏）"},
   "bg_how_forbidden": [
    "hash_fallback"
   ],
