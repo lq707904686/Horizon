@@ -263,8 +263,27 @@ def wx_records(wx_csv, ch_csv, registry, idx, items, as_of):
     return out
 
 
-def sph_records(sph_csv, idx, items, as_of):
+def video_set_map(video_repo):
+    """2026-11-25：v4 起视频号「视频描述」首行是发布文案首段，不是标题，标题相似对不上条目。
+    兜底用视频仓自己的对账结果：playback_actuals_shipinhao.json（video_id→set_id，按发布包对上）
+    + ledger.json（set_id→article.article_id）。只读；缺文件返回 {}。"""
+    if not video_repo:
+        return {}
+    pa = _lj(os.path.join(video_repo, "playback_actuals_shipinhao.json")) or {}
+    led = _lj(os.path.join(video_repo, "ledger.json")) or []
+    s2a = {e.get("set_id"): str((e.get("article") or {}).get("article_id") or "")
+           for e in led if isinstance(e, dict)}
+    out = {}
+    for e in pa.get("entries") or []:
+        sid = e.get("set_id")
+        if sid and s2a.get(sid):
+            out[e.get("video_id")] = (sid, s2a[sid])
+    return out
+
+
+def sph_records(sph_csv, idx, items, as_of, vmap=None):
     out = []
+    vmap = vmap or {}
     for r in csv.DictReader(open(sph_csv, encoding="utf-8-sig")):
         desc = (r.get("视频描述") or "").strip()
         title = desc.splitlines()[0].strip() if desc else ""
@@ -284,6 +303,10 @@ def sph_records(sph_csv, idx, items, as_of):
         entry, s = match_entry(title, idx)
         if entry:
             rec.update(eid=entry["eid"], eid_src="标题相似", eid_sim=s, round=entry["round"])
+        elif vid in vmap and any(x["eid"] == vmap[vid][1] for x in idx):
+            sid, eid = vmap[vid]
+            entry = next(x for x in idx if x["eid"] == eid)
+            rec.update(eid=eid, eid_src="视频仓对账", eid_sim=1.0, round=entry["round"], set_id=sid)
         else:
             rec.setdefault("unmatched", []).append("eid")
         _radar(rec, entry, title, d, items)
@@ -336,6 +359,8 @@ def main(argv=None):
         ap.add_argument("--" + k.replace("_", "-"), default=v)
     ap.add_argument("--as-of", default=date.today().isoformat())
     ap.add_argument("--repo", default=".", help="雷达仓（读 origin/gh-pages 简报）")
+    ap.add_argument("--video-repo", default=os.path.join(HOME, "workspace/shipin-sync"),
+                    help="视频仓（读 playback_actuals_shipinhao.json + ledger.json 兜底对条目）")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args(argv)
     idx = entry_index(a.changwen)
@@ -345,7 +370,7 @@ def main(argv=None):
     if os.path.isfile(a.wx_csv):
         new += wx_records(a.wx_csv, a.wx_ch_csv, registry, idx, items, a.as_of)
     if os.path.isfile(a.sph_csv):
-        new += sph_records(a.sph_csv, idx, items, a.as_of)
+        new += sph_records(a.sph_csv, idx, items, a.as_of, video_set_map(a.video_repo))
     rows, added, updated = merge(a.out, new)
     st = stats(rows)
     print(f"条目索引 {len(idx)} 个、简报条目 {len(items)} 条；本次 {len(new)} 条（新增 {added}、更新 {updated}）")

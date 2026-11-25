@@ -120,3 +120,22 @@ def test_append_brief_tail_idempotent(tmp_path):
     rv4.append_brief_tail(str(tmp_path), "2026-11-23", ["行2"])
     t = p.read_text(encoding="utf-8")
     assert t.count(rv4.DIAG_MARKER) == 1 and "行2" in t and "行1" not in t and t.startswith("正文")
+
+
+def test_video_set_map_fallback(tmp_path):
+    """2026-11-25：v4 描述首行非标题时，用视频仓对账结果（video_id→set_id→article_id）兜底对条目。"""
+    import json as _j
+    import importlib.util as _u, os as _o
+    spec = _u.spec_from_file_location("br_vsm", _o.path.join(_o.path.dirname(__file__), "..", "tools", "backfill_reads.py"))
+    br = _u.module_from_spec(spec); spec.loader.exec_module(br)
+    (tmp_path / "playback_actuals_shipinhao.json").write_text(_j.dumps(
+        {"entries": [{"video_id": "export/X1", "set_id": "REC-70"}, {"video_id": "export/X2", "set_id": None}]}), encoding="utf-8")
+    (tmp_path / "ledger.json").write_text(_j.dumps([{"set_id": "REC-70", "article": {"article_id": "2935"}}]), encoding="utf-8")
+    m = br.video_set_map(str(tmp_path))
+    assert m == {"export/X1": ("REC-70", "2935")}
+    csvp = tmp_path / "v.csv"
+    csvp.write_text("视频描述,视频ID,发布时间,完播率,平均播放时长,播放量,推荐,喜欢,评论量,分享量,关注量\n"
+                    "\"演员被仿冒带货，平台外两百元就能做\",export/X1,2026/11/24,6.94%,3.5秒,360,0,1,0,0,0\n", encoding="utf-8-sig")
+    idx = [{"eid": "2935", "round": "057", "score": 8.0, "titles": ["200元就能买一张明星脸"]}]
+    r = br.sph_records(str(csvp), idx, [], "2026-11-25T20:33", m)[0]
+    assert r["eid"] == "2935" and r["eid_src"] == "视频仓对账" and r["set_id"] == "REC-70"
