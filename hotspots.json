@@ -1,71 +1,54 @@
 {
-  "date": "2026-11-25",
+  "date": "2026-11-26",
   "scope": "人性台账爆款选题雷达·每日选题 (Horizon renxing profile, 图文源)",
   "queries": [
     "职场 OR 创业 OR 搞钱 OR 人性 OR 认知 OR 商业"
   ],
   "topics": [
-    "恒昌立案 300 亿 6 年未兑",
-    "停兑 10 天创始人被查",
-    "你投的 8%还怎么回来",
-    "聊两小时花 700 多",
-    "充 4 万被拉黑",
-    "织恋案 3400 万判了",
-    "2 万存脐血公司早注销",
-    "自体库使用率不到万分之一",
-    "脐带血话术只说半句真话",
-    "宠物家跑路疑云",
-    "200 家缩到不足 20 家",
-    "充的年卡店没了",
-    "散步被撞判次责",
-    "15 岁肇事不露面",
-    "限速 20 骑 30 撞人",
-    "卖课返利 13 层被控传销",
-    "2.4 万人 1.46 亿卖课案",
-    "打传办认定非诈骗型传销",
-    "关店比开店更赚钱",
-    "加盟 400 万只撑 4 个月",
-    "亏损店老板硬撑",
-    "黄仁勋鞠躬道歉",
-    "离职 11 天崩 28%涨 31%",
-    "员工夹道欢呼老板回归",
-    "AI 眼镜作弊逼部长辞职",
-    "111 人高考违规",
-    "1 亿韩元举报 AI 作弊",
-    "Bally 只剩授权壳",
-    "175 年老牌裁到 22 人",
-    "3100 万欠款拖垮供应商",
-    "水军评论 3 分钱一条",
-    "比亚迪 500 万悬赏黑公关",
-    "车企 8 年反黑公关",
-    "黄仁勋复职算力链警报没解除",
-    "3900 亿订单系在一个人身上",
-    "单人依赖让股价 11 天跌 27.7%",
-    "冷冻面包店加盟避坑",
-    "开业日卖 4 万几个月关店",
-    "黄仁勋离职 11 天",
-    "英伟达没他不行",
-    "5 万亿市值抖三抖",
-    "老干妈 AI 替代争议",
-    "AI 进厂，劳动者去哪了",
-    "机器人也要计生办"
+    "借名买车判刑 3 年半",
+    "App 远程解锁开走车",
+    "一键解约赔 2 万",
+    "系统辞退被判违法",
+    "撤回两次还辞退",
+    "囚犯被束缚 48 天死亡",
+    "签满审批单照样判刑",
+    "你拿了谅解书刑责照样来",
+    "黄仁勋违规复职",
+    "英伟达市值蒸发 2400 亿",
+    "创始人违规照样回归",
+    "你怕灾祸他赚 13 万",
+    "恐吓式卖佛像判刑",
+    "退 13 万照样判刑",
+    "60 元倒卖明星航班",
+    "外包客服获刑 10 个月",
+    "粉丝买行踪喂黑产",
+    "欧洲车企技术外包上瘾",
+    "中国技术接管欧洲工厂",
+    "研发负循环吞掉 600 亿欧元",
+    "结婚 8 年三孩非亲生",
+    "三孩非亲生只赔 22 万",
+    "22 万买断 8 年父爱",
+    "男子装精英骗 7 女 94 万",
+    "合伙产能没写死，500 万没了",
+    "出钱生产还甩锅，法院不认",
+    "危废火灾 1.2 万平米，索赔被驳"
   ],
   "sets": [
     {
-      "topic": "恒昌立案 300 亿 6 年未兑",
-      "score": 9.0,
-      "video_score": 11.5,
+      "topic": "借名买车判刑 3 年半",
+      "score": 8.5,
+      "video_score": 11.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 29 个，可落位模板 5 种",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 4 种",
       "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908146.html?f=rss",
-      "source_name": "虎嗅",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-25/10737585.shtml",
+      "source_name": "中新网",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
         9.0,
-        9.0
+        8.0
       ],
       "dual_eval": "dual",
       "dimension_scores": {
@@ -77,7 +60,7 @@
       },
       "evidence_level": "verified",
       "event_group": null,
-      "opening_type": "热点",
+      "opening_type": "真实案例",
       "rumor_stance": null,
       "topic_type": "人/处境",
       "topic_type_legacy": "其他",
@@ -85,7 +68,7 @@
       "video_fit": "中",
       "motifs": [
         "信任",
-        "圈子",
+        "既得利益",
         "止损"
       ],
       "repeat_hint": null,
@@ -100,158 +83,12 @@
         "audience": 0.0
       },
       "spread_src": "spread-v1",
-      "spread_video": 1.7,
+      "spread_video": 4.2,
       "spread_tietu": 3.0,
       "spread_channel": {
         "video": {
-          "score": 1.7,
-          "person": 0.0,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 3.0,
-          "money": 1.5,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "低",
-      "ip_fit_score": 1.5,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [
-        "钱"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "停兑 10 天创始人被查",
-      "score": 9.0,
-      "video_score": 11.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 29 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908146.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        9.0,
-        9.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "热点",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "其他",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "信任",
-        "圈子",
-        "止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 1.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 1.7,
-      "spread_tietu": 3.0,
-      "spread_channel": {
-        "video": {
-          "score": 1.7,
-          "person": 0.0,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 3.0,
-          "money": 1.5,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "低",
-      "ip_fit_score": 1.0,
-      "ip_fit_column": "去创业",
-      "ip_fit_hits": [
-        "栏目"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "你投的 8%还怎么回来",
-      "score": 9.0,
-      "video_score": 11.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 29 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908146.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        9.0,
-        9.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "热点",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "其他",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "信任",
-        "圈子",
-        "止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 1.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 1.7,
-      "spread_tietu": 3.0,
-      "spread_channel": {
-        "video": {
-          "score": 1.7,
-          "person": 0.0,
+          "score": 4.2,
+          "person": 1.5,
           "hook": 1.0
         },
         "tietu": {
@@ -269,15 +106,15 @@
       "ip_fit_src": "ip-fit-v1"
     },
     {
-      "topic": "聊两小时花 700 多",
+      "topic": "App 远程解锁开走车",
       "score": 8.5,
-      "video_score": 12.0,
+      "video_score": 11.0,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 11 个，可落位模板 5 种",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 4 种",
       "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908126.html?f=rss",
-      "source_name": "虎嗅",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-25/10737585.shtml",
+      "source_name": "中新网",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
@@ -298,456 +135,23 @@
       "rumor_stance": null,
       "topic_type": "人/处境",
       "topic_type_legacy": "其他",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "止损",
-        "贪怕",
-        "面子"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 2.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 1.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 5.0,
-      "spread_channel": {
-        "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 5.0,
-          "money": 1.5,
-          "family": 1.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": 0.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "充 4 万被拉黑",
-      "score": 8.5,
-      "video_score": 12.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 11 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908126.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        9.0,
-        8.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "其他",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "止损",
-        "贪怕",
-        "面子"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 2.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 1.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 5.0,
-      "spread_channel": {
-        "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 5.0,
-          "money": 1.5,
-          "family": 1.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "低",
-      "ip_fit_score": 1.5,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [
-        "钱"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "织恋案 3400 万判了",
-      "score": 8.5,
-      "video_score": 12.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 11 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908126.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        9.0,
-        8.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "其他",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "止损",
-        "贪怕",
-        "面子"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 2.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 1.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 5.0,
-      "spread_channel": {
-        "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 5.0,
-          "money": 1.5,
-          "family": 1.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "低",
-      "ip_fit_score": 1.5,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [
-        "钱"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "2 万存脐血公司早注销",
-      "score": 8.0,
-      "video_score": 12.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 14 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908105.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        8.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "幸存者偏差",
-        "止损",
-        "贪怕"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 4.5,
-      "spread_parts": {
-        "person": 1.5,
-        "hook": 1.0,
-        "family": 1.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 5.0,
-      "spread_channel": {
-        "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 5.0,
-          "money": 1.5,
-          "family": 1.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "低",
-      "ip_fit_score": 1.5,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [
-        "钱"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "自体库使用率不到万分之一",
-      "score": 8.0,
-      "video_score": 12.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 14 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908105.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        8.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "幸存者偏差",
-        "止损",
-        "贪怕"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 4.5,
-      "spread_parts": {
-        "person": 1.5,
-        "hook": 1.0,
-        "family": 1.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 5.0,
-      "spread_channel": {
-        "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 5.0,
-          "money": 1.5,
-          "family": 1.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": 0.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "脐带血话术只说半句真话",
-      "score": 8.0,
-      "video_score": 12.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 14 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908105.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        8.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "幸存者偏差",
-        "止损",
-        "贪怕"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 4.5,
-      "spread_parts": {
-        "person": 1.5,
-        "hook": 1.0,
-        "family": 1.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 5.0,
-      "spread_channel": {
-        "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 5.0,
-          "money": 1.5,
-          "family": 1.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "低",
-      "ip_fit_score": 1.0,
-      "ip_fit_column": "做销售",
-      "ip_fit_hits": [
-        "栏目"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "宠物家跑路疑云",
-      "score": 8.0,
-      "video_score": 12.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 11 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908100.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        8.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
       "topic_type_src": "tt4-v1",
       "video_fit": "低",
       "motifs": [
-        "止损",
-        "甩锅"
+        "信任",
+        "既得利益",
+        "止损"
       ],
       "repeat_hint": null,
       "finance_redline": false,
       "share_family": false,
       "tag_src": "rule-v5",
-      "spread_score": 3.5,
+      "spread_score": 0.0,
       "spread_parts": {
-        "person": 1.5,
-        "hook": 1.0,
+        "person": 0.0,
+        "hook": 0.0,
         "family": 0.0,
-        "audience": 1.0
+        "audience": 0.0
       },
       "spread_src": "spread-v1",
       "spread_video": 4.2,
@@ -765,25 +169,23 @@
         },
         "src": "spread-ch-v1"
       },
-      "ip_fit": "中",
-      "ip_fit_score": 2.0,
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
       "ip_fit_column": "其他",
-      "ip_fit_hits": [
-        "人性词"
-      ],
+      "ip_fit_hits": [],
       "ip_fit_vetoes": [],
       "ip_fit_src": "ip-fit-v1"
     },
     {
-      "topic": "200 家缩到不足 20 家",
+      "topic": "一键解约赔 2 万",
       "score": 8.0,
-      "video_score": 12.0,
+      "video_score": 8.5,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 11 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908100.html?f=rss",
-      "source_name": "虎嗅",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-25/10737550.shtml",
+      "source_name": "中新网",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
@@ -800,14 +202,14 @@
       },
       "evidence_level": "verified",
       "event_group": null,
-      "opening_type": "真实案例",
+      "opening_type": "反常识",
       "rumor_stance": null,
-      "topic_type": "人/处境",
+      "topic_type": "政策/制度",
       "topic_type_legacy": "人/处境",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
       "motifs": [
-        "止损",
+        "信任",
         "甩锅"
       ],
       "repeat_hint": null,
@@ -834,428 +236,6 @@
           "score": 3.0,
           "money": 1.5,
           "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": 0.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "充的年卡店没了",
-      "score": 8.0,
-      "video_score": 12.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 11 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908100.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        8.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "低",
-      "motifs": [
-        "止损",
-        "甩锅"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 3.5,
-      "spread_parts": {
-        "person": 1.5,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 3.0,
-      "spread_channel": {
-        "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 3.0,
-          "money": 1.5,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": 0.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "散步被撞判次责",
-      "score": 8.0,
-      "video_score": 12.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 7 个，可落位模板 2 种",
-      "category_5": "过日子",
-      "source": "澎湃",
-      "source_url": "https://m.thepaper.cn/newsDetail_forward_34541107",
-      "source_name": "澎湃",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        8.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "甩锅、信任",
-        "谈判、止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 5.0,
-      "spread_parts": {
-        "person": 3.0,
-        "hook": 2.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 8.3,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 8.3,
-          "person": 3.0,
-          "hook": 2.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": 0.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "15 岁肇事不露面",
-      "score": 8.0,
-      "video_score": 12.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 7 个，可落位模板 2 种",
-      "category_5": "过日子",
-      "source": "澎湃",
-      "source_url": "https://m.thepaper.cn/newsDetail_forward_34541107",
-      "source_name": "澎湃",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        8.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "高",
-      "motifs": [
-        "甩锅、信任",
-        "谈判、止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 6.0,
-      "spread_parts": {
-        "person": 3.0,
-        "hook": 3.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 10.0,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 10.0,
-          "person": 3.0,
-          "hook": 3.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": 0.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "限速 20 骑 30 撞人",
-      "score": 8.0,
-      "video_score": 12.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 7 个，可落位模板 2 种",
-      "category_5": "过日子",
-      "source": "澎湃",
-      "source_url": "https://m.thepaper.cn/newsDetail_forward_34541107",
-      "source_name": "澎湃",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        8.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "高",
-      "motifs": [
-        "甩锅、信任",
-        "谈判、止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 6.0,
-      "spread_parts": {
-        "person": 3.0,
-        "hook": 3.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 10.0,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 10.0,
-          "person": 3.0,
-          "hook": 3.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": 0.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "卖课返利 13 层被控传销",
-      "score": 7.75,
-      "video_score": 9.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 11 个，可落位模板 5 种",
-      "category_5": "去创业",
-      "source": "澎湃",
-      "source_url": "https://m.thepaper.cn/newsDetail_forward_34537878",
-      "source_name": "澎湃",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        8.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.5,
-        "金句": 1.5
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "高",
-      "motifs": [
-        "分钱",
-        "止损",
-        "贪怕"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": true,
-      "tag_src": "rule-v5",
-      "spread_score": 9.0,
-      "spread_parts": {
-        "person": 3.0,
-        "hook": 3.0,
-        "family": 2.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 10.0,
-      "spread_tietu": 7.0,
-      "spread_channel": {
-        "video": {
-          "score": 10.0,
-          "person": 3.0,
-          "hook": 3.0
-        },
-        "tietu": {
-          "score": 7.0,
-          "money": 1.5,
-          "family": 2.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": 0.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "2.4 万人 1.46 亿卖课案",
-      "score": 7.75,
-      "video_score": 9.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 11 个，可落位模板 5 种",
-      "category_5": "去创业",
-      "source": "澎湃",
-      "source_url": "https://m.thepaper.cn/newsDetail_forward_34537878",
-      "source_name": "澎湃",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        8.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.5,
-        "金句": 1.5
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "高",
-      "motifs": [
-        "分钱",
-        "止损",
-        "贪怕"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": true,
-      "tag_src": "rule-v5",
-      "spread_score": 9.0,
-      "spread_parts": {
-        "person": 3.0,
-        "hook": 3.0,
-        "family": 2.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 10.0,
-      "spread_tietu": 7.0,
-      "spread_channel": {
-        "video": {
-          "score": 10.0,
-          "person": 3.0,
-          "hook": 3.0
-        },
-        "tietu": {
-          "score": 7.0,
-          "money": 1.5,
-          "family": 2.0
         },
         "src": "spread-ch-v1"
       },
@@ -1269,19 +249,19 @@
       "ip_fit_src": "ip-fit-v1"
     },
     {
-      "topic": "打传办认定非诈骗型传销",
-      "score": 7.75,
-      "video_score": 9.0,
+      "topic": "系统辞退被判违法",
+      "score": 8.0,
+      "video_score": 8.5,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 11 个，可落位模板 5 种",
-      "category_5": "去创业",
-      "source": "澎湃",
-      "source_url": "https://m.thepaper.cn/newsDetail_forward_34537878",
-      "source_name": "澎湃",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-25/10737550.shtml",
+      "source_name": "中新网",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
-        7.5,
+        8.0,
         8.0
       ],
       "dual_eval": "dual",
@@ -1289,143 +269,356 @@
         "证据": 2.0,
         "机制": 2.0,
         "决策": 2.0,
-        "张力": 1.5,
-        "金句": 1.5
+        "张力": 2.0,
+        "金句": 2.0
       },
       "evidence_level": "verified",
       "event_group": null,
-      "opening_type": "真实案例",
+      "opening_type": "反常识",
       "rumor_stance": null,
-      "topic_type": "人/处境",
+      "topic_type": "政策/制度",
       "topic_type_legacy": "人/处境",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
       "motifs": [
-        "分钱",
-        "止损",
-        "贪怕"
+        "信任",
+        "甩锅"
       ],
       "repeat_hint": null,
       "finance_redline": false,
-      "share_family": true,
+      "share_family": false,
       "tag_src": "rule-v5",
-      "spread_score": 8.0,
+      "spread_score": 3.5,
       "spread_parts": {
-        "person": 3.0,
-        "hook": 2.0,
-        "family": 2.0,
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 0.0,
         "audience": 1.0
       },
       "spread_src": "spread-v1",
-      "spread_video": 8.3,
-      "spread_tietu": 7.0,
+      "spread_video": 4.2,
+      "spread_tietu": 3.0,
       "spread_channel": {
         "video": {
-          "score": 8.3,
-          "person": 3.0,
-          "hook": 2.0
+          "score": 4.2,
+          "person": 1.5,
+          "hook": 1.0
         },
         "tietu": {
-          "score": 7.0,
+          "score": 3.0,
           "money": 1.5,
-          "family": 2.0
+          "family": 0.0
         },
         "src": "spread-ch-v1"
       },
       "ip_fit": "中",
       "ip_fit_score": 3.0,
-      "ip_fit_column": "过日子",
+      "ip_fit_column": "看职场",
       "ip_fit_hits": [
         "人性词",
-        "家人"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "关店比开店更赚钱",
-      "score": 7.5,
-      "video_score": 12.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 13 个，可落位模板 5 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908130.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "反常识",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "公司/资本",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "既得利益",
-        "止损",
-        "甩锅"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 2.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 0.0,
-        "family": 0.0,
-        "audience": 2.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 8.3,
-      "spread_tietu": 6.0,
-      "spread_channel": {
-        "video": {
-          "score": 8.3,
-          "person": 3.0,
-          "hook": 2.0
-        },
-        "tietu": {
-          "score": 6.0,
-          "money": 3.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "中",
-      "ip_fit_score": 2.5,
-      "ip_fit_column": "去创业",
-      "ip_fit_hits": [
-        "钱",
         "栏目"
       ],
       "ip_fit_vetoes": [],
       "ip_fit_src": "ip-fit-v1"
     },
     {
-      "topic": "加盟 400 万只撑 4 个月",
-      "score": 7.5,
-      "video_score": 12.0,
+      "topic": "撤回两次还辞退",
+      "score": 8.0,
+      "video_score": 8.5,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 13 个，可落位模板 5 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908130.html?f=rss",
-      "source_name": "虎嗅",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 3 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-25/10737550.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        8.0,
+        8.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "反常识",
+      "rumor_stance": null,
+      "topic_type": "政策/制度",
+      "topic_type_legacy": "人/处境",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "中",
+      "motifs": [
+        "信任",
+        "甩锅"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 3.5,
+      "spread_parts": {
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 4.2,
+      "spread_tietu": 3.0,
+      "spread_channel": {
+        "video": {
+          "score": 4.2,
+          "person": 1.5,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 3.0,
+          "money": 1.5,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "中",
+      "ip_fit_score": 3.0,
+      "ip_fit_column": "看职场",
+      "ip_fit_hits": [
+        "人性词",
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "囚犯被束缚 48 天死亡",
+      "score": 7.75,
+      "video_score": 9.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 7 个，可落位模板 3 种",
+      "category_5": "过日子",
+      "source": "澎湃",
+      "source_url": "https://m.thepaper.cn/newsDetail_forward_34555484",
+      "source_name": "澎湃",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        8.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 1.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "topic_type_legacy": "其他",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "中",
+      "motifs": [
+        "止损",
+        "甩锅",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 4.2,
+      "spread_tietu": 0.0,
+      "spread_channel": {
+        "video": {
+          "score": 4.2,
+          "person": 1.5,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 0.0,
+          "money": 0.0,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "签满审批单照样判刑",
+      "score": 7.75,
+      "video_score": 9.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 7 个，可落位模板 3 种",
+      "category_5": "过日子",
+      "source": "澎湃",
+      "source_url": "https://m.thepaper.cn/newsDetail_forward_34555484",
+      "source_name": "澎湃",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        8.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 1.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "topic_type_legacy": "其他",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "中",
+      "motifs": [
+        "止损",
+        "甩锅",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 4.2,
+      "spread_tietu": 0.0,
+      "spread_channel": {
+        "video": {
+          "score": 4.2,
+          "person": 1.5,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 0.0,
+          "money": 0.0,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.0,
+      "ip_fit_column": "做生意",
+      "ip_fit_hits": [
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "你拿了谅解书刑责照样来",
+      "score": 7.75,
+      "video_score": 9.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 7 个，可落位模板 3 种",
+      "category_5": "过日子",
+      "source": "澎湃",
+      "source_url": "https://m.thepaper.cn/newsDetail_forward_34555484",
+      "source_name": "澎湃",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        8.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 1.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "topic_type_legacy": "其他",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "中",
+      "motifs": [
+        "止损",
+        "甩锅",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 4.2,
+      "spread_tietu": 0.0,
+      "spread_channel": {
+        "video": {
+          "score": 4.2,
+          "person": 1.5,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 0.0,
+          "money": 0.0,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "黄仁勋违规复职",
+      "score": 7.5,
+      "video_score": 10.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 10 个，可落位模板 5 种",
+      "category_5": "看职场",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4084644220562050",
+      "source_name": "36氪24小时热榜",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
@@ -1442,31 +635,252 @@
       },
       "evidence_level": "verified",
       "event_group": null,
-      "opening_type": "反常识",
+      "opening_type": "热点",
       "rumor_stance": null,
-      "topic_type": "人/处境",
+      "topic_type": "公司/资本",
       "topic_type_legacy": "公司/资本",
       "topic_type_src": "tt4-v1",
-      "video_fit": "高",
+      "video_fit": "低",
       "motifs": [
+        "信任",
         "既得利益",
-        "止损",
-        "甩锅"
+        "止损"
       ],
       "repeat_hint": null,
-      "finance_redline": false,
+      "finance_redline": true,
       "share_family": false,
       "tag_src": "rule-v5",
-      "spread_score": 3.0,
+      "spread_score": 1.0,
       "spread_parts": {
         "person": 0.0,
         "hook": 1.0,
         "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 1.7,
+      "spread_tietu": 3.0,
+      "spread_channel": {
+        "video": {
+          "score": 1.7,
+          "person": 0.0,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 3.0,
+          "money": 1.5,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "英伟达市值蒸发 2400 亿",
+      "score": 7.5,
+      "video_score": 10.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 10 个，可落位模板 5 种",
+      "category_5": "看职场",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4084644220562050",
+      "source_name": "36氪24小时热榜",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        8.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "热点",
+      "rumor_stance": null,
+      "topic_type": "公司/资本",
+      "topic_type_legacy": "公司/资本",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "低",
+      "motifs": [
+        "信任",
+        "既得利益",
+        "止损"
+      ],
+      "repeat_hint": null,
+      "finance_redline": true,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 1.7,
+      "spread_tietu": 3.0,
+      "spread_channel": {
+        "video": {
+          "score": 1.7,
+          "person": 0.0,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 3.0,
+          "money": 1.5,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "无",
+      "ip_fit_score": -0.5,
+      "ip_fit_column": "做生意",
+      "ip_fit_hits": [
+        "钱",
+        "栏目"
+      ],
+      "ip_fit_vetoes": [
+        "V5纯科技",
+        "K公司资本无人"
+      ],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "创始人违规照样回归",
+      "score": 7.5,
+      "video_score": 10.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 10 个，可落位模板 5 种",
+      "category_5": "看职场",
+      "source": "36氪24小时热榜",
+      "source_url": "https://www.36kr.com/p/4084644220562050",
+      "source_name": "36氪24小时热榜",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        8.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "热点",
+      "rumor_stance": null,
+      "topic_type": "公司/资本",
+      "topic_type_legacy": "公司/资本",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "低",
+      "motifs": [
+        "信任",
+        "既得利益",
+        "止损"
+      ],
+      "repeat_hint": null,
+      "finance_redline": true,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 1.7,
+      "spread_tietu": 3.0,
+      "spread_channel": {
+        "video": {
+          "score": 1.7,
+          "person": 0.0,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 3.0,
+          "money": 1.5,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.0,
+      "ip_fit_column": "去创业",
+      "ip_fit_hits": [
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "你怕灾祸他赚 13 万",
+      "score": 7.25,
+      "video_score": 9.0,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 4 种",
+      "category_5": "做销售",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-25/10737574.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 1.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "topic_type_legacy": "人/处境",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "高",
+      "motifs": [
+        "信任",
+        "止损",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": true,
+      "tag_src": "rule-v5",
+      "spread_score": 5.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 2.0,
         "audience": 2.0
       },
       "spread_src": "spread-v1",
       "spread_video": 10.0,
-      "spread_tietu": 6.0,
+      "spread_tietu": 7.0,
       "spread_channel": {
         "video": {
           "score": 10.0,
@@ -1474,83 +888,9 @@
           "hook": 3.0
         },
         "tietu": {
-          "score": 6.0,
-          "money": 3.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "中",
-      "ip_fit_score": 2.5,
-      "ip_fit_column": "去创业",
-      "ip_fit_hits": [
-        "钱",
-        "栏目"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "亏损店老板硬撑",
-      "score": 7.5,
-      "video_score": 12.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 13 个，可落位模板 5 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908130.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "反常识",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "公司/资本",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "既得利益",
-        "止损",
-        "甩锅"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 2.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 0.0,
-        "family": 0.0,
-        "audience": 2.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 8.3,
-      "spread_tietu": 6.0,
-      "spread_channel": {
-        "video": {
-          "score": 8.3,
-          "person": 3.0,
-          "hook": 2.0
-        },
-        "tietu": {
-          "score": 6.0,
-          "money": 3.0,
-          "family": 0.0
+          "score": 7.0,
+          "money": 1.5,
+          "family": 2.0
         },
         "src": "spread-ch-v1"
       },
@@ -1565,449 +905,15 @@
       "ip_fit_src": "ip-fit-v1"
     },
     {
-      "topic": "黄仁勋鞠躬道歉",
-      "score": 7.5,
-      "video_score": 10.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 5 个，可落位模板 5 种",
-      "category_5": "看职场",
-      "source": "36氪24小时热榜",
-      "source_url": "https://www.36kr.com/p/4083088574239879",
-      "source_name": "36氪24小时热榜",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 1.5,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "热点",
-      "rumor_stance": null,
-      "topic_type": "公司/资本",
-      "topic_type_legacy": "公司/资本",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "低",
-      "motifs": [
-        "信任",
-        "分权",
-        "圈子"
-      ],
-      "repeat_hint": null,
-      "finance_redline": true,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 1.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 1.7,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 1.7,
-          "person": 0.0,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": 0.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "离职 11 天崩 28%涨 31%",
-      "score": 7.5,
-      "video_score": 10.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 5 个，可落位模板 5 种",
-      "category_5": "看职场",
-      "source": "36氪24小时热榜",
-      "source_url": "https://www.36kr.com/p/4083088574239879",
-      "source_name": "36氪24小时热榜",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 1.5,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "热点",
-      "rumor_stance": null,
-      "topic_type": "公司/资本",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "低",
-      "motifs": [
-        "信任",
-        "分权",
-        "圈子"
-      ],
-      "repeat_hint": null,
-      "finance_redline": true,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 6.0,
-      "spread_parts": {
-        "person": 3.0,
-        "hook": 3.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 1.7,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 1.7,
-          "person": 0.0,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "中",
-      "ip_fit_score": 3.0,
-      "ip_fit_column": "看职场",
-      "ip_fit_hits": [
-        "人性词",
-        "栏目"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "员工夹道欢呼老板回归",
-      "score": 7.5,
-      "video_score": 10.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 5 个，可落位模板 5 种",
-      "category_5": "看职场",
-      "source": "36氪24小时热榜",
-      "source_url": "https://www.36kr.com/p/4083088574239879",
-      "source_name": "36氪24小时热榜",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        8.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 1.5,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "热点",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "低",
-      "motifs": [
-        "信任",
-        "分权",
-        "圈子"
-      ],
-      "repeat_hint": null,
-      "finance_redline": true,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 7.0,
-      "spread_parts": {
-        "person": 3.0,
-        "hook": 2.0,
-        "family": 0.0,
-        "audience": 2.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 8.3,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 8.3,
-          "person": 3.0,
-          "hook": 2.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "中",
-      "ip_fit_score": 2.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [
-        "人"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "AI 眼镜作弊逼部长辞职",
-      "score": 7.25,
-      "video_score": 11.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 14 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "爱范儿",
-      "source_url": "https://www.ifanr.com/1691270?utm_source=rss&utm_medium=rss&utm_campaign=",
-      "source_name": "爱范儿",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "政策/制度",
-      "topic_type_legacy": "其他",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "低",
-      "motifs": [
-        "信任",
-        "止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 0.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 0.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 0.0,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 0.0,
-          "person": 0.0,
-          "hook": 0.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": -2.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [
-        "V5纯科技"
-      ],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "111 人高考违规",
-      "score": 7.25,
-      "video_score": 11.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 14 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "爱范儿",
-      "source_url": "https://www.ifanr.com/1691270?utm_source=rss&utm_medium=rss&utm_campaign=",
-      "source_name": "爱范儿",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "政策/制度",
-      "topic_type_legacy": "其他",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "信任",
-        "止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 1.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 1.7,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 1.7,
-          "person": 0.0,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": 0.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "1 亿韩元举报 AI 作弊",
-      "score": 7.25,
-      "video_score": 11.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 14 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "爱范儿",
-      "source_url": "https://www.ifanr.com/1691270?utm_source=rss&utm_medium=rss&utm_campaign=",
-      "source_name": "爱范儿",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "政策/制度",
-      "topic_type_legacy": "其他",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "信任",
-        "止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 1.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 1.7,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 1.7,
-          "person": 0.0,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": -0.5,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [
-        "钱"
-      ],
-      "ip_fit_vetoes": [
-        "V5纯科技"
-      ],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "Bally 只剩授权壳",
+      "topic": "恐吓式卖佛像判刑",
       "score": 7.25,
       "video_score": 9.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 8 个，可落位模板 4 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908145.html?f=rss",
-      "source_name": "虎嗅",
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 4 种",
+      "category_5": "做销售",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-25/10737574.shtml",
+      "source_name": "中新网",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
@@ -2017,8 +923,8 @@
       "dual_eval": "dual",
       "dimension_scores": {
         "证据": 2.0,
-        "机制": 2.0,
-        "决策": 1.0,
+        "机制": 1.0,
+        "决策": 2.0,
         "张力": 2.0,
         "金句": 2.0
       },
@@ -2029,129 +935,129 @@
       "topic_type": "人/处境",
       "topic_type_legacy": "人/处境",
       "topic_type_src": "tt4-v1",
-      "video_fit": "低",
+      "video_fit": "高",
       "motifs": [
         "信任",
         "止损",
-        "甩锅"
+        "贪怕"
       ],
       "repeat_hint": null,
       "finance_redline": false,
-      "share_family": false,
+      "share_family": true,
       "tag_src": "rule-v5",
-      "spread_score": 3.5,
+      "spread_score": 5.0,
       "spread_parts": {
-        "person": 1.5,
+        "person": 0.0,
         "hook": 1.0,
-        "family": 0.0,
-        "audience": 1.0
+        "family": 2.0,
+        "audience": 2.0
       },
       "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 0.0,
+      "spread_video": 10.0,
+      "spread_tietu": 7.0,
       "spread_channel": {
         "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
+          "score": 10.0,
+          "person": 3.0,
+          "hook": 3.0
         },
         "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
+          "score": 7.0,
+          "money": 1.5,
+          "family": 2.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "退 13 万照样判刑",
+      "score": 7.25,
+      "video_score": 9.0,
+      "video_feasibility": "部分可行",
+      "video_feasibility_reason": "文章数字 2 个，可落位模板 4 种",
+      "category_5": "做销售",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-25/10737574.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 1.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "topic_type_legacy": "人/处境",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "高",
+      "motifs": [
+        "信任",
+        "止损",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": true,
+      "tag_src": "rule-v5",
+      "spread_score": 5.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 2.0,
+        "audience": 2.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 10.0,
+      "spread_tietu": 7.0,
+      "spread_channel": {
+        "video": {
+          "score": 10.0,
+          "person": 3.0,
+          "hook": 3.0
+        },
+        "tietu": {
+          "score": 7.0,
+          "money": 1.5,
+          "family": 2.0
         },
         "src": "spread-ch-v1"
       },
       "ip_fit": "低",
-      "ip_fit_score": 1.0,
-      "ip_fit_column": "带队伍",
-      "ip_fit_hits": [
-        "栏目"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "175 年老牌裁到 22 人",
-      "score": 7.25,
-      "video_score": 9.0,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 8 个，可落位模板 4 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908145.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 1.0,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "信任",
-        "止损",
-        "甩锅"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 3.5,
-      "spread_parts": {
-        "person": 1.5,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": 0.0,
+      "ip_fit_score": 1.5,
       "ip_fit_column": "其他",
-      "ip_fit_hits": [],
+      "ip_fit_hits": [
+        "钱"
+      ],
       "ip_fit_vetoes": [],
       "ip_fit_src": "ip-fit-v1"
     },
     {
-      "topic": "3100 万欠款拖垮供应商",
+      "topic": "60 元倒卖明星航班",
       "score": 7.25,
-      "video_score": 9.0,
+      "video_score": 9.5,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 8 个，可落位模板 4 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908145.html?f=rss",
-      "source_name": "虎嗅",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 4 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-25/10737540.shtml",
+      "source_name": "中新网",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
@@ -2162,33 +1068,33 @@
       "dimension_scores": {
         "证据": 2.0,
         "机制": 2.0,
-        "决策": 1.0,
-        "张力": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
         "金句": 2.0
       },
       "evidence_level": "verified",
       "event_group": null,
-      "opening_type": "真实案例",
+      "opening_type": "热点",
       "rumor_stance": null,
       "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
+      "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
       "motifs": [
-        "信任",
-        "止损",
-        "甩锅"
+        "圈子",
+        "既得利益",
+        "贪怕"
       ],
       "repeat_hint": null,
       "finance_redline": false,
       "share_family": false,
       "tag_src": "rule-v5",
-      "spread_score": 4.5,
+      "spread_score": 1.0,
       "spread_parts": {
-        "person": 1.5,
+        "person": 0.0,
         "hook": 1.0,
         "family": 0.0,
-        "audience": 2.0
+        "audience": 0.0
       },
       "spread_src": "spread-v1",
       "spread_video": 4.2,
@@ -2206,26 +1112,27 @@
         },
         "src": "spread-ch-v1"
       },
-      "ip_fit": "中",
-      "ip_fit_score": 2.5,
-      "ip_fit_column": "看职场",
+      "ip_fit": "无",
+      "ip_fit_score": -1.5,
+      "ip_fit_column": "其他",
       "ip_fit_hits": [
-        "钱",
-        "栏目"
+        "钱"
       ],
-      "ip_fit_vetoes": [],
+      "ip_fit_vetoes": [
+        "V6娱乐"
+      ],
       "ip_fit_src": "ip-fit-v1"
     },
     {
-      "topic": "水军评论 3 分钱一条",
+      "topic": "外包客服获刑 10 个月",
       "score": 7.25,
-      "video_score": 8.5,
+      "video_score": 9.5,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 19 个，可落位模板 4 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908051.html?f=rss",
-      "source_name": "虎嗅",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 4 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-25/10737540.shtml",
+      "source_name": "中新网",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
@@ -2236,7 +1143,583 @@
       "dimension_scores": {
         "证据": 2.0,
         "机制": 2.0,
-        "决策": 1.5,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "热点",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "topic_type_legacy": "其他",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "中",
+      "motifs": [
+        "圈子",
+        "既得利益",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 4.2,
+      "spread_tietu": 6.0,
+      "spread_channel": {
+        "video": {
+          "score": 4.2,
+          "person": 1.5,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 6.0,
+          "money": 3.0,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "粉丝买行踪喂黑产",
+      "score": 7.25,
+      "video_score": 9.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 4 个，可落位模板 4 种",
+      "category_5": "看职场",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-25/10737540.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.5,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "热点",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "topic_type_legacy": "其他",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "中",
+      "motifs": [
+        "圈子",
+        "既得利益",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 4.2,
+      "spread_tietu": 6.0,
+      "spread_channel": {
+        "video": {
+          "score": 4.2,
+          "person": 1.5,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 6.0,
+          "money": 3.0,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "欧洲车企技术外包上瘾",
+      "score": 7.0,
+      "video_score": 6.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 27 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4908521.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "公司/资本",
+      "topic_type_legacy": "公司/资本",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "低",
+      "motifs": [
+        "分权",
+        "止损",
+        "谈判"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 0.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 0.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 0.0,
+      "spread_tietu": 3.0,
+      "spread_channel": {
+        "video": {
+          "score": 0.0,
+          "person": 0.0,
+          "hook": 0.0
+        },
+        "tietu": {
+          "score": 3.0,
+          "money": 1.5,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "中国技术接管欧洲工厂",
+      "score": 7.0,
+      "video_score": 6.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 27 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4908521.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "公司/资本",
+      "topic_type_legacy": "公司/资本",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "低",
+      "motifs": [
+        "分权",
+        "止损",
+        "谈判"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 0.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 0.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 0.0,
+      "spread_tietu": 3.0,
+      "spread_channel": {
+        "video": {
+          "score": 0.0,
+          "person": 0.0,
+          "hook": 0.0
+        },
+        "tietu": {
+          "score": 3.0,
+          "money": 1.5,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "研发负循环吞掉 600 亿欧元",
+      "score": 7.0,
+      "video_score": 6.0,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 27 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "虎嗅",
+      "source_url": "https://www.huxiu.com/article/4908521.html?f=rss",
+      "source_name": "虎嗅",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "公司/资本",
+      "topic_type_legacy": "公司/资本",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "中",
+      "motifs": [
+        "分权",
+        "止损",
+        "谈判"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 1.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 1.7,
+      "spread_tietu": 6.0,
+      "spread_channel": {
+        "video": {
+          "score": 1.7,
+          "person": 0.0,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 6.0,
+          "money": 3.0,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "钱"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "结婚 8 年三孩非亲生",
+      "score": 7.0,
+      "video_score": 10.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 3 个，可落位模板 4 种",
+      "category_5": "过日子",
+      "source": "知乎热榜",
+      "source_url": "https://www.zhihu.com/question/2108927460083495268",
+      "source_name": "知乎热榜",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 1.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 1.0
+      },
+      "evidence_level": "verified",
+      "event_group": "evt:rss:127.0.0.1:8123_zhihu.xml:d13f0dcde8c4d867",
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "topic_type_legacy": "人/处境",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "中",
+      "motifs": [
+        "信任",
+        "分钱",
+        "止损"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 3.5,
+      "spread_parts": {
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 4.2,
+      "spread_tietu": 3.0,
+      "spread_channel": {
+        "video": {
+          "score": 4.2,
+          "person": 1.5,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 3.0,
+          "money": 1.5,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.0,
+      "ip_fit_column": "过日子",
+      "ip_fit_hits": [
+        "家人"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "三孩非亲生只赔 22 万",
+      "score": 7.0,
+      "video_score": 10.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 3 个，可落位模板 4 种",
+      "category_5": "过日子",
+      "source": "知乎热榜",
+      "source_url": "https://www.zhihu.com/question/2108927460083495268",
+      "source_name": "知乎热榜",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 1.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 1.0
+      },
+      "evidence_level": "verified",
+      "event_group": "evt:rss:127.0.0.1:8123_zhihu.xml:d13f0dcde8c4d867",
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "topic_type_legacy": "人/处境",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "中",
+      "motifs": [
+        "信任",
+        "分钱",
+        "止损"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 3.5,
+      "spread_parts": {
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 4.2,
+      "spread_tietu": 3.0,
+      "spread_channel": {
+        "video": {
+          "score": 4.2,
+          "person": 1.5,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 3.0,
+          "money": 1.5,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "钱"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "22 万买断 8 年父爱",
+      "score": 7.0,
+      "video_score": 10.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 3 个，可落位模板 4 种",
+      "category_5": "过日子",
+      "source": "知乎热榜",
+      "source_url": "https://www.zhihu.com/question/2108927460083495268",
+      "source_name": "知乎热榜",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 1.0,
+        "决策": 2.0,
+        "张力": 2.0,
+        "金句": 1.0
+      },
+      "evidence_level": "verified",
+      "event_group": "evt:rss:127.0.0.1:8123_zhihu.xml:d13f0dcde8c4d867",
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "人/处境",
+      "topic_type_legacy": "人/处境",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "中",
+      "motifs": [
+        "信任",
+        "分钱",
+        "止损"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 3.5,
+      "spread_parts": {
+        "person": 1.5,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 1.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 4.2,
+      "spread_tietu": 3.0,
+      "spread_channel": {
+        "video": {
+          "score": 4.2,
+          "person": 1.5,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 3.0,
+          "money": 1.5,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "钱"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "男子装精英骗 7 女 94 万",
+      "score": 7.0,
+      "video_score": 10.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 3 个，可落位模板 4 种",
+      "category_5": "过日子",
+      "source": "中新网",
+      "source_url": "https://www.chinanews.com.cn/fz/2026/11-25/10737580.shtml",
+      "source_name": "中新网",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 1.0,
+        "决策": 2.0,
         "张力": 2.0,
         "金句": 2.0
       },
@@ -2245,13 +1728,163 @@
       "opening_type": "真实案例",
       "rumor_stance": null,
       "topic_type": "人/处境",
+      "topic_type_legacy": "人/处境",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "高",
+      "motifs": [
+        "信任",
+        "止损",
+        "贪怕"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": true,
+      "tag_src": "rule-v5",
+      "spread_score": 8.0,
+      "spread_parts": {
+        "person": 3.0,
+        "hook": 3.0,
+        "family": 2.0,
+        "audience": 0.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 10.0,
+      "spread_tietu": 7.0,
+      "spread_channel": {
+        "video": {
+          "score": 10.0,
+          "person": 3.0,
+          "hook": 3.0
+        },
+        "tietu": {
+          "score": 7.0,
+          "money": 1.5,
+          "family": 2.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "高",
+      "ip_fit_score": 5.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "人",
+        "人性词",
+        "钱"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "合伙产能没写死，500 万没了",
+      "score": 7.0,
+      "video_score": 9.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 10 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "澎湃",
+      "source_url": "https://m.thepaper.cn/newsDetail_forward_34554865",
+      "source_name": "澎湃",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "政策/制度",
       "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
       "motifs": [
-        "信任",
-        "贪怕",
-        "面子"
+        "止损",
+        "甩锅",
+        "画饼"
+      ],
+      "repeat_hint": null,
+      "finance_redline": false,
+      "share_family": false,
+      "tag_src": "rule-v5",
+      "spread_score": 3.0,
+      "spread_parts": {
+        "person": 0.0,
+        "hook": 1.0,
+        "family": 0.0,
+        "audience": 2.0
+      },
+      "spread_src": "spread-v1",
+      "spread_video": 1.7,
+      "spread_tietu": 3.0,
+      "spread_channel": {
+        "video": {
+          "score": 1.7,
+          "person": 0.0,
+          "hook": 1.0
+        },
+        "tietu": {
+          "score": 3.0,
+          "money": 1.5,
+          "family": 0.0
+        },
+        "src": "spread-ch-v1"
+      },
+      "ip_fit": "高",
+      "ip_fit_score": 4.5,
+      "ip_fit_column": "做生意",
+      "ip_fit_hits": [
+        "人性词",
+        "钱",
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
+    },
+    {
+      "topic": "出钱生产还甩锅，法院不认",
+      "score": 7.0,
+      "video_score": 9.5,
+      "video_feasibility": "可视化可行",
+      "video_feasibility_reason": "文章数字 10 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "澎湃",
+      "source_url": "https://m.thepaper.cn/newsDetail_forward_34554865",
+      "source_name": "澎湃",
+      "verified": true,
+      "cap_triggered": null,
+      "score_rounds": [
+        7.0,
+        7.0
+      ],
+      "dual_eval": "dual",
+      "dimension_scores": {
+        "证据": 2.0,
+        "机制": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
+        "金句": 2.0
+      },
+      "evidence_level": "verified",
+      "event_group": null,
+      "opening_type": "真实案例",
+      "rumor_stance": null,
+      "topic_type": "政策/制度",
+      "topic_type_legacy": "其他",
+      "topic_type_src": "tt4-v1",
+      "video_fit": "中",
+      "motifs": [
+        "止损",
+        "甩锅",
+        "画饼"
       ],
       "repeat_hint": null,
       "finance_redline": false,
@@ -2290,567 +1923,52 @@
       "ip_fit_src": "ip-fit-v1"
     },
     {
-      "topic": "比亚迪 500 万悬赏黑公关",
-      "score": 7.25,
-      "video_score": 8.5,
+      "topic": "危废火灾 1.2 万平米，索赔被驳",
+      "score": 7.0,
+      "video_score": 9.5,
       "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 19 个，可落位模板 4 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908051.html?f=rss",
-      "source_name": "虎嗅",
+      "video_feasibility_reason": "文章数字 10 个，可落位模板 5 种",
+      "category_5": "做生意",
+      "source": "澎湃",
+      "source_url": "https://m.thepaper.cn/newsDetail_forward_34554865",
+      "source_name": "澎湃",
       "verified": true,
       "cap_triggered": null,
       "score_rounds": [
-        7.5,
+        7.0,
         7.0
       ],
       "dual_eval": "dual",
       "dimension_scores": {
         "证据": 2.0,
         "机制": 2.0,
-        "决策": 1.5,
-        "张力": 2.0,
+        "决策": 2.0,
+        "张力": 1.0,
         "金句": 2.0
       },
       "evidence_level": "verified",
       "event_group": null,
       "opening_type": "真实案例",
       "rumor_stance": null,
-      "topic_type": "人/处境",
+      "topic_type": "政策/制度",
       "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
       "motifs": [
-        "信任",
-        "贪怕",
-        "面子"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 2.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 1.7,
-      "spread_tietu": 3.0,
-      "spread_channel": {
-        "video": {
-          "score": 1.7,
-          "person": 0.0,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 3.0,
-          "money": 1.5,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "低",
-      "ip_fit_score": 1.5,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [
-        "钱"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "车企 8 年反黑公关",
-      "score": 7.25,
-      "video_score": 8.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 19 个，可落位模板 4 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908051.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 1.5,
-        "张力": 2.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "真实案例",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "其他",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "信任",
-        "贪怕",
-        "面子"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 2.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 1.7,
-      "spread_tietu": 3.0,
-      "spread_channel": {
-        "video": {
-          "score": 1.7,
-          "person": 0.0,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 3.0,
-          "money": 1.5,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": 0.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "黄仁勋复职算力链警报没解除",
-      "score": 7.25,
-      "video_score": 7.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 31 个，可落位模板 5 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907984.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": "evt:rss:rss.huxiu.com_:90d3a5910dc1510d",
-      "opening_type": "热点",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "公司/资本",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "低",
-      "motifs": [
-        "信任",
-        "分权",
-        "画饼"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 1.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 0.0,
-        "family": 0.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 0.0,
-      "spread_tietu": 3.0,
-      "spread_channel": {
-        "video": {
-          "score": 0.0,
-          "person": 0.0,
-          "hook": 0.0
-        },
-        "tietu": {
-          "score": 3.0,
-          "money": 1.5,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": -1.0,
-      "ip_fit_column": "做生意",
-      "ip_fit_hits": [
-        "栏目"
-      ],
-      "ip_fit_vetoes": [
-        "V5纯科技"
-      ],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "3900 亿订单系在一个人身上",
-      "score": 7.25,
-      "video_score": 7.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 31 个，可落位模板 5 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907984.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": "evt:rss:rss.huxiu.com_:90d3a5910dc1510d",
-      "opening_type": "热点",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "公司/资本",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "信任",
-        "分权",
-        "画饼"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 2.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 1.7,
-      "spread_tietu": 3.0,
-      "spread_channel": {
-        "video": {
-          "score": 1.7,
-          "person": 0.0,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 3.0,
-          "money": 1.5,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "低",
-      "ip_fit_score": 1.5,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [
-        "钱"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "单人依赖让股价 11 天跌 27.7%",
-      "score": 7.25,
-      "video_score": 7.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 31 个，可落位模板 5 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4907984.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.5,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": "evt:rss:rss.huxiu.com_:90d3a5910dc1510d",
-      "opening_type": "热点",
-      "rumor_stance": null,
-      "topic_type": "公司/资本",
-      "topic_type_legacy": "公司/资本",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "低",
-      "motifs": [
-        "信任",
-        "分权",
-        "画饼"
-      ],
-      "repeat_hint": null,
-      "finance_redline": true,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 2.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 1.7,
-      "spread_tietu": 3.0,
-      "spread_channel": {
-        "video": {
-          "score": 1.7,
-          "person": 0.0,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 3.0,
-          "money": 1.5,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": -3.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [
-        "V7荐股/股价",
-        "K公司资本无人"
-      ],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "冷冻面包店加盟避坑",
-      "score": 7.0,
-      "video_score": 8.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 25 个，可落位模板 5 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908147.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "反常识",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "幸存者偏差",
         "止损",
-        "贪怕"
+        "甩锅",
+        "画饼"
       ],
       "repeat_hint": null,
       "finance_redline": false,
       "share_family": false,
       "tag_src": "rule-v5",
-      "spread_score": 2.5,
+      "spread_score": 2.0,
       "spread_parts": {
-        "person": 1.5,
+        "person": 0.0,
         "hook": 1.0,
         "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 3.0,
-      "spread_channel": {
-        "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 3.0,
-          "money": 1.5,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "中",
-      "ip_fit_score": 3.0,
-      "ip_fit_column": "去创业",
-      "ip_fit_hits": [
-        "人性词",
-        "栏目"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "开业日卖 4 万几个月关店",
-      "score": 7.0,
-      "video_score": 8.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 25 个，可落位模板 5 种",
-      "category_5": "做生意",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908147.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": null,
-      "opening_type": "反常识",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "幸存者偏差",
-        "止损",
-        "贪怕"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 2.5,
-      "spread_parts": {
-        "person": 1.5,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 3.0,
-      "spread_channel": {
-        "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 3.0,
-          "money": 1.5,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": -1.5,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [
-        "钱"
-      ],
-      "ip_fit_vetoes": [
-        "V4快讯/融资/人事"
-      ],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "黄仁勋离职 11 天",
-      "score": 7.0,
-      "video_score": 8.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 11 个，可落位模板 5 种",
-      "category_5": "带队伍",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908122.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": "evt:rss:rss.huxiu.com_:90d3a5910dc1510d",
-      "opening_type": "热点",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "人/处境",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "信任",
-        "既得利益",
-        "止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 6.0,
-      "spread_parts": {
-        "person": 3.0,
-        "hook": 3.0,
-        "family": 0.0,
-        "audience": 0.0
+        "audience": 1.0
       },
       "spread_src": "spread-v1",
       "spread_video": 1.7,
@@ -2869,382 +1987,13 @@
         "src": "spread-ch-v1"
       },
       "ip_fit": "中",
-      "ip_fit_score": 3.0,
-      "ip_fit_column": "看职场",
-      "ip_fit_hits": [
-        "人性词",
-        "栏目"
-      ],
-      "ip_fit_vetoes": [],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "英伟达没他不行",
-      "score": 7.0,
-      "video_score": 8.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 11 个，可落位模板 5 种",
-      "category_5": "带队伍",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908122.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": "evt:rss:rss.huxiu.com_:90d3a5910dc1510d",
-      "opening_type": "热点",
-      "rumor_stance": null,
-      "topic_type": "人/处境",
-      "topic_type_legacy": "公司/资本",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "信任",
-        "既得利益",
-        "止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 0.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 0.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 8.3,
-      "spread_tietu": 3.0,
-      "spread_channel": {
-        "video": {
-          "score": 8.3,
-          "person": 3.0,
-          "hook": 2.0
-        },
-        "tietu": {
-          "score": 3.0,
-          "money": 1.5,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": -3.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [
-        "V5纯科技",
-        "K公司资本无人"
-      ],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "5 万亿市值抖三抖",
-      "score": 7.0,
-      "video_score": 8.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 11 个，可落位模板 5 种",
-      "category_5": "带队伍",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908122.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": true,
-      "cap_triggered": null,
-      "score_rounds": [
-        7.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 2.0,
-        "机制": 2.0,
-        "决策": 2.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "verified",
-      "event_group": "evt:rss:rss.huxiu.com_:90d3a5910dc1510d",
-      "opening_type": "热点",
-      "rumor_stance": null,
-      "topic_type": "公司/资本",
-      "topic_type_legacy": "公司/资本",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "低",
-      "motifs": [
-        "信任",
-        "既得利益",
-        "止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": true,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 1.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 1.0,
-        "family": 0.0,
-        "audience": 0.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 1.7,
-      "spread_tietu": 3.0,
-      "spread_channel": {
-        "video": {
-          "score": 1.7,
-          "person": 0.0,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 3.0,
-          "money": 1.5,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "低",
-      "ip_fit_score": 1.5,
-      "ip_fit_column": "做生意",
+      "ip_fit_score": 2.5,
+      "ip_fit_column": "过日子",
       "ip_fit_hits": [
         "钱",
         "栏目"
       ],
-      "ip_fit_vetoes": [
-        "K公司资本无人"
-      ],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "老干妈 AI 替代争议",
-      "score": 7.0,
-      "video_score": 10.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 9 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908087.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": false,
-      "cap_triggered": "未证实7分",
-      "score_rounds": [
-        7.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 1.0,
-        "机制": 2.0,
-        "决策": 1.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "unconfirmed",
-      "event_group": null,
-      "opening_type": "反常识",
-      "rumor_stance": "传闻/待核实",
-      "topic_type": "人/处境",
-      "topic_type_legacy": "其他",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "中",
-      "motifs": [
-        "信任",
-        "既得利益",
-        "止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 1.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 0.0,
-        "family": 0.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 8.3,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 8.3,
-          "person": 3.0,
-          "hook": 2.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": -2.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [
-        "V5纯科技"
-      ],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "AI 进厂，劳动者去哪了",
-      "score": 7.0,
-      "video_score": 10.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 9 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908087.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": false,
-      "cap_triggered": "未证实7分",
-      "score_rounds": [
-        7.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 1.0,
-        "机制": 2.0,
-        "决策": 1.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "unconfirmed",
-      "event_group": null,
-      "opening_type": "反常识",
-      "rumor_stance": "传闻/待核实",
-      "topic_type": "人/处境",
-      "topic_type_legacy": "其他",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "低",
-      "motifs": [
-        "信任",
-        "既得利益",
-        "止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 1.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 0.0,
-        "family": 0.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": -2.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [
-        "V5纯科技"
-      ],
-      "ip_fit_src": "ip-fit-v1"
-    },
-    {
-      "topic": "机器人也要计生办",
-      "score": 7.0,
-      "video_score": 10.5,
-      "video_feasibility": "可视化可行",
-      "video_feasibility_reason": "文章数字 9 个，可落位模板 5 种",
-      "category_5": "过日子",
-      "source": "虎嗅",
-      "source_url": "https://www.huxiu.com/article/4908087.html?f=rss",
-      "source_name": "虎嗅",
-      "verified": false,
-      "cap_triggered": "未证实7分",
-      "score_rounds": [
-        7.0,
-        7.0
-      ],
-      "dual_eval": "dual",
-      "dimension_scores": {
-        "证据": 1.0,
-        "机制": 2.0,
-        "决策": 1.0,
-        "张力": 1.0,
-        "金句": 2.0
-      },
-      "evidence_level": "unconfirmed",
-      "event_group": null,
-      "opening_type": "反常识",
-      "rumor_stance": "传闻/待核实",
-      "topic_type": "人/处境",
-      "topic_type_legacy": "其他",
-      "topic_type_src": "tt4-v1",
-      "video_fit": "低",
-      "motifs": [
-        "信任",
-        "既得利益",
-        "止损"
-      ],
-      "repeat_hint": null,
-      "finance_redline": false,
-      "share_family": false,
-      "tag_src": "rule-v5",
-      "spread_score": 1.0,
-      "spread_parts": {
-        "person": 0.0,
-        "hook": 0.0,
-        "family": 0.0,
-        "audience": 1.0
-      },
-      "spread_src": "spread-v1",
-      "spread_video": 4.2,
-      "spread_tietu": 0.0,
-      "spread_channel": {
-        "video": {
-          "score": 4.2,
-          "person": 1.5,
-          "hook": 1.0
-        },
-        "tietu": {
-          "score": 0.0,
-          "money": 0.0,
-          "family": 0.0
-        },
-        "src": "spread-ch-v1"
-      },
-      "ip_fit": "无",
-      "ip_fit_score": -2.0,
-      "ip_fit_column": "其他",
-      "ip_fit_hits": [],
-      "ip_fit_vetoes": [
-        "V5纯科技"
-      ],
+      "ip_fit_vetoes": [],
       "ip_fit_src": "ip-fit-v1"
     }
   ],
@@ -3253,14 +2002,14 @@
   "note": "由爆款雷达每日简报自动抽取, 供 v3.4.6 阶段3.5 gen_viral_content 使用。已按条目分数硬过滤 (低于 min_score 的条目不进), 使用前请人工过一遍: 只选用与人性/商业判断主题真实相关的话题, 不硬蹭无关热点。Set 规则：同一话题的文章+视频构成一个 Set；文章线按 score 挑，视频线只拍 video_score >= 7 的话题；video_score 为 null 表示 radar run 未输出，由助理按 rubric 补评后再定拍不拍。video_feasibility 为 null 表示未复核；“不可行”表示文章没有可上画面的数字，剧本无米下锅，选题会前先看这档。",
   "feedback_diag": {
     "window_days": 30,
-    "as_of": "2026-11-25",
+    "as_of": "2026-11-26",
     "min_score": 7.0,
     "article": {
       "metric": "公众号阅读",
-      "n_ge7": 18,
-      "median_ge7": 2.0,
-      "n_lt7": 36,
-      "median_lt7": 2.5
+      "n_ge7": 17,
+      "median_ge7": 2,
+      "n_lt7": 29,
+      "median_lt7": 2
     },
     "video": {
       "metric": "视频号播放",
@@ -3269,7 +2018,7 @@
       "n_lt7": 8,
       "median_lt7": 763.0
     },
-    "line": "实绩诊断（近 30 天，截至 2026-11-25，只诊断不改分）：公众号阅读中位 ≥7.0 2（18 条）vs <7.0 2.5（36 条）；视频号播放中位 ≥7.0 777（17 条）vs <7.0 763（8 条）",
-    "actual_records": 216
+    "line": "实绩诊断（近 30 天，截至 2026-11-26，只诊断不改分）：公众号阅读中位 ≥7.0 2（17 条）vs <7.0 2（29 条）；视频号播放中位 ≥7.0 777（17 条）vs <7.0 763（8 条）",
+    "actual_records": 220
   }
 }

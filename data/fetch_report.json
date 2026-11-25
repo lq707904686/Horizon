@@ -4,25 +4,25 @@
   "successful": 4,
   "empty": 1,
   "failed": 0,
-  "item_count": 476,
+  "item_count": 444,
   "sources": [
     {
       "source": "RSS Feeds",
       "status": "success",
-      "item_count": 401,
-      "duration_sec": 952.34
+      "item_count": 372,
+      "duration_sec": 166.49
     },
     {
       "source": "Google News",
       "status": "success",
       "item_count": 60,
-      "duration_sec": 12.7
+      "duration_sec": 11.48
     },
     {
       "source": "Bilibili",
       "status": "success",
-      "item_count": 15,
-      "duration_sec": 1.35
+      "item_count": 12,
+      "duration_sec": 0.38
     },
     {
       "source": "YouTube",
@@ -34,51 +34,51 @@
   "date": "2026-11-25",
   "fulltext_fill": {
     "version": "fulltext-fill-v1",
-    "hotlist_short": 231,
-    "short_total": 358,
+    "hotlist_short": 262,
+    "short_total": 369,
     "filled_hotlist": 5,
-    "pool": 118,
+    "pool": 75,
     "filled": 9,
     "pairs": [
       {
-        "hot": "媒体：黄仁勋回归暂时托住市场",
+        "hot": "陈吉宁被查 上海市政府党组等表态",
         "hot_src": "头条热榜",
-        "src": "36氪24小时热榜",
-        "title": "黄仁勋回归16小时：全球科技股疯涨，硅谷AI圈狂欢，董事会曝大瓜",
-        "title_cov": 0.364,
-        "body_cov": 0.455
+        "src": "澎湃·热闻",
+        "title": "上海市人大常委会党组、市政府党组、市政协党组召开会议，坚决拥护党中央决定",
+        "title_cov": 0.462,
+        "body_cov": 0.615
       },
       {
-        "hot": "比亚迪路天谈8系SUV线控底盘",
+        "hot": "神舟二十四号载人飞船发射成功",
         "hot_src": "头条热榜",
-        "src": "爱范儿",
-        "title": "18.79 万元起！比亚迪唐 EV 正式上市，砍掉七座换来 850km 续航，还有线控底盘",
-        "title_cov": 0.5,
-        "body_cov": 0.6
-      },
-      {
-        "hot": "陈吉宁涉嫌严重违纪违法正接受中央纪委国家监委审查调查。",
-        "hot_src": "抖音总榜",
         "src": "澎湃·热闻",
-        "title": "上海市委常委会举行扩大会议：坚决拥护党中央对陈吉宁涉嫌严重违纪违法进行审查调查的决定",
-        "title_cov": 0.583,
-        "body_cov": 0.958
+        "title": "视频丨神舟二十四号载人飞船发射取得圆满成功",
+        "title_cov": 0.923,
+        "body_cov": 0.923
       },
       {
-        "hot": "#媒体原创 陈吉宁涉嫌严重违纪违法正接受中央纪委国家监委审查调查",
-        "hot_src": "抖音总榜",
+        "hot": "华为Mate X8首拆",
+        "hot_src": "头条热榜",
+        "src": "少数派",
+        "title": "派早报：华为发布 Mate X8 与 MateBook Fold S、微软将推出自研驱动等",
+        "title_cov": 0.75,
+        "body_cov": 0.75
+      },
+      {
+        "hot": "神舟二十四号成功发射有何意义",
+        "hot_src": "头条热榜",
         "src": "澎湃·热闻",
-        "title": "上海市委常委会举行扩大会议：坚决拥护党中央对陈吉宁涉嫌严重违纪违法进行审查调查的决定",
-        "title_cov": 0.519,
-        "body_cov": 0.852
+        "title": "视频丨神舟二十四号载人飞船发射取得圆满成功",
+        "title_cov": 0.538,
+        "body_cov": 0.538
       },
       {
-        "hot": "英伟达董事会恢复黄仁勋总裁、首席执行官及董事职务。",
-        "hot_src": "抖音总榜",
-        "src": "36氪24小时热榜",
-        "title": "黄仁勋回归16小时：全球科技股疯涨，硅谷AI圈狂欢，董事会曝大瓜",
-        "title_cov": 0.2,
-        "body_cov": 0.9
+        "hot": "「结婚八年三孩非亲生案」一审认定女方存在重大过错，判决赔偿男方共计二十二万，大家如何看待这个结果？",
+        "hot_src": "知乎热榜",
+        "src": "澎湃·热闻",
+        "title": "“三孩非亲生”离婚案一审宣判：女方存在重大过错，被判赔22万元",
+        "title_cov": 0.316,
+        "body_cov": 0.526
       },
       {
         "hot": "36氪新风向丨英伟达押注、黄仁勋看好，半导体赛道又爆出大热点",
@@ -97,22 +97,22 @@
         "body_cov": 1.0
       },
       {
-        "hot": "陈吉宁涉嫌严重违纪违法正接受中央纪委国家监委审查调查",
+        "hot": "神舟二十四号载人飞船与空间站组合体完成自主快速交会对接",
         "hot_src": "澎湃·热闻",
         "src": "澎湃·热闻",
-        "title": "上海市委常委会举行扩大会议：坚决拥护党中央对陈吉宁涉嫌严重违纪违法进行审查调查的决定",
-        "title_cov": 0.583,
-        "body_cov": 0.958
+        "title": "视频丨神舟二十四号载人飞船发射取得圆满成功",
+        "title_cov": 0.346,
+        "body_cov": 0.885
       },
       {
-        "hot": "以门票减法撬动消费加法，推动文旅产业深度转型 - 中国新闻网",
+        "hot": "经纬度｜“存款多了”绝不等于“不消费了” - ThePaper.cn",
         "hot_src": "google_news",
-        "src": "中新网·社会",
-        "title": "以门票减法撬动消费加法，推动文旅产业深度转型",
-        "title_cov": 0.864,
-        "body_cov": 0.864
+        "src": "澎湃·热闻",
+        "title": "经纬度｜“存款多了”绝不等于“不消费了”",
+        "title_cov": 0.846,
+        "body_cov": 0.846
       }
     ]
   },
-  "analyzed": 476
+  "analyzed": 444
 }
