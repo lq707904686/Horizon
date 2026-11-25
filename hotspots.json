@@ -79,7 +79,7 @@
       "event_group": null,
       "opening_type": "热点",
       "rumor_stance": null,
-      "topic_type": "行业冷账",
+      "topic_type": "人/处境",
       "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
@@ -114,7 +114,15 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "钱"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "停兑 10 天创始人被查",
@@ -144,7 +152,7 @@
       "event_group": null,
       "opening_type": "热点",
       "rumor_stance": null,
-      "topic_type": "行业冷账",
+      "topic_type": "人/处境",
       "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
@@ -179,7 +187,15 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.0,
+      "ip_fit_column": "去创业",
+      "ip_fit_hits": [
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "你投的 8%还怎么回来",
@@ -209,7 +225,7 @@
       "event_group": null,
       "opening_type": "热点",
       "rumor_stance": null,
-      "topic_type": "行业冷账",
+      "topic_type": "人/处境",
       "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
@@ -244,7 +260,13 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "聊两小时花 700 多",
@@ -309,7 +331,13 @@
           "family": 1.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "充 4 万被拉黑",
@@ -374,7 +402,15 @@
           "family": 1.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "钱"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "织恋案 3400 万判了",
@@ -439,7 +475,15 @@
           "family": 1.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "钱"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "2 万存脐血公司早注销",
@@ -504,7 +548,15 @@
           "family": 1.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "钱"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "自体库使用率不到万分之一",
@@ -569,7 +621,13 @@
           "family": 1.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "脐带血话术只说半句真话",
@@ -634,7 +692,15 @@
           "family": 1.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.0,
+      "ip_fit_column": "做销售",
+      "ip_fit_hits": [
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "宠物家跑路疑云",
@@ -698,7 +764,15 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "中",
+      "ip_fit_score": 2.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "人性词"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "200 家缩到不足 20 家",
@@ -762,7 +836,13 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "充的年卡店没了",
@@ -826,7 +906,13 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "散步被撞判次责",
@@ -890,7 +976,13 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "15 岁肇事不露面",
@@ -954,7 +1046,13 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "限速 20 骑 30 撞人",
@@ -1018,7 +1116,13 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "卖课返利 13 层被控传销",
@@ -1083,7 +1187,13 @@
           "family": 2.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "2.4 万人 1.46 亿卖课案",
@@ -1148,7 +1258,15 @@
           "family": 2.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "钱"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "打传办认定非诈骗型传销",
@@ -1213,7 +1331,16 @@
           "family": 2.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "中",
+      "ip_fit_score": 3.0,
+      "ip_fit_column": "过日子",
+      "ip_fit_hits": [
+        "人性词",
+        "家人"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "关店比开店更赚钱",
@@ -1278,7 +1405,16 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "中",
+      "ip_fit_score": 2.5,
+      "ip_fit_column": "去创业",
+      "ip_fit_hits": [
+        "钱",
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "加盟 400 万只撑 4 个月",
@@ -1343,7 +1479,16 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "中",
+      "ip_fit_score": 2.5,
+      "ip_fit_column": "去创业",
+      "ip_fit_hits": [
+        "钱",
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "亏损店老板硬撑",
@@ -1408,7 +1553,16 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "中",
+      "ip_fit_score": 3.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "人",
+        "钱"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "黄仁勋鞠躬道歉",
@@ -1473,7 +1627,13 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "离职 11 天崩 28%涨 31%",
@@ -1538,7 +1698,16 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "中",
+      "ip_fit_score": 3.0,
+      "ip_fit_column": "看职场",
+      "ip_fit_hits": [
+        "人性词",
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "员工夹道欢呼老板回归",
@@ -1603,7 +1772,15 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "中",
+      "ip_fit_score": 2.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "人"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "AI 眼镜作弊逼部长辞职",
@@ -1634,7 +1811,7 @@
       "opening_type": "真实案例",
       "rumor_stance": null,
       "topic_type": "政策/制度",
-      "topic_type_legacy": "人/处境",
+      "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "低",
       "motifs": [
@@ -1667,7 +1844,15 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": -2.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [
+        "V5纯科技"
+      ],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "111 人高考违规",
@@ -1698,7 +1883,7 @@
       "opening_type": "真实案例",
       "rumor_stance": null,
       "topic_type": "政策/制度",
-      "topic_type_legacy": "人/处境",
+      "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
       "motifs": [
@@ -1731,7 +1916,13 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "1 亿韩元举报 AI 作弊",
@@ -1762,7 +1953,7 @@
       "opening_type": "真实案例",
       "rumor_stance": null,
       "topic_type": "政策/制度",
-      "topic_type_legacy": "人/处境",
+      "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
       "motifs": [
@@ -1795,7 +1986,17 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": -0.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "钱"
+      ],
+      "ip_fit_vetoes": [
+        "V5纯科技"
+      ],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "Bally 只剩授权壳",
@@ -1860,7 +2061,15 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.0,
+      "ip_fit_column": "带队伍",
+      "ip_fit_hits": [
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "175 年老牌裁到 22 人",
@@ -1925,7 +2134,13 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "3100 万欠款拖垮供应商",
@@ -1990,7 +2205,16 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "中",
+      "ip_fit_score": 2.5,
+      "ip_fit_column": "看职场",
+      "ip_fit_hits": [
+        "钱",
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "水军评论 3 分钱一条",
@@ -2020,7 +2244,7 @@
       "event_group": null,
       "opening_type": "真实案例",
       "rumor_stance": null,
-      "topic_type": "行业冷账",
+      "topic_type": "人/处境",
       "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
@@ -2055,7 +2279,15 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "中",
+      "ip_fit_score": 2.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "人性词"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "比亚迪 500 万悬赏黑公关",
@@ -2085,7 +2317,7 @@
       "event_group": null,
       "opening_type": "真实案例",
       "rumor_stance": null,
-      "topic_type": "行业冷账",
+      "topic_type": "人/处境",
       "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
@@ -2120,7 +2352,15 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "钱"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "车企 8 年反黑公关",
@@ -2150,7 +2390,7 @@
       "event_group": null,
       "opening_type": "真实案例",
       "rumor_stance": null,
-      "topic_type": "行业冷账",
+      "topic_type": "人/处境",
       "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
@@ -2185,7 +2425,13 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": 0.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "黄仁勋复职算力链警报没解除",
@@ -2215,7 +2461,7 @@
       "event_group": "evt:rss:rss.huxiu.com_:90d3a5910dc1510d",
       "opening_type": "热点",
       "rumor_stance": null,
-      "topic_type": "公司/资本",
+      "topic_type": "人/处境",
       "topic_type_legacy": "公司/资本",
       "topic_type_src": "tt4-v1",
       "video_fit": "低",
@@ -2250,7 +2496,17 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": -1.0,
+      "ip_fit_column": "做生意",
+      "ip_fit_hits": [
+        "栏目"
+      ],
+      "ip_fit_vetoes": [
+        "V5纯科技"
+      ],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "3900 亿订单系在一个人身上",
@@ -2280,7 +2536,7 @@
       "event_group": "evt:rss:rss.huxiu.com_:90d3a5910dc1510d",
       "opening_type": "热点",
       "rumor_stance": null,
-      "topic_type": "公司/资本",
+      "topic_type": "人/处境",
       "topic_type_legacy": "公司/资本",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
@@ -2315,7 +2571,15 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "钱"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "单人依赖让股价 11 天跌 27.7%",
@@ -2380,7 +2644,16 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": -3.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [
+        "V7荐股/股价",
+        "K公司资本无人"
+      ],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "冷冻面包店加盟避坑",
@@ -2445,7 +2718,16 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "中",
+      "ip_fit_score": 3.0,
+      "ip_fit_column": "去创业",
+      "ip_fit_hits": [
+        "人性词",
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "开业日卖 4 万几个月关店",
@@ -2510,7 +2792,17 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": -1.5,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [
+        "钱"
+      ],
+      "ip_fit_vetoes": [
+        "V4快讯/融资/人事"
+      ],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "黄仁勋离职 11 天",
@@ -2540,7 +2832,7 @@
       "event_group": "evt:rss:rss.huxiu.com_:90d3a5910dc1510d",
       "opening_type": "热点",
       "rumor_stance": null,
-      "topic_type": "公司/资本",
+      "topic_type": "人/处境",
       "topic_type_legacy": "人/处境",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
@@ -2575,7 +2867,16 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "中",
+      "ip_fit_score": 3.0,
+      "ip_fit_column": "看职场",
+      "ip_fit_hits": [
+        "人性词",
+        "栏目"
+      ],
+      "ip_fit_vetoes": [],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "英伟达没他不行",
@@ -2640,7 +2941,16 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": -3.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [
+        "V5纯科技",
+        "K公司资本无人"
+      ],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "5 万亿市值抖三抖",
@@ -2705,7 +3015,18 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "低",
+      "ip_fit_score": 1.5,
+      "ip_fit_column": "做生意",
+      "ip_fit_hits": [
+        "钱",
+        "栏目"
+      ],
+      "ip_fit_vetoes": [
+        "K公司资本无人"
+      ],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "老干妈 AI 替代争议",
@@ -2770,7 +3091,15 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": -2.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [
+        "V5纯科技"
+      ],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "AI 进厂，劳动者去哪了",
@@ -2835,7 +3164,15 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": -2.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [
+        "V5纯科技"
+      ],
+      "ip_fit_src": "ip-fit-v1"
     },
     {
       "topic": "机器人也要计生办",
@@ -2900,7 +3237,15 @@
           "family": 0.0
         },
         "src": "spread-ch-v1"
-      }
+      },
+      "ip_fit": "无",
+      "ip_fit_score": -2.0,
+      "ip_fit_column": "其他",
+      "ip_fit_hits": [],
+      "ip_fit_vetoes": [
+        "V5纯科技"
+      ],
+      "ip_fit_src": "ip-fit-v1"
     }
   ],
   "min_score": 7.0,

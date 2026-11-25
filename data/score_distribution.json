@@ -846,7 +846,7 @@
       },
       "funnel": {
         "fetched": 631,
-        "analyzed": 631,
+        "analyzed": 476,
         "ge_5": 15,
         "ge_7": 15
       },
@@ -968,11 +968,26 @@
           },
           "pub": null,
           "published_source": "git:gh-pages（当天无已发布版）"
+        },
+        {
+          "at": "2026-11-25T17:17:48",
+          "action": "keep",
+          "new": {
+            "items": 15,
+            "ge7": 8,
+            "max": 8.0
+          },
+          "pub": {
+            "items": 15,
+            "ge7": 15,
+            "max": 9.0
+          },
+          "published_source": "git:gh-pages"
         }
       ],
-      "generations": 1,
+      "generations": 2,
       "overwrites": 0,
-      "kept": 0,
+      "kept": 1,
       "version": 1,
       "final_ge7": 15,
       "final_max": 9.0,
