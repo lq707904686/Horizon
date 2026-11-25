@@ -825,6 +825,22 @@ def main():
     except Exception as _exc:  # noqa: BLE001 - 传播分是并列观测，不能拦主流程
         print(f"警告: 传播分计算失败 ({_exc})，hotspots 分数与过滤不受影响", file=sys.stderr)
 
+    # ★ IP 契合度（2026-11-25 G1，用户令「百万数据必须建立在我们的 IP 上」）：sets 加 ip_fit/ip_fit_score/
+    #   ip_fit_hits/ip_fit_vetoes/ip_fit_src，当日简报每条标题行下方插一行「> 🧭 IP 契合 X」与传播分并列。
+    #   只展示，不改主分、不参与 7.0/5.0 过滤与排序；必须在传播分之后跑（标题行一字不动）；失败只告警。
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import ip_fit_score as _ipf
+        _ipf.annotate_sets(sets)
+        if files:
+            _ip_posts = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(args.summaries))),
+                                     "docs", "_posts")
+            _ip_hit = _ipf.annotate_brief_file(_ip_posts, today)
+            print("IP 契合：" + "、".join(f"{x['topic']}={x.get('ip_fit')}" for x in sets)
+                  + (f"（已写入 {_ip_hit}）" if _ip_hit else "（当日简报文件不在，未写简报）"))
+    except Exception as _exc:  # noqa: BLE001 - IP 契合是并列观测，不能拦主流程
+        print(f"警告: IP 契合计算失败 ({_exc})，hotspots 分数与过滤不受影响", file=sys.stderr)
+
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
         f.write("\n")
