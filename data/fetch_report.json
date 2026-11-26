@@ -4,25 +4,25 @@
   "successful": 4,
   "empty": 1,
   "failed": 0,
-  "item_count": 520,
+  "item_count": 487,
   "sources": [
     {
       "source": "RSS Feeds",
       "status": "success",
-      "item_count": 449,
-      "duration_sec": 922.75
+      "item_count": 414,
+      "duration_sec": 121.55
     },
     {
       "source": "Google News",
       "status": "success",
       "item_count": 60,
-      "duration_sec": 7.33
+      "duration_sec": 9.39
     },
     {
       "source": "Bilibili",
       "status": "success",
-      "item_count": 11,
-      "duration_sec": 0.98
+      "item_count": 13,
+      "duration_sec": 1.29
     },
     {
       "source": "YouTube",
@@ -34,51 +34,35 @@
   "date": "2026-11-26",
   "fulltext_fill": {
     "version": "fulltext-fill-v1",
-    "hotlist_short": 280,
-    "short_total": 408,
+    "hotlist_short": 305,
+    "short_total": 412,
     "filled_hotlist": 3,
-    "pool": 112,
-    "filled": 8,
+    "pool": 75,
+    "filled": 5,
     "pairs": [
       {
-        "hot": "黄仁勋重掌英伟达，为什么最慌的是Anthropic？",
-        "hot_src": "虎嗅",
-        "src": "36氪24小时热榜",
-        "title": "黄仁勋的“光”：详解AI算力背后的光通信产业链、英伟达赌注与技术博弈",
-        "title_cov": 0.308,
-        "body_cov": 0.462
-      },
-      {
-        "hot": "A社曝光了一份AI整顿职场魔幻实录，请甩给你那位沉迷AI提效的老板",
-        "hot_src": "虎嗅",
-        "src": "爱范儿",
-        "title": "A社曝光了一份AI整顿职场魔幻实录，请甩给你那位沉迷AI提效的老板",
-        "title_cov": 1.0,
-        "body_cov": 1.0
-      },
-      {
-        "hot": "马伯庸回应两京十五日争议",
-        "hot_src": "微博热搜榜",
+        "hot": "75岁正部级蔡赴朝被开除党籍",
+        "hot_src": "头条热榜",
         "src": "澎湃·热闻",
-        "title": "拍《两京十五日》的，还是拍《大明王朝》的那个张黎吗？",
-        "title_cov": 0.4,
-        "body_cov": 0.6
+        "title": "中央宣传部原副部长，原国家新闻出版广电总局党组书记、局长蔡赴朝严重违纪违法被开除党籍",
+        "title_cov": 0.5,
+        "body_cov": 0.5
       },
       {
-        "hot": "詹姆斯25分10板12助",
-        "hot_src": "微博热搜榜",
+        "hot": "董明珠建议长城进军拖拉机",
+        "hot_src": "头条热榜",
         "src": "虎嗅",
-        "title": "印度股市逆势涨12%，外资狂买超百亿美元：离AI越远，反而越吃香？",
-        "title_cov": 0.2,
-        "body_cov": 0.6
+        "title": "拖拉机市场，装得下长城吗？",
+        "title_cov": 0.273,
+        "body_cov": 0.545
       },
       {
-        "hot": "成毅两京十五日带火明史热",
-        "hot_src": "微博热搜榜",
-        "src": "澎湃·热闻",
-        "title": "拍《两京十五日》的，还是拍《大明王朝》的那个张黎吗？",
-        "title_cov": 0.364,
-        "body_cov": 0.455
+        "hot": "如何看待黎曼猜想证明已被压缩 99.5% 到 7.6 万行？",
+        "hot_src": "知乎热榜",
+        "src": "36氪24小时热榜",
+        "title": "刚刚，黎曼猜想证明代码暴砍了99.5%！只剩7.6万行",
+        "title_cov": 0.533,
+        "body_cov": 0.533
       },
       {
         "hot": "8点1氪丨英伟达市值一夜蒸发近9800亿元；福布斯中国辟谣“8万元包上榜”；斗鱼及创始人陈少杰被执行1.9亿余元",
@@ -89,22 +73,14 @@
         "body_cov": 1.0
       },
       {
-        "hot": "李家超：香港出海专班已助超360家内地企业在港设立或扩展业务",
+        "hot": "市场监管总局开展网络交易平台信用共治活动",
         "hot_src": "36氪最新文章",
-        "src": "财联社电报",
-        "title": "李家超：香港出海专班已助超360家内地企业在港设立或扩展业务",
-        "title_cov": 1.0,
-        "body_cov": 1.0
-      },
-      {
-        "hot": "华菱线缆：重组相关事项将于12月2日上会",
-        "hot_src": "36氪最新文章",
-        "src": "财联社电报",
-        "title": "华菱线缆：重组相关事项将于12月2日上会",
+        "src": "中新网·社会",
+        "title": "市场监管总局开展网络交易平台信用共治活动",
         "title_cov": 1.0,
         "body_cov": 1.0
       }
     ]
   },
-  "analyzed": 520
+  "analyzed": 487
 }
