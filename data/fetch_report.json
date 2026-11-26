@@ -4,25 +4,25 @@
   "successful": 4,
   "empty": 1,
   "failed": 0,
-  "item_count": 444,
+  "item_count": 520,
   "sources": [
     {
       "source": "RSS Feeds",
       "status": "success",
-      "item_count": 372,
-      "duration_sec": 166.49
+      "item_count": 449,
+      "duration_sec": 922.75
     },
     {
       "source": "Google News",
       "status": "success",
       "item_count": 60,
-      "duration_sec": 11.48
+      "duration_sec": 7.33
     },
     {
       "source": "Bilibili",
       "status": "success",
-      "item_count": 12,
-      "duration_sec": 0.38
+      "item_count": 11,
+      "duration_sec": 0.98
     },
     {
       "source": "YouTube",
@@ -31,88 +31,80 @@
       "duration_sec": 0.0
     }
   ],
-  "date": "2026-11-25",
+  "date": "2026-11-26",
   "fulltext_fill": {
     "version": "fulltext-fill-v1",
-    "hotlist_short": 262,
-    "short_total": 369,
-    "filled_hotlist": 5,
-    "pool": 75,
-    "filled": 9,
+    "hotlist_short": 280,
+    "short_total": 408,
+    "filled_hotlist": 3,
+    "pool": 112,
+    "filled": 8,
     "pairs": [
       {
-        "hot": "陈吉宁被查 上海市政府党组等表态",
-        "hot_src": "头条热榜",
-        "src": "澎湃·热闻",
-        "title": "上海市人大常委会党组、市政府党组、市政协党组召开会议，坚决拥护党中央决定",
-        "title_cov": 0.462,
-        "body_cov": 0.615
-      },
-      {
-        "hot": "神舟二十四号载人飞船发射成功",
-        "hot_src": "头条热榜",
-        "src": "澎湃·热闻",
-        "title": "视频丨神舟二十四号载人飞船发射取得圆满成功",
-        "title_cov": 0.923,
-        "body_cov": 0.923
-      },
-      {
-        "hot": "华为Mate X8首拆",
-        "hot_src": "头条热榜",
-        "src": "少数派",
-        "title": "派早报：华为发布 Mate X8 与 MateBook Fold S、微软将推出自研驱动等",
-        "title_cov": 0.75,
-        "body_cov": 0.75
-      },
-      {
-        "hot": "神舟二十四号成功发射有何意义",
-        "hot_src": "头条热榜",
-        "src": "澎湃·热闻",
-        "title": "视频丨神舟二十四号载人飞船发射取得圆满成功",
-        "title_cov": 0.538,
-        "body_cov": 0.538
-      },
-      {
-        "hot": "「结婚八年三孩非亲生案」一审认定女方存在重大过错，判决赔偿男方共计二十二万，大家如何看待这个结果？",
-        "hot_src": "知乎热榜",
-        "src": "澎湃·热闻",
-        "title": "“三孩非亲生”离婚案一审宣判：女方存在重大过错，被判赔22万元",
-        "title_cov": 0.316,
-        "body_cov": 0.526
-      },
-      {
-        "hot": "36氪新风向丨英伟达押注、黄仁勋看好，半导体赛道又爆出大热点",
-        "hot_src": "36氪最新文章",
+        "hot": "黄仁勋重掌英伟达，为什么最慌的是Anthropic？",
+        "hot_src": "虎嗅",
         "src": "36氪24小时热榜",
-        "title": "36氪新风向丨英伟达押注、黄仁勋看好，半导体赛道又爆出大热点",
+        "title": "黄仁勋的“光”：详解AI算力背后的光通信产业链、英伟达赌注与技术博弈",
+        "title_cov": 0.308,
+        "body_cov": 0.462
+      },
+      {
+        "hot": "A社曝光了一份AI整顿职场魔幻实录，请甩给你那位沉迷AI提效的老板",
+        "hot_src": "虎嗅",
+        "src": "爱范儿",
+        "title": "A社曝光了一份AI整顿职场魔幻实录，请甩给你那位沉迷AI提效的老板",
         "title_cov": 1.0,
         "body_cov": 1.0
       },
       {
-        "hot": "8点1氪丨黄仁勋称英伟达不需要接班人计划 ；红果短剧上线“时间锁”，支持自定义观剧时长 ；豆包灰度测试“豆包购物”",
+        "hot": "马伯庸回应两京十五日争议",
+        "hot_src": "微博热搜榜",
+        "src": "澎湃·热闻",
+        "title": "拍《两京十五日》的，还是拍《大明王朝》的那个张黎吗？",
+        "title_cov": 0.4,
+        "body_cov": 0.6
+      },
+      {
+        "hot": "詹姆斯25分10板12助",
+        "hot_src": "微博热搜榜",
+        "src": "虎嗅",
+        "title": "印度股市逆势涨12%，外资狂买超百亿美元：离AI越远，反而越吃香？",
+        "title_cov": 0.2,
+        "body_cov": 0.6
+      },
+      {
+        "hot": "成毅两京十五日带火明史热",
+        "hot_src": "微博热搜榜",
+        "src": "澎湃·热闻",
+        "title": "拍《两京十五日》的，还是拍《大明王朝》的那个张黎吗？",
+        "title_cov": 0.364,
+        "body_cov": 0.455
+      },
+      {
+        "hot": "8点1氪丨英伟达市值一夜蒸发近9800亿元；福布斯中国辟谣“8万元包上榜”；斗鱼及创始人陈少杰被执行1.9亿余元",
         "hot_src": "36氪最新文章",
         "src": "36氪24小时热榜",
-        "title": "8点1氪丨黄仁勋称英伟达不需要接班人计划 ；红果短剧上线“时间锁”，支持自定义观剧时长 ；豆包灰度测试“豆包购物”",
+        "title": "8点1氪丨英伟达市值一夜蒸发近9800亿元；福布斯中国辟谣“8万元包上榜”；斗鱼及创始人陈少杰被执行1.9亿余元",
         "title_cov": 1.0,
         "body_cov": 1.0
       },
       {
-        "hot": "神舟二十四号载人飞船与空间站组合体完成自主快速交会对接",
-        "hot_src": "澎湃·热闻",
-        "src": "澎湃·热闻",
-        "title": "视频丨神舟二十四号载人飞船发射取得圆满成功",
-        "title_cov": 0.346,
-        "body_cov": 0.885
+        "hot": "李家超：香港出海专班已助超360家内地企业在港设立或扩展业务",
+        "hot_src": "36氪最新文章",
+        "src": "财联社电报",
+        "title": "李家超：香港出海专班已助超360家内地企业在港设立或扩展业务",
+        "title_cov": 1.0,
+        "body_cov": 1.0
       },
       {
-        "hot": "经纬度｜“存款多了”绝不等于“不消费了” - ThePaper.cn",
-        "hot_src": "google_news",
-        "src": "澎湃·热闻",
-        "title": "经纬度｜“存款多了”绝不等于“不消费了”",
-        "title_cov": 0.846,
-        "body_cov": 0.846
+        "hot": "华菱线缆：重组相关事项将于12月2日上会",
+        "hot_src": "36氪最新文章",
+        "src": "财联社电报",
+        "title": "华菱线缆：重组相关事项将于12月2日上会",
+        "title_cov": 1.0,
+        "body_cov": 1.0
       }
     ]
   },
-  "analyzed": 444
+  "analyzed": 520
 }
