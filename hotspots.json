@@ -1428,7 +1428,7 @@
       "event_group": null,
       "opening_type": "反常识",
       "rumor_stance": "传闻/待核实",
-      "topic_type": "行业冷账",
+      "topic_type": "人/处境",
       "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
@@ -1499,7 +1499,7 @@
       "event_group": null,
       "opening_type": "反常识",
       "rumor_stance": "传闻/待核实",
-      "topic_type": "行业冷账",
+      "topic_type": "人/处境",
       "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "低",
@@ -1574,7 +1574,7 @@
       "event_group": null,
       "opening_type": "反常识",
       "rumor_stance": "传闻/待核实",
-      "topic_type": "行业冷账",
+      "topic_type": "人/处境",
       "topic_type_legacy": "其他",
       "topic_type_src": "tt4-v1",
       "video_fit": "中",
@@ -2273,10 +2273,10 @@
     "min_score": 7.0,
     "article": {
       "metric": "公众号阅读",
-      "n_ge7": 17,
-      "median_ge7": 2,
-      "n_lt7": 24,
-      "median_lt7": 2.0
+      "n_ge7": 20,
+      "median_ge7": 2.0,
+      "n_lt7": 25,
+      "median_lt7": 2
     },
     "video": {
       "metric": "视频号播放",
@@ -2285,7 +2285,7 @@
       "n_lt7": 8,
       "median_lt7": 763.0
     },
-    "line": "实绩诊断（近 30 天，截至 2026-11-27，只诊断不改分）：公众号阅读中位 ≥7.0 2（17 条）vs <7.0 2（24 条）；视频号播放中位 ≥7.0 777（17 条）vs <7.0 763（8 条）",
-    "actual_records": 220
+    "line": "实绩诊断（近 30 天，截至 2026-11-27，只诊断不改分）：公众号阅读中位 ≥7.0 2（20 条）vs <7.0 2（25 条）；视频号播放中位 ≥7.0 777（17 条）vs <7.0 763（8 条）",
+    "actual_records": 225
   }
 }
