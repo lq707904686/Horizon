@@ -1141,68 +1141,73 @@
     {
       "date": "2026-11-28",
       "total_items": 15,
-      "candidate_pool_total": 483,
-      "max_score": 8.0,
-      "count_ge_7": 6,
+      "candidate_pool_total": 485,
+      "max_score": 7.25,
+      "count_ge_7": 7,
       "count_ge_5": 15,
       "bands": {
         "below_5": 0,
         "5.0-5.9": 0,
-        "6.0-6.9": 9,
-        "7.0-7.9": 5,
-        "8.0+": 1
+        "6.0-6.9": 8,
+        "7.0-7.9": 7,
+        "8.0+": 0
       },
       "funnel": {
-        "fetched": 483,
-        "analyzed": 483,
+        "fetched": 485,
+        "analyzed": 484,
         "ge_5": 15,
-        "ge_7": 6
+        "ge_7": 7
       },
       "opening_types": {
-        "热点": 8,
-        "真实案例": 5,
-        "反常识": 2
+        "真实案例": 7,
+        "反常识": 4,
+        "热点": 4
       },
       "per_source_unit": "条目数（简报内带分条目，按条目计）",
       "per_source": {
-        "中新网": 6,
-        "虎嗅": 3,
-        "澎湃": 2,
-        "头条热榜": 2,
-        "贴吧搜索": 2
+        "虎嗅": 9,
+        "头条热榜": 3,
+        "中新网": 2,
+        "澎湃": 1
       },
       "kept_source_shares": [
         {
-          "source": "中新网",
-          "count": 14,
-          "share": 0.8235,
+          "source": "虎嗅",
+          "count": 12,
+          "share": 0.6667,
           "unit": "话题数（入选 hotspots 话题，按话题计）"
         },
         {
-          "source": "澎湃",
+          "source": "中新网",
           "count": 3,
-          "share": 0.1765,
+          "share": 0.1667,
+          "unit": "话题数（入选 hotspots 话题，按话题计）"
+        },
+        {
+          "source": "头条热榜",
+          "count": 3,
+          "share": 0.1667,
           "unit": "话题数（入选 hotspots 话题，按话题计）"
         }
       ],
       "source_quota_warn": [
-        "中新网"
+        "虎嗅"
       ],
       "per_column": {
         "看职场": {
+          "items": 2,
+          "ge_7": 2,
+          "selected": 6
+        },
+        "带队伍": {
           "items": 1,
           "ge_7": 0,
           "selected": 0
         },
-        "带队伍": {
-          "items": 2,
-          "ge_7": 0,
-          "selected": 0
-        },
         "做生意": {
-          "items": 4,
-          "ge_7": 2,
-          "selected": 5
+          "items": 6,
+          "ge_7": 3,
+          "selected": 9
         },
         "做销售": {
           "items": 0,
@@ -1210,14 +1215,14 @@
           "selected": 0
         },
         "去创业": {
-          "items": 0,
+          "items": 1,
           "ge_7": 0,
           "selected": 0
         },
         "过日子": {
-          "items": 8,
-          "ge_7": 4,
-          "selected": 12
+          "items": 5,
+          "ge_7": 2,
+          "selected": 3
         },
         "其他": {
           "items": 0,
@@ -1377,14 +1382,29 @@
           },
           "pub": null,
           "published_source": "git:gh-pages（当天无已发布版）"
+        },
+        {
+          "at": "2026-11-28T14:32:53",
+          "action": "overwrite",
+          "new": {
+            "items": 15,
+            "ge7": 7,
+            "max": 7.25
+          },
+          "pub": {
+            "items": 15,
+            "ge7": 6,
+            "max": 8.0
+          },
+          "published_source": "git:gh-pages"
         }
       ],
-      "generations": 1,
-      "overwrites": 0,
+      "generations": 2,
+      "overwrites": 1,
       "kept": 0,
-      "version": 1,
-      "final_ge7": 6,
-      "final_max": 8.0,
+      "version": 2,
+      "final_ge7": 7,
+      "final_max": 7.25,
       "rule": "≥7.0 条数更少且最高分不更高 → 不覆盖"
     }
   }
